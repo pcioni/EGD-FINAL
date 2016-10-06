@@ -13,11 +13,15 @@ public class CharacterController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
 	}
 	
-    void FixedUpdate() {
+    private void FixedUpdate() {
+        HandleInput();
+    }
+
+    private void HandleInput() {
         HandleMovement();
     }
 
-    void HandleMovement() {
+    private void HandleMovement() {
         //InputManager is currently set to 1/10 of a second to smooth input from +-1 to 0
         float dx = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(dx * maxSpeed, rb.velocity.y);
