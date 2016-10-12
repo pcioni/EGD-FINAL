@@ -28,7 +28,7 @@ public class KevinLogic : MonoBehaviour {
 			choiceText.SetActive (false);
 			longText.SetActive (true);
 			longText.GetComponent<typeMessage> ().input = "";
-			longText.GetComponent<typeMessage> ().SetMessage ("Great job! Your sheer mathematical brilliance is overwhelming.");
+			longText.GetComponent<typeMessage> ().SetMessage ("Great job!_~Your sheer mathematical brilliance is overwhelming.");
 			break;
 		case "2":
 			choiceText.GetComponent<typeMessage> ().SetMessage ("um.. try again.");
