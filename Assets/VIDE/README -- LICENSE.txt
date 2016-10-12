@@ -1,0 +1,1 @@
+This is an extension of the VIDE dialogue system. I primarily borrowed the node graph and initialization tech. I added a few other things, but I dunno how to write the license right now.
