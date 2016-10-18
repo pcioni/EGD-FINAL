@@ -11,6 +11,7 @@ public class TextControl : MonoBehaviour {
 
 	public GameObject choiceText; 
 	public GameObject longText;
+	public GameObject back;
 
 	//TEST
 	[Header("Test: Q- place input in textbox, W- title buttons as well")]
@@ -21,7 +22,7 @@ public class TextControl : MonoBehaviour {
 	void Start () {
 		choiceText = GameObject.Find ("UI Choice Text");
 		//longText = GameObject.Find("UI Long Text");
-
+		back = GameObject.Find ("Text Background");
 	}
 	
 	// Update is called once per frame
@@ -33,6 +34,9 @@ public class TextControl : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.W)) {
 			write (input, input_array);
 		}
+		if (Input.GetKeyDown (KeyCode.E)) {
+			noText ();
+		}
 	}
 
 	///<summary>
@@ -40,6 +44,10 @@ public class TextControl : MonoBehaviour {
 	/// no choices, just to display text in the whole box
 	/// </summary>
 	public void write(string s){
+		if (!back.activeInHierarchy){
+			back.SetActive (true);
+		}
+
 		if (choiceText.activeInHierarchy) {
 			//switch over to longText
 			choiceText.SetActive(false);
@@ -55,6 +63,10 @@ public class TextControl : MonoBehaviour {
 	/// the contents of the array. 
 	/// </summary>
 	public void write(string s, string[] b){
+		if (!back.activeInHierarchy){
+			back.SetActive (true);
+		}
+
 		if (longText.activeInHierarchy) {
 			//switch over to longText
 			longText.SetActive(false);
@@ -70,6 +82,16 @@ public class TextControl : MonoBehaviour {
 		GameObject.Find ("Choice Button 2 Text").GetComponent<Text> ().text = b [1];
 		GameObject.Find ("Choice Button 3 Text").GetComponent<Text> ().text = b [2];
 		GameObject.Find ("Choice Button 4 Text").GetComponent<Text> ().text = b [3];
+	}
+
+	/// <summary>
+	/// Gets rid of the textbox completely. 
+	/// Calling write brings it back.
+	/// </summary>
+	public void noText(){
+		if (back.activeInHierarchy){
+			back.SetActive (false);
+		}
 	}
 		
 }
