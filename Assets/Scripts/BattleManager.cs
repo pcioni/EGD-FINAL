@@ -256,44 +256,21 @@ public class BattleManager : MonoBehaviour {
 
 	public void kill(GameObject which){
 		which.SetActive (false);
-		int counter = bad_guys.Count;
-		for (int x = 0; x < bad_guys.Count; x++){
-			if (!bad_guys [x].activeSelf) {
-				counter -= 1;
-			}
-		}
-		if (counter == 0) {
-			victory = true;
-			return;
-		}
-		counter = good_guys.Count;
-		for (int x = 0; x < good_guys.Count; x++) {
-			if (!good_guys [x].activeSelf) {
-				counter -= 1;
-			}
-		}
-		if (counter == 0) {
+		good_guys.Remove (which);
+		bad_guys.Remove (which);
+		if (good_guys.Count == 0) {
 			defeat = true;
-			return;
+		} else if (bad_guys.Count == 0) {
+			victory = true;
 		}
 	}
 			
 
 	public void newTarget(GameObject which, bool good){
-		List<GameObject> target_pool;
 		if (good) {
-			target_pool = bad_guys;
+			which.GetComponent<FightBehavior>().setTarget(bad_guys [Random.Range (0, bad_guys.Count)]);
 		} else {
-			target_pool = good_guys;
+			which.GetComponent<FightBehavior>().setTarget(good_guys [Random.Range (0, good_guys.Count)]);
 		}
-		int picker = 0;
-		while (!target_pool [picker].activeSelf) {
-			picker++;
-			if (picker >= target_pool.Count) {
-				defeat = true;
-				return;
-			}
-		}
-		which.GetComponent<FightBehavior> ().setTarget (target_pool [picker]);
 	}
 }

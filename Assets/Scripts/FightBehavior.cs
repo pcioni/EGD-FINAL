@@ -77,7 +77,8 @@ public class FightBehavior : MonoBehaviour {
 
 		case ("insta-kill"):
 			result.Add (gameObject.name + " launches a devastating, insta-death attack!");
-			List<GameObject> targets = managey.getBadGuys ();
+			List<GameObject> targets = new List<GameObject> ();
+			targets.AddRange (managey.getBadGuys ());
 			for (int x = 0; x < targets.Count; x++) {
 				result.Add (targets [x].GetComponent<FightBehavior> ().damage (9999, gameObject));
 			}
@@ -97,7 +98,8 @@ public class FightBehavior : MonoBehaviour {
 
 		case ("hail-mary"):
 			result.Add (gameObject.name + " launches a wave of attacks across the entire enemy line!");
-			List<GameObject> targets2 = managey.getBadGuys ();
+			List<GameObject> targets2 = new List<GameObject> ();
+			targets2.AddRange (managey.getBadGuys ());
 			for (int x = 0; x < targets2.Count; x++) {
 				result.Add (targets2 [x].GetComponent<FightBehavior> ().damage (1, gameObject));
 			}
