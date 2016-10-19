@@ -23,7 +23,7 @@ public class CharacterBehavior : MonoBehaviour {
 		float height_above = .1f * half_height + half_height;
 		myHealthBar.transform.position = new Vector3(transform.position.x,
 			transform.position.y + height_above, 0);
-
+		
 		//TEST
 		if (Input.GetKeyDown (KeyCode.P) && name == "Sam") {
 			TakeDamage (10);
@@ -40,5 +40,10 @@ public class CharacterBehavior : MonoBehaviour {
 		health -= amount;
 		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
 		print (health);
+		if (health <= 0) {
+			Destroy (myHealthBar.GetComponent<HealthbarBehavior> ().text);
+			Destroy (myHealthBar);
+			Destroy (gameObject);
+		}
 	}
 }

@@ -11,11 +11,6 @@ public class PositionCharactersInBattle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
 		Vector3 left = Vector3.zero;
 		Vector3 right = Vector3.zero;
 
@@ -44,5 +39,26 @@ public class PositionCharactersInBattle : MonoBehaviour {
 			else
 				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = x;
 		}
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		Vector3 left = Vector3.zero;
+		Vector3 right = Vector3.zero;
+
+		Bounds b = GetComponent<BoxCollider2D> ().bounds;
+
+		switch (arrangement) {
+		case Arrangment.Diagonal:
+			left = b.min;
+			right = b.max;
+			break;
+		case Arrangment.DiagonalReversed:
+			left = new Vector3 (b.min.x, b.max.y, 0);
+			right = new Vector3 (b.max.x, b.min.y, 0);
+			break;
+		}
+
+		Debug.DrawLine (left, right);
 	}
 }

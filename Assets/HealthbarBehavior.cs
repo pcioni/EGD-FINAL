@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HealthbarBehavior : MonoBehaviour {
 	public GameObject text_prefab;
-	GameObject text;
+	public GameObject text;
 
 	// Use this for initialization
 	void Start () {
