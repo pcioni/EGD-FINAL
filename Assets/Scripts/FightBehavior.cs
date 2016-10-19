@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FightBehavior : MonoBehaviour {
 
@@ -8,12 +9,14 @@ public class FightBehavior : MonoBehaviour {
 	BattleManager managey;
 	int health;
 	bool good_guy;
+	Dictionary<string, int> effects;
 
 	// Use this for initialization
 	void Start () {
 		turn_action = "AI";
 		health = 3;
 		managey = FindObjectOfType<BattleManager> ();
+		effects = new Dictionary<string, int> ();
 	}
 
 	public void setAlignment(bool goodness){
@@ -31,6 +34,9 @@ public class FightBehavior : MonoBehaviour {
 		} else if (action == "insta-kill") {
 			managey.NeedTargeting ('n');
 			return gameObject.name + " has invoked the win condition!";
+		} else if (action == "hail-mary") {
+			managey.NeedTargeting ('n');
+			return gameObject.name + " is preparing a big AoE attack!";
 		}
 		else {
 			managey.NeedTargeting ('n');
@@ -43,38 +49,70 @@ public class FightBehavior : MonoBehaviour {
 	}
 
 	public string damage (int amount, GameObject attacker){
+		if (effects.ContainsKey ("guarded")) {
+			return gameObject.name + "'s guard protects them from " + attacker.name + "'s attack!";
+		}
 		health -= amount;
 		if (health <= 0) {
 			managey.kill (gameObject);
-			return gameObject.name + " has been defeated!";
+			return gameObject.name + " has been defeated by " + attacker.name + "!";
 		}
-		return attacker.name + " attacks " + gameObject.name;;
+		return gameObject.name + " takes " + amount + " damage from " + attacker.name;
 	}
 
-	public string doAction(){
+	public string inflictStatus (string status, int duration, GameObject inflictor){
+		effects.Remove (status);
+		effects.Add (status, duration);
+		return gameObject.name + " was " + status + " by " + inflictor.name + "!";
+	}
+
+	public List<string> doAction(){
+
+		List<string> result = new List<string> ();
+
 		if (target != null && !target.activeSelf) {
 			managey.newTarget (gameObject, good_guy);
 		}
 		switch (turn_action) {
 
 		case ("insta-kill"):
-			managey.KillEnemies ();
-			return gameObject.name + " defeats all of the enemies!";
+			result.Add (gameObject.name + " launches a devastating, insta-death attack!");
+			List<GameObject> targets = managey.getBadGuys ();
+			for (int x = 0; x < targets.Count; x++) {
+				result.Add (targets [x].GetComponent<FightBehavior> ().damage (9999, gameObject));
+			}
+			return result;
+
 
 		case ("attacks"):
-			managey.setPending (target.GetComponent<FightBehavior>().damage(3, gameObject));
-			return gameObject.name + " attacks " + target.name;
+			result.Add (gameObject.name + " attacks " + target.name);
+			result.Add (target.GetComponent<FightBehavior> ().damage (1, gameObject));
+			return result;
 
 
 		case ("guards"):
-			return gameObject.name + " guards " + target.name;
+			result.Add (gameObject.name + " guards " + target.name);
+			result.Add (target.GetComponent<FightBehavior> ().inflictStatus ("guarded", 1, gameObject));
+			return result;
+
+		case ("hail-mary"):
+			result.Add (gameObject.name + " launches a wave of attacks across the entire enemy line!");
+			List<GameObject> targets2 = managey.getBadGuys ();
+			for (int x = 0; x < targets2.Count; x++) {
+				result.Add (targets2 [x].GetComponent<FightBehavior> ().damage (1, gameObject));
+			}
+			return result;
 
 		default:
 			if (Random.Range (1, 10) <= 5) {
-				return gameObject.name + " hurls a fireball at you!";
+				managey.newTarget (gameObject, good_guy);
+				result.Add (gameObject.name + " hurls a fireball at " + target.name + "!");
+				result.Add (target.GetComponent<FightBehavior> ().damage (1, gameObject));
 			} else {
-				return gameObject.name + " says something mean to you...";
+				result.Add (gameObject.name + " says something mean to you...");
 			}
+			return result;
 		}
+
 	}
 }

@@ -12,10 +12,11 @@ public class BattleManager : MonoBehaviour {
 	int picker2;
 	bool awaiting_input;
 	bool victory;
+	bool defeat;
 	bool continuer;
-	bool await_result;
 	char need_target;
-	string pending_message;
+	List<GameObject> pending_actions;
+	List<string> pending_messages;
 
 	// Use this for initialization
 	void Start () {
@@ -26,9 +27,19 @@ public class BattleManager : MonoBehaviour {
 		StartBattle (new List<string>{ "Red", "Green", "Blue" }, new List<string>{ "Blue", "Blue", "Red", "Red" });
 		awaiting_input = false;
 		victory = false;
+		defeat = false;
 		continuer = false;
-		await_result = false;
 		need_target = 'n';
+		pending_actions = new List<GameObject> ();
+		pending_messages = new List<string> ();
+	}
+
+	public List<GameObject> getGoodGuys(){
+		return good_guys;
+	}
+
+	public List<GameObject> getBadGuys(){
+		return bad_guys;
 	}
 
 	public void SendMessagey(string message){
@@ -42,12 +53,29 @@ public class BattleManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		if (awaiting_input) {
 			if (Input.GetKeyDown (KeyCode.Space)) {
 				awaiting_input = false;
 			}
 			return;
 		}
+		if (pending_actions.Count > 0) {
+			pending_messages.AddRange(pending_actions [0].GetComponent<FightBehavior> ().doAction ());
+			pending_actions.RemoveAt (0);
+			return;
+		}
+		if (pending_messages.Count > 0) {
+			SendMessagey (pending_messages [0]);
+			pending_messages.RemoveAt (0);
+			return;
+		}
+
+		if (defeat) {
+			pending_messages.Add ("You have been defeated... Game Over!");
+			return;
+		}
+
 		switch (state) {
 
 		case ("not started"):
@@ -70,7 +98,7 @@ public class BattleManager : MonoBehaviour {
 					Debug.Log ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
 				}
 			}
-			if (Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.G) || Input.GetKeyDown(KeyCode.V)) {
+			if (Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.G) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.H)) {
 				continuer = true;
 				if (Input.GetKeyDown (KeyCode.A)) {
 					Debug.Log (good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks"));
@@ -78,6 +106,8 @@ public class BattleManager : MonoBehaviour {
 					Debug.Log (good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards"));
 				} else if (Input.GetKeyDown (KeyCode.V)) {
 					SendMessagey (good_guys [picker].GetComponent<FightBehavior> ().setAction ("insta-kill"));
+				} else if (Input.GetKeyDown (KeyCode.H)) {
+					SendMessagey (good_guys [picker].GetComponent<FightBehavior> ().setAction ("hail-mary"));
 				}
 				if (need_target == 'e') {
 					state = "select enemy";
@@ -163,12 +193,6 @@ public class BattleManager : MonoBehaviour {
 			return;
 
 		case ("commence"):
-			if (await_result) {
-				sendPending ();
-				await_result = false;
-				continuer = true;
-				return;
-			}
 			if (continuer){
 				continuer = false;
 				if (victory) {
@@ -183,13 +207,15 @@ public class BattleManager : MonoBehaviour {
 						return;
 					}
 				}
-				SendMessagey (participants [picker].GetComponent<FightBehavior> ().doAction ());
-				await_result = true;
+				pending_actions.Add (participants [picker]);
+				continuer = true;
 			}
 			else {
 				picker = 0;
 				state = "check win";
-				SendMessagey ("The turn has ended. Press space to continue.");
+				if (!victory) {
+					SendMessagey ("The turn has ended. Press space to continue.");
+				}
 			}
 			return;
 
@@ -228,39 +254,46 @@ public class BattleManager : MonoBehaviour {
 		state = "instantiated";
 	}
 
-	public void KillEnemies(){
-		for (int x = 0; x < bad_guys.Count; x++) {
-			bad_guys [x].SetActive (false);
-			bad_guys.Remove (bad_guys [x]);
-			victory = true;
-		}
-	}
-
 	public void kill(GameObject which){
-		bad_guys.Remove (which);
-		good_guys.Remove (which);
 		which.SetActive (false);
-		if (bad_guys.Count == 0) {
+		int counter = bad_guys.Count;
+		for (int x = 0; x < bad_guys.Count; x++){
+			if (!bad_guys [x].activeSelf) {
+				counter -= 1;
+			}
+		}
+		if (counter == 0) {
 			victory = true;
+			return;
+		}
+		counter = good_guys.Count;
+		for (int x = 0; x < good_guys.Count; x++) {
+			if (!good_guys [x].activeSelf) {
+				counter -= 1;
+			}
+		}
+		if (counter == 0) {
+			defeat = true;
+			return;
 		}
 	}
-
-	public void setPending(string message){
-		pending_message = message;
-	}
-
-	public void sendPending(){
-		if (pending_message != "") {
-			SendMessagey (pending_message);
-			pending_message = "";
-		}
-	}
+			
 
 	public void newTarget(GameObject which, bool good){
+		List<GameObject> target_pool;
 		if (good) {
-			which.GetComponent<FightBehavior> ().setTarget(bad_guys [0]);
+			target_pool = bad_guys;
 		} else {
-			which.GetComponent<FightBehavior> ().setTarget(good_guys [0]);
+			target_pool = good_guys;
 		}
+		int picker = 0;
+		while (!target_pool [picker].activeSelf) {
+			picker++;
+			if (picker >= target_pool.Count) {
+				defeat = true;
+				return;
+			}
+		}
+		which.GetComponent<FightBehavior> ().setTarget (target_pool [picker]);
 	}
 }
