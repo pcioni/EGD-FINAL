@@ -25,19 +25,16 @@ public class KevinLogic : MonoBehaviour {
 		switch (button) 
 		{
 		case "1":
-			choiceText.SetActive (false);
-			longText.SetActive (true);
-			longText.GetComponent<typeMessage> ().input = "";
-			longText.GetComponent<typeMessage> ().SetMessage ("Great job!_~Your sheer mathematical brilliance is overwhelming.");
+			choiceText.GetComponent<typeMessage> ().SetMessage ("Manticore took 40 damage!_~Who should Sam attack now?");
 			break;
 		case "2":
-			choiceText.GetComponent<typeMessage> ().SetMessage ("um.. try again.");
+			choiceText.GetComponent<typeMessage> ().SetMessage ("Slime took 35 damage!_~Who should Sam attack now?");
 			break;
 		case "3":
-			choiceText.GetComponent<typeMessage> ().SetMessage ("No, why don't you take another shot at it?");
+			//choiceText.GetComponent<typeMessage> ().SetMessage ("No, why don't you take another shot at it?");
 			break;
 		case "4":
-			choiceText.GetComponent<typeMessage> ().SetMessage ("......_#You seem to be having quite a bit of trouble with this...");
+			//choiceText.GetComponent<typeMessage> ().SetMessage ("......_#You seem to be having quite a bit of trouble with this...");
 			break;
 		}
 	}

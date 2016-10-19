@@ -23,6 +23,9 @@ public class TextControl : MonoBehaviour {
 		choiceText = GameObject.Find ("UI Choice Text");
 		//longText = GameObject.Find("UI Long Text");
 		back = GameObject.Find ("Text Background");
+
+		string[] b = { "Manticore", "Slime" , "", ""};
+		write ("Who should Sam attack?", b);
 	}
 	
 	// Update is called once per frame

@@ -8,8 +8,8 @@ public class typeMessage : MonoBehaviour {
 	public string Notes;
 
 	public string input = "";
-	int frames_between_update = 1;
-	int update_countdown = 1;
+	float pause_seconds = 1.0f;
+	float letter_seconds = .04f;
 
 	// Use this for initialization
 	void Start () {
@@ -32,9 +32,7 @@ public class typeMessage : MonoBehaviour {
 			int indexOf = message.IndexOf ('_');
 			message = message.Remove(indexOf, 1);
 			if (!Input.GetKey (KeyCode.RightShift))
-				yield return new WaitForSeconds (1.5f);
-			//else
-				//yield return new WaitForSeconds (.5f);
+				yield return new WaitForSeconds (pause_seconds);
 		}
 		if (add_text == "~") {
 			print (message.Substring (text.Length));
@@ -42,7 +40,7 @@ public class typeMessage : MonoBehaviour {
 			return true;
 		}
 		GetComponent<Text> ().text = text + add_text;
-		if (!Input.GetKey(KeyCode.RightShift)) yield return new WaitForSeconds (.05f);
+		if (!Input.GetKey(KeyCode.RightShift)) yield return new WaitForSeconds (letter_seconds);
 		if (GetComponent<Text> ().text.Length < message.Length)
 			StartCoroutine ("writeMessage");
 	}

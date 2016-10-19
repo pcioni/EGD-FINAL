@@ -8,6 +8,7 @@ public class FitBackgroundToCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		transform.position = Vector3.zero;
 		transform.localScale = Vector3.one;
 
 		float width = GetComponent<SpriteRenderer> ().bounds.size.x;
