@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MenuMenuTextStorage : MonoBehaviour {
 
@@ -74,11 +75,59 @@ public class MenuMenuTextStorage : MonoBehaviour {
 
 	string[][] gameInfo; 
 
+
+	//FRIENDS
+	string[] amelia = {
+		//Description
+		"I like to be around people who push me to get better. I don't like " +
+		"to be around people who annoy me or are sissies, so if you are one " +
+		"of those things, clear out.",
+		//Name
+		"Amazing456 (Amelia)",
+		//Quick Facts
+		"Straight-A student. Some day I'll be your boss.\n\nNot afraid of sharks even a little."
+	};
+
+	//FRIENDS
+	string[] cody = {
+		//Description
+		"I can't wait to make some friends on Poof! If you're reading this, " +
+		"you've probably played a game with me since you found my profile. " +
+		"Add me!!!",
+		//Name
+		"Cooldy95 (Cody)",
+		//Quick Facts
+		"Great at building sandcastles.\n\nI love rollerskating."
+	};
+
+	//FRIENDS
+	string[] nico = {
+		//Description
+		"If you're reading this you're too late. I've hacked into your computer " +
+		"and am appropriating your Poof Wallet funds to myself. Thanks for the " +
+		"money. If you'd like, message me and I will share some of your money " +
+		"to you.",
+		//Name
+		"Sneaky2000 (Nico)",
+		//Quick Facts
+		"I'm actually YOUR MOM!\n\nBrilliant pickpocket."
+	};
+
+
+	Dictionary<string, string[]> friend_dictionary = new Dictionary<string, string[]>();
+
 	void Start(){
 		gameInfo = new string[][]{ game1, game2, game3, game4, game5, game6 };
+		friend_dictionary.Add ("Amelia", amelia);
+		friend_dictionary.Add ("Cody", cody);
+		friend_dictionary.Add ("Nico", nico);
 	}
 
 	public string[] getGameInfo(int game_number){
 		return gameInfo [game_number];
+	}
+
+	public string[] getFriendInfo(string friend_name){
+		return friend_dictionary [friend_name];
 	}
 }

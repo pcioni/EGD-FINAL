@@ -19,6 +19,9 @@ public class ManageMenus : MonoBehaviour {
 	public string selectedLevel;
 	public Sprite[] logoSprites;
 
+	//FRIENDS
+	public Sprite[] profileSprites;
+
 	// Use this for initialization
 	void Start () {
 		//enable buttons based on how far we are
@@ -28,6 +31,19 @@ public class ManageMenus : MonoBehaviour {
 				g [x].interactable = true;
 			} else {
 				g [x].interactable = false;
+			}
+		}
+		//enable buttons based on how far we are
+		VerticalLayoutGroup[] f= friendsList.GetComponentsInChildren<VerticalLayoutGroup>();
+		foreach (VerticalLayoutGroup thing in f) print (thing.name);
+		for (int x = 0; x < f.Length; x++) {
+			if (f [x].name == "Friends List") continue;
+			if (x <= current_level) {
+				foreach (Button buttn in f[x].gameObject.GetComponentsInChildren<Button>())
+					buttn.interactable = true;
+			} else {
+				foreach (Button buttn in f[x].gameObject.GetComponentsInChildren<Button>())
+					buttn.interactable = false;
 			}
 		}
 		SetMode (2);
@@ -69,6 +85,7 @@ public class ManageMenus : MonoBehaviour {
 		//enable the correct middle panel
 		switch (mode) {
 		case 0: //Friends
+			SetFriendInfo("Cody");
 			play_button.SetActive (false);
 			break;
 		case 1: // Games
@@ -80,10 +97,16 @@ public class ManageMenus : MonoBehaviour {
 			"party games are growing on me. If I got to choose one super " +
 			"power it would be the power to fly.",
 				"DragonBlaster40 (Sam)",
-				"Poof Member for 1 year.\nFantastic dancer.");
+				"Fantastic dancer.");
 			play_button.SetActive (false);
 			break;
 		}
+	}
+
+	public void SetFriendInfo(string friend_name){
+		string[] s = GetComponent<MenuMenuTextStorage> ().getFriendInfo (friend_name);
+		SetCenterPanelText (s [0], s [1], s [2]);
+		//selectedFriend = levelSceneNames[n];
 	}
 
 	public void SetGameInfo(int n){
