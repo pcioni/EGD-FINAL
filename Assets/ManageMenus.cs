@@ -1,17 +1,101 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ManageMenus : MonoBehaviour {
+	//TOP LEVEL
+	public GameObject main_menu_interface;
+	public GameObject poof_interface;
+
+	//POOF
+	int mode = 2;
+	public GameObject gamesList;
+	public GameObject friendsList;
+
+	//GAMES
 	public int current_level;
-	string[] game_names = {"", "1. MMO", "2. Party Game", "3. FPS", "4. Survival", "5. Arena Shooter", "6. MMORPG2" };
+	public GameObject play_button;
+	string[] levelSceneNames = { "mmo.unity", "party.unity", "fps.unity", "survival.unity", "arena.unity", "mmo2.unity" };
+	public string selectedLevel;
+	public Sprite[] logoSprites;
 
 	// Use this for initialization
 	void Start () {
-	
+		//enable buttons based on how far we are
+		Button[] g= gamesList.GetComponentsInChildren<Button>();
+		for (int x = 0; x < g.Length; x++) {
+			if (x < current_level) {
+				g [x].interactable = true;
+			} else {
+				g [x].interactable = false;
+			}
+		}
+		SetMode (2);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
+
+	public void PoofOnPoofOff(){
+		if (poof_interface.activeInHierarchy) {
+			poof_interface.SetActive (false);
+			main_menu_interface.SetActive (true);
+		} 
+		else {
+			poof_interface.SetActive (true);
+			main_menu_interface.SetActive (false);
+		}
+	}
+
+	public void SetMode(int mode){
+		//enable the correct side panel
+		switch (mode) {
+		case 0: //Friends
+			gamesList.SetActive (false);
+			friendsList.SetActive (true);
+			break;
+		case 1: //Games
+			gamesList.SetActive (true);
+			friendsList.SetActive (false);
+			break;
+		case 2: //About You
+			gamesList.SetActive (false);
+			friendsList.SetActive (false);
+			break;
+		}
+		//enable the correct middle panel
+		switch (mode) {
+		case 0: //Friends
+			play_button.SetActive (false);
+			break;
+		case 1: // Games
+			SetGameInfo(0);
+			play_button.SetActive (true);
+			break;
+		case 2: //About You
+			SetCenterPanelText ("I like adventure and action games best, though " +
+			"party games are growing on me. If I got to choose one super " +
+			"power it would be the power to fly.",
+				"DragonBlaster40 (Sam)",
+				"Poof Member for 1 year.\nFantastic dancer.");
+			play_button.SetActive (false);
+			break;
+		}
+	}
+
+	public void SetGameInfo(int n){
+		string[] s = GetComponent<MenuMenuTextStorage> ().getGameInfo (n);
+		SetCenterPanelText (s [0], s [1], s [2]);
+		selectedLevel = levelSceneNames[n];
+	}
+
+	public void SetCenterPanelText(string descr, string title, string quick_facts){
+		GameObject.Find ("Description Text").GetComponent<Text> ().text = descr;
+		GameObject.Find ("Game Title Text").GetComponent<Text> ().text = title;
+		GameObject.Find ("Quick Facts").GetComponent<Text> ().text = quick_facts;
+	}
+		
 }
