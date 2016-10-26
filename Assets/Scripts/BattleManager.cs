@@ -18,6 +18,7 @@ public class BattleManager : MonoBehaviour {
 	List<GameObject> pending_actions;
 	List<string> pending_messages;
 	TextControl text_controller;
+	List<string> buttons_pressed;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +34,7 @@ public class BattleManager : MonoBehaviour {
 		need_target = 'n';
 		pending_actions = new List<GameObject> ();
 		pending_messages = new List<string> ();
+		buttons_pressed = new List<string> ();
 		text_controller = GameObject.Find ("Text Controller").GetComponent<TextControl> ();
 	}
 
@@ -274,5 +276,9 @@ public class BattleManager : MonoBehaviour {
 		} else {
 			which.GetComponent<FightBehavior>().setTarget(good_guys [Random.Range (0, good_guys.Count)]);
 		}
+	}
+
+	public void ReceiveButtonSignal(string button_name){
+		buttons_pressed.Add (button_name);
 	}
 }
