@@ -10,6 +10,8 @@ public class FightBehavior : MonoBehaviour {
 	int health;
 	bool good_guy;
 	Dictionary<string, int> effects;
+	GameObject myHealthBar;
+	public GameObject healthbar_prefab;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +19,18 @@ public class FightBehavior : MonoBehaviour {
 		health = 3;
 		managey = FindObjectOfType<BattleManager> ();
 		effects = new Dictionary<string, int> ();
+
+		//Health bar stuff
+		GameObject bar = Instantiate (healthbar_prefab);
+		bar.transform.parent = GameObject.Find ("Floating Character Canvas").transform;
+		bar.transform.localScale = Vector3.one;
+		myHealthBar = bar;
+		//calculate the distance the healthbar sits as a function of how
+		//tall our character is
+		float half_height = GetComponent<SpriteRenderer>().bounds.extents.y;
+		float height_above = .1f * half_height + half_height;
+		myHealthBar.transform.position = new Vector3(transform.position.x,
+			transform.position.y + height_above, 0);
 	}
 
 	public void setAlignment(bool goodness){
@@ -53,6 +67,7 @@ public class FightBehavior : MonoBehaviour {
 			return gameObject.name + "'s guard protects them from " + attacker.name + "'s attack!";
 		}
 		health -= amount;
+		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
 		if (health <= 0) {
 			managey.kill (gameObject);
 			return gameObject.name + " has been defeated by " + attacker.name + "!";
