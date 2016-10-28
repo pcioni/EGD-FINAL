@@ -8,7 +8,6 @@ public class PositionCharactersInBattle : MonoBehaviour {
 	List<GameObject> characters;
 	//^ this is likely just the way we do this while merging everything
 	Bounds b;
-	public bool heroes =  true;
 
 	// Use this for initialization
 	void Start () {
@@ -20,8 +19,10 @@ public class PositionCharactersInBattle : MonoBehaviour {
 	}
 
 	public void ArrangeCharacters(List<GameObject> heroes, List<GameObject> enemies){
+		bool rotate_em = false;
 		if (name.Contains ("Hero")) {
 			characters = heroes;
+			rotate_em = true;
 		} 
 		else if (name.Contains ("Enemy")) {
 			characters = enemies;
@@ -51,10 +52,13 @@ public class PositionCharactersInBattle : MonoBehaviour {
 		//for start
 		b = GetComponent<BoxCollider2D> ().bounds;
 		for (int x = 0; x < characters.Count; x++) {
+			if (rotate_em) {
+				characters [x].transform.Rotate (new Vector3 (0f, 180f, 0f));
+			}
 			float percentage = (x + 1) / (characters.Count + 1.0f);
 			characters [x].transform.position = Vector2.Lerp (left, right, percentage); 
 			if (arrangement == Arrangment.Diagonal)
-				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = characters.Length - x;
+				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = characters.Count - x;
 			else
 				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = x;
 		}

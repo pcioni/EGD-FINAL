@@ -14,6 +14,7 @@ public class BattleManager : MonoBehaviour {
 	bool victory;
 	bool defeat;
 	bool continuer;
+	public bool message_finished;
 	char need_target;
 	List<GameObject> pending_actions;
 	List<string> pending_messages;
@@ -26,7 +27,7 @@ public class BattleManager : MonoBehaviour {
 		good_guys = new List<GameObject> ();
 		bad_guys = new List<GameObject> ();
 		participants = new List<GameObject> ();
-		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Sam Gold" }, new List<string>{ "Manticore", "Slime" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Sam Gold" }, new List<string>{ "Manticore", "Slime", "Manticore" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -49,6 +50,7 @@ public class BattleManager : MonoBehaviour {
 	public void SendMessagey(string message){
 		text_controller.write (message);
 		awaiting_input = true;
+		message_finished = false;
 	}
 
 	public void NeedTargeting(char which){
@@ -60,7 +62,12 @@ public class BattleManager : MonoBehaviour {
 
 		if (awaiting_input) {
 			if (Input.GetKeyDown (KeyCode.Space)) {
-				awaiting_input = false;
+				if (message_finished) {
+					awaiting_input = false;
+				} 
+				else {
+					FindObjectOfType<typeMessage> ().skip = true;
+				}
 			}
 			return;
 		}
@@ -94,24 +101,24 @@ public class BattleManager : MonoBehaviour {
 		case ("pick actions"):
 			if (picker == -1) {
 				picker++;
-				text_controller.write ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
+				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
 			}
 			if (Input.GetKeyDown (KeyCode.Backspace)) {
 				if (picker > 0) {
 					picker--;
-					text_controller.write ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
+					pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
 				}
 			}
 			if (Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.G) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.H)) {
 				continuer = true;
 				if (Input.GetKeyDown (KeyCode.A)) {
-					text_controller.write (good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks"));
+					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks"));
 				} else if (Input.GetKeyDown (KeyCode.G)) {
-					text_controller.write (good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards"));
+					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards"));
 				} else if (Input.GetKeyDown (KeyCode.V)) {
-					SendMessagey (good_guys [picker].GetComponent<FightBehavior> ().setAction ("insta-kill"));
+					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("insta-kill"));
 				} else if (Input.GetKeyDown (KeyCode.H)) {
-					SendMessagey (good_guys [picker].GetComponent<FightBehavior> ().setAction ("hail-mary"));
+					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("hail-mary"));
 				}
 				if (need_target == 'e') {
 					state = "select enemy";
@@ -132,7 +139,7 @@ public class BattleManager : MonoBehaviour {
 					picker = 0;
 					return;
 				}
-				text_controller.write ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
+				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
 			}
 			return;
 
@@ -140,24 +147,24 @@ public class BattleManager : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.Backspace)) {
 				state = "pick actions";
 				continuer = false;
-				text_controller.write ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
+				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
 			}
 			if (picker2 == -1) {
 				picker2++;
-				text_controller.write ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
+				pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
 			} else {
 				if (Input.GetKeyDown (KeyCode.W)) {
 					picker2--;
 					if (picker2 < 0) {
 						picker2 = bad_guys.Count - 1;
 					}
-					text_controller.write ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
+					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
 				} else if (Input.GetKeyDown (KeyCode.S)) {
 					picker2++;
 					if (picker2 >= bad_guys.Count) {
 						picker2 = 0;
 					}
-					text_controller.write ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
+					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
 				} else if (Input.GetKeyDown (KeyCode.Space)) {
 					SendMessagey (good_guys [picker].name + " will target " + bad_guys [picker2].name + "!");
 					good_guys [picker].GetComponent<FightBehavior> ().setTarget (bad_guys [picker2]);
@@ -170,26 +177,26 @@ public class BattleManager : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.Backspace)) {
 				state = "pick actions";
 				continuer = false;
-				text_controller.write ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
+				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
 			}
 			if (picker2 == -1) {
 				picker2++;
-				text_controller.write ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
+				pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
 			} else {
 				if (Input.GetKeyDown (KeyCode.W)) {
 					picker2--;
 					if (picker2 < 0) {
 						picker2 = good_guys.Count - 1;
 					}
-					text_controller.write ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
+					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
 				} else if (Input.GetKeyDown (KeyCode.S)) {
 					picker2++;
 					if (picker2 >= good_guys.Count) {
 						picker2 = 0;
 					}
-					text_controller.write ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
+					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
 				} else if (Input.GetKeyDown (KeyCode.Space)) {
-					SendMessagey (good_guys [picker].name + " will target " + good_guys [picker2].name  + "!");
+					pending_messages.Add (good_guys [picker].name + " will target " + good_guys [picker2].name  + "!");
 					good_guys [picker].GetComponent<FightBehavior> ().setTarget (good_guys [picker2]);
 					state = "pick actions";
 				}
@@ -241,14 +248,14 @@ public class BattleManager : MonoBehaviour {
 				picker = 0;
 				state = "check win";
 				if (!victory) {
-					SendMessagey ("The turn has ended. Press space to continue.");
+					pending_messages.Add ("The turn has ended. Press space to continue.");
 				}
 			}
 			return;
 
 		case ("check win"):
 			if (victory) {
-				text_controller.write ("Congratulations, you have won!");
+				pending_messages.Add ("Congratulations, you have won!");
 				state = "";
 			} else {
 				state = "pick actions";
@@ -275,7 +282,11 @@ public class BattleManager : MonoBehaviour {
 			participants.Add (temp);
 		}
 		state = "instantiated";
-		FindObjectOfType<PositionCharactersInBattle> ().ArrangeCharacters (good_guys, bad_guys);
+		List<PositionCharactersInBattle> tempy = new List<PositionCharactersInBattle> ();
+		tempy.AddRange (FindObjectsOfType<PositionCharactersInBattle> ());
+		foreach (PositionCharactersInBattle item in tempy) {
+			item.ArrangeCharacters (good_guys, bad_guys);
+		}
 	}
 
 	public void kill(GameObject which){

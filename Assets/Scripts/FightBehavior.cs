@@ -22,7 +22,7 @@ public class FightBehavior : MonoBehaviour {
 
 		//Health bar stuff
 		GameObject bar = Instantiate (healthbar_prefab);
-		bar.transform.parent = GameObject.Find ("Floating Character Canvas").transform;
+		bar.transform.SetParent(GameObject.Find ("Floating Character Canvas").transform);
 		bar.transform.localScale = Vector3.one;
 		myHealthBar = bar;
 		//calculate the distance the healthbar sits as a function of how

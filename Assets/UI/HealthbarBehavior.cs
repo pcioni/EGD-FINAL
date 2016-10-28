@@ -9,7 +9,7 @@ public class HealthbarBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		text = (GameObject) Instantiate(text_prefab, Vector3.zero, Quaternion.identity);
-		text.transform.parent = GameObject.Find ("Floating Character Canvas").transform;
+		text.transform.SetParent(GameObject.Find ("Floating Character Canvas").transform);
 	}
 	
 	// Update is called once per frame

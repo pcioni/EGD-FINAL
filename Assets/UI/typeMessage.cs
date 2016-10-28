@@ -10,6 +10,8 @@ public class typeMessage : MonoBehaviour {
 	public string input = "";
 	float pause_seconds = 1.0f;
 	float letter_seconds = .04f;
+	Text text_component;
+	public bool skip = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,27 +24,35 @@ public class typeMessage : MonoBehaviour {
 	}
 
 	IEnumerator writeMessage(){
-		string text = GetComponent<Text> ().text;
-		string add_text = message [GetComponent<Text>().text.Length].ToString ();
-		//special conditions
-		if (add_text == "#")
-			add_text = "\n";
-		if (add_text == "_") {
-			add_text = "";
-			int indexOf = message.IndexOf ('_');
-			message = message.Remove(indexOf, 1);
-			if (!Input.GetKey (KeyCode.RightShift))
+		int count = 0;
+		text_component = GetComponent<Text> ();
+		while (count < message.Length){
+
+			if (skip) {
+				skip = false;
+				text_component.text = message;
+				break;
+			}
+
+			char next_char = message[count];
+			//special conditions
+			if (next_char == '#')
+				next_char = '\n';
+			if (next_char == '_') {
 				yield return new WaitForSeconds (pause_seconds);
+				count++;
+				continue;
+			}
+			if (next_char == '~') {
+				text_component.text = "";
+				count++;
+				continue;
+			}
+			text_component.text += next_char;
+			yield return new WaitForSeconds (letter_seconds);
+			count++;
 		}
-		if (add_text == "~") {
-			print (message.Substring (text.Length));
-			SetMessage (message.Substring (text.Length+1));
-			return true;
-		}
-		GetComponent<Text> ().text = text + add_text;
-		if (!Input.GetKey(KeyCode.RightShift)) yield return new WaitForSeconds (letter_seconds);
-		if (GetComponent<Text> ().text.Length < message.Length)
-			StartCoroutine ("writeMessage");
+		FindObjectOfType<BattleManager> ().message_finished = true;
 	}
 
 	public void SetMessage(string new_message){
