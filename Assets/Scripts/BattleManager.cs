@@ -26,7 +26,7 @@ public class BattleManager : MonoBehaviour {
 		good_guys = new List<GameObject> ();
 		bad_guys = new List<GameObject> ();
 		participants = new List<GameObject> ();
-		StartBattle (new List<string>{ "Red", "Green", "Blue" }, new List<string>{ "Blue", "Blue", "Red", "Red" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Sam Gold" }, new List<string>{ "Manticore", "Slime" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -262,23 +262,20 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	void StartBattle(List<string> good, List<string> bad){
-		Vector3 positiony = new Vector3 (-2f, 2f, 0f);
 		for (int x = 0; x < good.Count; x++) {
-			GameObject temp = (GameObject)Instantiate (Resources.Load (good [x]), positiony, Quaternion.identity);
+			GameObject temp = (GameObject)Instantiate (Resources.Load (good [x]), Vector3.zero, Quaternion.identity);
 			temp.GetComponent<FightBehavior> ().setAlignment (true);
 			good_guys.Add (temp);
 			participants.Add (temp);
-			positiony += new Vector3 (0f, -1f, 0f);
 		}
-		positiony = new Vector3 (2f, 2f, 0f);
 		for (int x = 0; x < bad.Count; x++) {
-			GameObject temp = (GameObject)Instantiate (Resources.Load (bad [x]), positiony, Quaternion.identity);
+			GameObject temp = (GameObject)Instantiate (Resources.Load (bad [x]), Vector3.zero, Quaternion.identity);
 			temp.GetComponent<FightBehavior> ().setAlignment (false);
 			bad_guys.Add (temp);
 			participants.Add (temp);
-			positiony += new Vector3 (0f, -1f, 0f);
 		}
 		state = "instantiated";
+		FindObjectOfType<PositionCharactersInBattle> ().ArrangeCharacters (good_guys, bad_guys);
 	}
 
 	public void kill(GameObject which){
