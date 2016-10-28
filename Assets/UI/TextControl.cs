@@ -13,33 +13,11 @@ public class TextControl : MonoBehaviour {
 	public GameObject longText;
 	public GameObject back;
 
-	//TEST
-	[Header("Test: Q- place input in textbox, W- title buttons as well")]
-	public string input;
-	public string[] input_array;
-
 	// Use this for initialization
 	void Start () {
 		choiceText = GameObject.Find ("UI Choice Text");
 		//longText = GameObject.Find("UI Long Text");
 		back = GameObject.Find ("Text Background");
-
-		string[] b = { "Manticore", "Slime" , "", ""};
-		write ("Who should Sam attack?", b);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		//TEST
-		if (Input.GetKeyDown (KeyCode.Q)) {
-			write (input);
-		}
-		if (Input.GetKeyDown (KeyCode.W)) {
-			write (input, input_array);
-		}
-		if (Input.GetKeyDown (KeyCode.E)) {
-			noText ();
-		}
 	}
 
 	///<summary>
