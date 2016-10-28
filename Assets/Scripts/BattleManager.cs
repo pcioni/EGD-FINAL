@@ -216,6 +216,29 @@ public class BattleManager : MonoBehaviour {
 			}
 			else {
 				picker = 0;
+				state = "end turn";
+			}
+			return;
+
+		case ("end turn"):
+			if (continuer) {
+				continuer = false;
+				if (victory) {
+					picker = participants.Count;
+				}
+				picker++;
+			}
+			if (picker < participants.Count) {
+				while (!participants [picker].activeSelf) {
+					picker++;
+					if (picker >= participants.Count) {
+						return;
+					}
+				}
+				pending_messages.AddRange (participants [picker].GetComponent<FightBehavior> ().endTurn ());
+				continuer = true;
+			} else {
+				picker = 0;
 				state = "check win";
 				if (!victory) {
 					SendMessagey ("The turn has ended. Press space to continue.");

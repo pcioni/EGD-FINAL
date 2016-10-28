@@ -66,6 +66,21 @@ public class FightBehavior : MonoBehaviour {
 		return gameObject.name + " was " + status + " by " + inflictor.name + "!";
 	}
 
+	public List<string> endTurn(){
+		List<string> result = new List<string> ();
+		if (effects.Count == 0) {
+			return result;
+		}
+		foreach (KeyValuePair<string, int> effect in effects) {
+			effects[effect.Key] = effect.Value - 1;
+			if (effect.Value <= 0) {
+				effects.Remove (effect.Key);
+				result.Add (gameObject.name + "'s " + effect.Key + " has worn off!");
+			}
+		}
+		return result;
+	}
+
 	public List<string> doAction(){
 
 		List<string> result = new List<string> ();
