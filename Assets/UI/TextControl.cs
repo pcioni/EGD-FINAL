@@ -74,5 +74,10 @@ public class TextControl : MonoBehaviour {
 			back.SetActive (false);
 		}
 	}
-		
+
+	//TODO: add a third argument onto write, where
+	//true indicates that you desire four choices
+	//and false indicates that you desire a scrolling
+	//list
+
 }
