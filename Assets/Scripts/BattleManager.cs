@@ -45,7 +45,7 @@ public class BattleManager : MonoBehaviour {
 			"Potion",
 			"Panacea Bottle",
 			"Magic Lens",
-			"The Kevin-Beater Bat"
+			"The Kevin-Is-Awesome Bat"
 		};
 		inventory = GetComponent<ItemBehavior> ();
 	}
