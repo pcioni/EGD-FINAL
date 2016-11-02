@@ -29,7 +29,7 @@ public class BattleManager : MonoBehaviour {
 		good_guys = new List<GameObject> ();
 		bad_guys = new List<GameObject> ();
 		participants = new List<GameObject> ();
-		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Sam Gold" }, new List<string>{ "Manticore", "Slime", "Manticore" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Manticore", "Slime", "Manticore" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
