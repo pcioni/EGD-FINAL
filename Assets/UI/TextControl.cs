@@ -53,7 +53,6 @@ public class TextControl : MonoBehaviour {
 	/// the contents of the array. 
 	/// </summary>
 	public void write(string s, List<string> b){
-		first_button.GetComponent<Button> ().Select ();
 		if (!back.activeInHierarchy){
 			back.SetActive (true);
 		}
@@ -72,6 +71,7 @@ public class TextControl : MonoBehaviour {
 		for (int x = 0; x < 4; x++) {
 			buttons [x].GetComponent<Text> ().text = b [x];
 		}
+		first_button.GetComponent<Button> ().Select ();
 	}
 
 	/// <summary>
