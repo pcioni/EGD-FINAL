@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 /// <summary>
 /// A wrapper for the amazing UI text display!
@@ -12,12 +13,20 @@ public class TextControl : MonoBehaviour {
 	public GameObject choiceText; 
 	public GameObject longText;
 	public GameObject back;
+	List<GameObject> buttons;
+	GameObject first_button;
 
 	// Use this for initialization
 	void Start () {
 		choiceText = GameObject.Find ("UI Choice Text");
 		//longText = GameObject.Find("UI Long Text");
 		back = GameObject.Find ("Text Background");
+		buttons = new List<GameObject> ();
+		buttons.Add (GameObject.Find ("Choice Button 1 Text"));
+		buttons.Add (GameObject.Find ("Choice Button 2 Text"));
+		buttons.Add (GameObject.Find ("Choice Button 3 Text"));
+		buttons.Add (GameObject.Find ("Choice Button 4 Text"));
+		first_button = GameObject.Find ("Choice Button 1");
 	}
 
 	///<summary>
@@ -34,7 +43,7 @@ public class TextControl : MonoBehaviour {
 			choiceText.SetActive(false);
 			longText.SetActive (true);
 		}
-		longText.GetComponent<typeMessage> ().SetMessage (s);
+		longText.GetComponent<typeMessage> ().SetMessage (s, false);
 	}
 
 	///<summary>
@@ -43,7 +52,8 @@ public class TextControl : MonoBehaviour {
 	/// If the string array is not empty, the button texts are changed to
 	/// the contents of the array. 
 	/// </summary>
-	public void write(string s, string[] b){
+	public void write(string s, List<string> b){
+		first_button.GetComponent<Button> ().Select ();
 		if (!back.activeInHierarchy){
 			back.SetActive (true);
 		}
@@ -53,16 +63,15 @@ public class TextControl : MonoBehaviour {
 			longText.SetActive(false);
 			choiceText.SetActive (true);
 		}
-		choiceText.GetComponent<typeMessage> ().SetMessage (s);
-		if (b.Length != 4) {
-			if (b.Length != 0)
+		choiceText.GetComponent<typeMessage> ().SetMessage (s, true);
+		if (b.Count != 4) {
+			if (b.Count != 0)
 				print ("ALERT: b is not of length 4");
 			return;
 		}
-		GameObject.Find ("Choice Button 1 Text").GetComponent<Text> ().text = b [0];
-		GameObject.Find ("Choice Button 2 Text").GetComponent<Text> ().text = b [1];
-		GameObject.Find ("Choice Button 3 Text").GetComponent<Text> ().text = b [2];
-		GameObject.Find ("Choice Button 4 Text").GetComponent<Text> ().text = b [3];
+		for (int x = 0; x < 4; x++) {
+			buttons [x].GetComponent<Text> ().text = b [x];
+		}
 	}
 
 	/// <summary>
@@ -73,6 +82,10 @@ public class TextControl : MonoBehaviour {
 		if (back.activeInHierarchy){
 			back.SetActive (false);
 		}
+	}
+
+	public bool waitForSpace(){
+		return longText.activeSelf;
 	}
 		
 }

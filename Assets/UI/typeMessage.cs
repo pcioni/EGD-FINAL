@@ -9,7 +9,7 @@ public class typeMessage : MonoBehaviour {
 
 	public string input = "";
 	float pause_seconds = 1.0f;
-	float letter_seconds = .04f;
+	float letter_seconds = .02f;
 	Text text_component;
 	public bool skip = false;
 
@@ -55,10 +55,16 @@ public class typeMessage : MonoBehaviour {
 		FindObjectOfType<BattleManager> ().message_finished = true;
 	}
 
-	public void SetMessage(string new_message){
-		StopCoroutine ("writeMessage");
-		message = new_message;
-		GetComponent<Text> ().text = "";
-		StartCoroutine ("writeMessage");
+	public void SetMessage(string new_message, bool instant){
+		if (!instant) {
+			StopCoroutine ("writeMessage");
+			message = new_message;
+			GetComponent<Text> ().text = "";
+			StartCoroutine ("writeMessage");
+		} else {
+			message = new_message;
+			GetComponent<Text> ().text = new_message;
+		}
 	}
+		
 }

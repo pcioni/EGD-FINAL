@@ -6,17 +6,19 @@ using UnityEngine.EventSystems;
 public class startHighlighted : MonoBehaviour {
 
 	public bool start_highlighted = true;
+	EventSystem es;
 
 	// Use this for initialization
 	void Start () {
 		if (start_highlighted) {
 			GetComponent<Button> ().Select ();
 		}
+		es = EventSystem.current.GetComponent<EventSystem> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (EventSystem.current.GetComponent<EventSystem> ().currentSelectedGameObject == null) {
+		if (es.currentSelectedGameObject == null) {
 			if (Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.A) ||
 			    Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown (KeyCode.D) ||
 			    Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown (KeyCode.DownArrow) ||

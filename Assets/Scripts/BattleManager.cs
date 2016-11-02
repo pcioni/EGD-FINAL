@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour {
 	List<GameObject> good_guys;
 	List<GameObject> bad_guys;
 	List<GameObject> participants;
+	List<string> item_list;
 	string state;
 	int picker;
 	int picker2;
@@ -18,8 +19,9 @@ public class BattleManager : MonoBehaviour {
 	char need_target;
 	List<GameObject> pending_actions;
 	List<string> pending_messages;
+	List<List<string>> pending_choices;
 	TextControl text_controller;
-	List<string> buttons_pressed;
+	int action_selected;
 
 	// Use this for initialization
 	void Start () {
@@ -35,8 +37,15 @@ public class BattleManager : MonoBehaviour {
 		need_target = 'n';
 		pending_actions = new List<GameObject> ();
 		pending_messages = new List<string> ();
-		buttons_pressed = new List<string> ();
 		text_controller = GameObject.Find ("Text Controller").GetComponent<TextControl> ();
+		pending_choices = new List<List<string>> ();
+		item_list = new List<string> {
+			"Pick an item to use!",
+			"Potion",
+			"Panacea Bottle",
+			"Magic Lens",
+			"The Kevin-Beater Bat"
+		};
 	}
 
 	public List<GameObject> getGoodGuys(){
@@ -47,10 +56,44 @@ public class BattleManager : MonoBehaviour {
 		return bad_guys;
 	}
 
+	public string getItemName(int which){
+		return item_list [which - 1];
+	}
+
+	public char itemNeedsTargeting(int which){
+		if (which < 2) {
+			return 'a';
+		}
+		else{ 
+			return 'e'; 
+		}
+	}
+
+	public string useItem(int which, GameObject user, GameObject target){
+		if (which == 1) {
+			return target.GetComponent<FightBehavior> ().heal (3);
+		} else if (which == 2) {
+			return target.GetComponent<FightBehavior> ().removeNegativeEffects ();
+		} else if (which == 3) {
+			return target.GetComponent<FightBehavior> ().examine ();
+		} else {
+			return target.GetComponent<FightBehavior> ().damage (5, user.name);
+		}
+	}
+
 	public void SendMessagey(string message){
 		text_controller.write (message);
 		awaiting_input = true;
 		message_finished = false;
+	}
+
+	public void SendMessagey(List<string> message){
+		string title = message [0];
+		message.RemoveAt (0);
+		text_controller.write (title, message);
+		awaiting_input = true;
+		message_finished = false;
+		action_selected = 0;
 	}
 
 	public void NeedTargeting(char which){
@@ -60,14 +103,33 @@ public class BattleManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (awaiting_input) {
-			if (Input.GetKeyDown (KeyCode.Space)) {
-				if (message_finished) {
+		if (Input.GetKeyDown (KeyCode.Backspace)) {
+			if (state == "pick actions") {
+				if (picker > 0) {
 					awaiting_input = false;
-				} 
-				else {
-					FindObjectOfType<typeMessage> ().skip = true;
+					picker--;
+					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
 				}
+			} else if (state.Split (' ') [0] == "select") {
+				awaiting_input = false;
+				state = "pick actions";
+				continuer = false;
+				pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+			}
+		}
+
+		if (awaiting_input) {
+			if (text_controller.waitForSpace ()) {
+				if (Input.GetKeyDown (KeyCode.Space)) {
+					if (message_finished) {
+						awaiting_input = false;
+					} else {
+						FindObjectOfType<typeMessage> ().skip = true;
+						message_finished = true;
+					}
+				}
+			} else if (Input.GetKeyDown (KeyCode.Space) && message_finished == false) {
+				FindObjectOfType<typeMessage> ().skip = true;
 			}
 			return;
 		}
@@ -79,6 +141,11 @@ public class BattleManager : MonoBehaviour {
 		if (pending_messages.Count > 0) {
 			SendMessagey (pending_messages [0]);
 			pending_messages.RemoveAt (0);
+			return;
+		}
+		if (pending_choices.Count > 0) {
+			SendMessagey (pending_choices [0]);
+			pending_choices.RemoveAt (0);
 			return;
 		}
 
@@ -93,42 +160,32 @@ public class BattleManager : MonoBehaviour {
 			return;
 
 		case ("instantiated"):
-			SendMessagey("A battle has begun!");
-			picker = -1;
+			pending_messages.Add("A battle has begun!");
+			picker = 0;
 			state = "pick actions";
+			pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
 			return;
 
 		case ("pick actions"):
-			if (picker == -1) {
-				picker++;
-				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
-			}
-			if (Input.GetKeyDown (KeyCode.Backspace)) {
-				if (picker > 0) {
-					picker--;
-					pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
-				}
-			}
-			if (Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.G) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.H)) {
+			if (action_selected > 0) {
 				continuer = true;
-				if (Input.GetKeyDown (KeyCode.A)) {
+				if (action_selected == 1) {
 					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks"));
-				} else if (Input.GetKeyDown (KeyCode.G)) {
-					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards"));
-				} else if (Input.GetKeyDown (KeyCode.V)) {
-					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("insta-kill"));
-				} else if (Input.GetKeyDown (KeyCode.H)) {
-					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("hail-mary"));
-				}
-				if (need_target == 'e') {
 					state = "select enemy";
-					picker2 = -1;
-					return;
-				} else if (need_target == 'a') {
-					picker2 = -1;
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", bad_guys[0].name, bad_guys[1].name, bad_guys[2].name, ""});
+				} else if (action_selected == 2) {
+					state = "select ability";
+					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listAbilities ());
+				} else if (action_selected == 3) {
+					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards"));
 					state = "select teammate";
-					return;
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", good_guys[0].name, good_guys[1].name, good_guys[2].name, good_guys[3].name});
+				} else {
+					state = "select item";
+					pending_choices.Add (item_list);
 				}
+				action_selected = 0;
+				return;
 			}
 			if (continuer && !awaiting_input) {
 				continuer = false;
@@ -139,67 +196,75 @@ public class BattleManager : MonoBehaviour {
 					picker = 0;
 					return;
 				}
-				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
+				pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions());
+			}
+			return;
+
+		case ("select ability"):
+			need_target = 'n';
+			if (action_selected > 0) {
+				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("ability", action_selected));
+				if (need_target == 'e') {
+					state = "select enemy";
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", bad_guys[0].name, bad_guys[1].name, bad_guys[2].name, ""});
+				} else if (need_target == 'a') {
+					state = "select teammate";
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", good_guys[0].name, good_guys[1].name, good_guys[2].name, good_guys[3].name});
+				} else {
+					state = "pick actions";
+					picker++;
+					if (picker < good_guys.Count) {
+						pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+					}
+				}
+				action_selected = 0;
+			}
+			return;
+
+		case ("select item"):
+			need_target = 'n';
+			if (action_selected > 0) {
+				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("item", action_selected));
+				if (need_target == 'e') {
+					state = "select enemy";
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", bad_guys[0].name, bad_guys[1].name, bad_guys[2].name, ""});
+				} else if (need_target == 'a') {
+					state = "select teammate";
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", good_guys[0].name, good_guys[1].name, good_guys[2].name, good_guys[3].name});
+				} else {
+					state = "pick actions";
+					picker++;
+					if (picker < good_guys.Count) {
+						pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+					}
+				}
+				action_selected = 0;
 			}
 			return;
 
 		case ("select enemy"):
-			if (Input.GetKeyDown (KeyCode.Backspace)) {
+			if (action_selected > 0) {
+				good_guys [picker].GetComponent<FightBehavior> ().setTarget (bad_guys [action_selected - 1]);
+				pending_messages.Add (good_guys [picker].name + " will target " + bad_guys [action_selected - 1].name + "!");
 				state = "pick actions";
-				continuer = false;
-				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
-			}
-			if (picker2 == -1) {
-				picker2++;
-				pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
-			} else {
-				if (Input.GetKeyDown (KeyCode.W)) {
-					picker2--;
-					if (picker2 < 0) {
-						picker2 = bad_guys.Count - 1;
-					}
-					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
-				} else if (Input.GetKeyDown (KeyCode.S)) {
-					picker2++;
-					if (picker2 >= bad_guys.Count) {
-						picker2 = 0;
-					}
-					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + bad_guys [picker2].name);
-				} else if (Input.GetKeyDown (KeyCode.Space)) {
-					SendMessagey (good_guys [picker].name + " will target " + bad_guys [picker2].name + "!");
-					good_guys [picker].GetComponent<FightBehavior> ().setTarget (bad_guys [picker2]);
-					state = "pick actions";
+				picker++;
+				if (picker < good_guys.Count) {
+					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
 				}
+				action_selected = 0;
 			}
 			return;
 
 		case ("select teammate"):
-			if (Input.GetKeyDown (KeyCode.Backspace)) {
+			if (action_selected > 0) {
+				good_guys [picker].GetComponent<FightBehavior> ().setTarget (good_guys [action_selected - 1]);
+				pending_messages.Add (good_guys [picker].name + " will target " + good_guys [action_selected - 1].name + "!");
 				state = "pick actions";
-				continuer = false;
-				pending_messages.Add ("Pick an action for " + good_guys [picker].name + ": A to attack or G to guard!");
-			}
-			if (picker2 == -1) {
-				picker2++;
-				pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
-			} else {
-				if (Input.GetKeyDown (KeyCode.W)) {
-					picker2--;
-					if (picker2 < 0) {
-						picker2 = good_guys.Count - 1;
-					}
-					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
-				} else if (Input.GetKeyDown (KeyCode.S)) {
-					picker2++;
-					if (picker2 >= good_guys.Count) {
-						picker2 = 0;
-					}
-					pending_messages.Add ("Who will " + good_guys[picker].name + " target? Currently targeting: " + good_guys [picker2].name);
-				} else if (Input.GetKeyDown (KeyCode.Space)) {
-					pending_messages.Add (good_guys [picker].name + " will target " + good_guys [picker2].name  + "!");
-					good_guys [picker].GetComponent<FightBehavior> ().setTarget (good_guys [picker2]);
-					state = "pick actions";
+				picker++;
+				if (picker < good_guys.Count) {
+					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
 				}
+				action_selected = 0;
 			}
 			return;
 
@@ -259,7 +324,8 @@ public class BattleManager : MonoBehaviour {
 				state = "";
 			} else {
 				state = "pick actions";
-				picker = -1;
+				picker = 0;
+				pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
 			}
 			return;
 
@@ -310,6 +376,7 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public void ReceiveButtonSignal(string button_name){
-		buttons_pressed.Add (button_name);
+		action_selected = int.Parse (button_name);
+		awaiting_input = false;
 	}
 }
