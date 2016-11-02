@@ -24,7 +24,7 @@ public class HealthbarBehavior : MonoBehaviour {
 	}
 
 	public void SetHealth(float percentage){
-		transform.localScale = new Vector3 (percentage/100.0f, 1, 1);
+		transform.localScale = new Vector3 (percentage/max_health, 1, 1);
 		text.GetComponent<Text> ().text =  percentage.ToString();
 	}
 }

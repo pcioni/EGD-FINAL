@@ -21,6 +21,7 @@ public class BattleManager : MonoBehaviour {
 	List<string> pending_messages;
 	List<List<string>> pending_choices;
 	TextControl text_controller;
+	ItemBehavior inventory;
 	int action_selected;
 
 	// Use this for initialization
@@ -46,6 +47,7 @@ public class BattleManager : MonoBehaviour {
 			"Magic Lens",
 			"The Kevin-Beater Bat"
 		};
+		inventory = GetComponent<ItemBehavior> ();
 	}
 
 	public List<GameObject> getGoodGuys(){
@@ -70,15 +72,7 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public string useItem(int which, GameObject user, GameObject target){
-		if (which == 1) {
-			return target.GetComponent<FightBehavior> ().heal (3);
-		} else if (which == 2) {
-			return target.GetComponent<FightBehavior> ().removeNegativeEffects ();
-		} else if (which == 3) {
-			return target.GetComponent<FightBehavior> ().examine ();
-		} else {
-			return target.GetComponent<FightBehavior> ().damage (5, user.name);
-		}
+		return inventory.useItem(item_list [which - 1], user, target);
 	}
 
 	public void SendMessagey(string message){

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public class FightBehavior : MonoBehaviour {
 
 	string turn_action;
-	GameObject target;
-	BattleManager managey;
+	protected GameObject target;
+	protected BattleManager managey;
 	int health;
 	int max_health;
-	bool good_guy;
+	protected bool good_guy;
 	Dictionary<string, int> effects;
 	GameObject myHealthBar;
 	public GameObject healthbar_prefab;
@@ -41,17 +41,17 @@ public class FightBehavior : MonoBehaviour {
 		good_guy = goodness;
 	}
 
-	public List<string> listActions(){
+	public virtual List<string> listActions(){
 		List<string> result = new List<string> {"Pick an action for " + name + " to do this turn!", "Attack", "Ability", "Guard", "Item"};
 		return result;
 	}
 
-	public List<string> listAbilities(){
+	public virtual List<string> listAbilities(){
 		List<string> result = new List<string> { "Pick an ability for " + name + " to use this turn!", "Poison", "Heal", "", "" };
 		return result;
 	}
 
-	public string examine(){
+	public virtual string examine(){
 		return gameObject.name + ": This tells you all about this person!";
 	}
 
@@ -138,22 +138,24 @@ public class FightBehavior : MonoBehaviour {
 		if (effects.Count == 0) {
 			return result;
 		}
-		foreach (KeyValuePair<string, int> effect in effects) {
+		string[] keys = new string[effects.Count];
+		effects.Keys.CopyTo (keys, 0);
+		foreach (string key in keys) {
 
-			if (effect.Key == "poisoned") {
+			if (key == "poisoned") {
 				result.Add (damage (1, "poison"));
 			}
 
-			effects[effect.Key] = effect.Value - 1;
-			if (effect.Value <= 0) {
-				effects.Remove (effect.Key);
-				result.Add (gameObject.name + "'s " + effect.Key + " has worn off!");
+			effects[key] = effects[key] - 1;
+			if (effects[key] <= 0) {
+				effects.Remove (key);
+				result.Add (gameObject.name + "'s " + key + " has worn off!");
 			}
 		}
 		return result;
 	}
 
-	public List<string> doAction(){
+	public virtual List<string> doAction(){
 
 		List<string> result = new List<string> ();
 
