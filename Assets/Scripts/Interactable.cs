@@ -20,13 +20,18 @@ public class Interactable : MonoBehaviour {
     protected int dialogueIndex;
     protected Sprite sprite;
     protected TextControl textController;
+    protected StringParser stringParser;
     public string[] dialogueArray;
+
+    private string currentDialogue;
+    private bool interrupted;
 
     
 
     void Awake() {
         checkPrefab();
-        dialogueIndex = 0; //-1 to assert null values
+        dialogueIndex = 0;
+        stringParser = new StringParser();
     }
 
     //ensures the interactable has all the required components
@@ -66,16 +71,25 @@ public class Interactable : MonoBehaviour {
 	
 	}
 
-    /*
-     * Reads the next numToRead strings in the dialogueArray 
-     */ 
-    protected virtual void SpeakDialogue(int numToRead) {
-        for (;numToRead > 0; numToRead--) {
-            if (dialogueIndex > dialogueArray.Length) {
-                Debug.LogError("dialogueIndex > dialougeArray.length");
-                Debug.Break();
+    //Reads the next numToRead strings in the dialogueArray 
+    protected virtual void SpeakDialogue() {
+
+        //Repeat the last line of dialogue once we've exhausted all the dialogue
+        // i.e. "I'm done with you" -> "Go away..." -> "Go away..."
+        if (dialogueIndex > dialogueArray.Length)
+            dialogueIndex--;
+
+        interrupted = false;
+        currentDialogue = dialogueArray[dialogueIndex];
+
+        while (dialogueIndex < dialogueArray.Length || interrupted == false) {
+            if (stringParser.ContainsFlag(currentDialogue, flags.INTERRUPT)) {
+                interrupted = true;
+                Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, currentDialogue));
             }
+
             textController.write(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
+            currentDialogue = dialogueArray[dialogueIndex];
         }
     }
 
