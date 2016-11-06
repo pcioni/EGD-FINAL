@@ -26,7 +26,7 @@ using System.Collections.Generic;
 /// % -> jump to index (appears after a choice)
 
 /// $ -> interruption
-/// Breaks the current readDialogue instance.
+/// Breaks the current readDialogue instance. Place this at the end of the string.
 
 /// </summary
 
