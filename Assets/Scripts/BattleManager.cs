@@ -45,7 +45,9 @@ public class BattleManager : MonoBehaviour {
 			"Potion",
 			"Panacea Bottle",
 			"Magic Lens",
-			"The Kevin-Is-Awesome Bat"
+			"The Kevin-Is-Awesome Bat",
+			"Stolen Dentures",
+			"Mixtape (fire)"
 		};
 		inventory = GetComponent<ItemBehavior> ();
 	}
@@ -371,6 +373,7 @@ public class BattleManager : MonoBehaviour {
 
 	public void ReceiveButtonSignal(string button_name){
 		action_selected = int.Parse (button_name);
+		print (action_selected);
 		awaiting_input = false;
 	}
 }

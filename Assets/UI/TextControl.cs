@@ -12,13 +12,18 @@ public class TextControl : MonoBehaviour {
 
 	public GameObject choiceText; 
 	public GameObject longText;
+	public GameObject listText;
 	public GameObject back;
 	List<GameObject> buttons;
 	GameObject first_button;
+	public GameObject list_button_prefab; 
+	public GameObject button_grid;
+	public Scrollbar scrollbar;
+	public GameObject battleManager;
 
 	// Use this for initialization
 	void Start () {
-		choiceText = GameObject.Find ("UI Choice Text");
+		choiceText.SetActive (true);
 		//longText = GameObject.Find("UI Long Text");
 		back = GameObject.Find ("Text Background");
 		buttons = new List<GameObject> ();
@@ -38,9 +43,10 @@ public class TextControl : MonoBehaviour {
 			back.SetActive (true);
 		}
 
-		if (choiceText.activeInHierarchy) {
+		if (choiceText.activeInHierarchy || listText.activeInHierarchy) {
 			//switch over to longText
 			choiceText.SetActive(false);
+			listText.SetActive (false);
 			longText.SetActive (true);
 		}
 		longText.GetComponent<typeMessage> ().SetMessage (s, false);
@@ -57,22 +63,54 @@ public class TextControl : MonoBehaviour {
 			back.SetActive (true);
 		}
 
-		if (longText.activeInHierarchy) {
-			//switch over to longText
-			longText.SetActive(false);
-			choiceText.SetActive (true);
-		}
-		choiceText.GetComponent<typeMessage> ().SetMessage (s, true);
-		if (b.Count != 4) {
-			if (b.Count != 0)
-				print ("ALERT: b is not of length 4");
+		if (b.Count == 0)
 			return;
+
+		if (b.Count <= 4) {
+			if (longText.activeInHierarchy || listText.activeInHierarchy) {
+				//switch over to choiceText
+				longText.SetActive (false);
+				listText.SetActive (false);
+				choiceText.SetActive (true);
+			}
+			choiceText.GetComponent<typeMessage> ().SetMessage (s, true);
+
+			for (int x = 0; x < 4; x++) {
+				if (x >= b.Count) {
+					buttons [x].SetActive (false);
+					continue;
+				}
+				buttons [x].SetActive (true);
+				buttons [x].GetComponent<Text> ().text = b [x];
+			}
+			first_button.GetComponent<Button> ().Select ();
+		} 
+		else {
+			if (longText.activeInHierarchy || choiceText.activeInHierarchy) {
+				//switch over to choiceText
+				longText.SetActive (false);
+				choiceText.SetActive (false);
+				listText.SetActive (true);
+			}
+			listText.GetComponent<typeMessage> ().SetMessage (s, true);
+
+			for (int x = 0; x < b.Count; x++) {
+				GameObject new_button = Instantiate (list_button_prefab);
+				new_button.transform.SetParent (button_grid.transform);
+				new_button.GetComponent<Text> ().text = b [x];
+				new_button.transform.localScale = Vector3.one;
+				new_button.GetComponent<Button> ().onClick.AddListener (delegate{OnClickSendNumber(x.ToString());}); //ONCLIKGIVESNUMBER
+			}
+			scrollbar.value = 1;
+			button_grid.GetComponentsInChildren<Button> ()[0].Select ();
 		}
-		for (int x = 0; x < 4; x++) {
-			buttons [x].GetComponent<Text> ().text = b [x];
-		}
-		first_button.GetComponent<Button> ().Select ();
+
 	}
+
+	void OnClickSendNumber(string x){
+		battleManager.GetComponent<BattleManager> ().ReceiveButtonSignal (x);
+	}
+		
 
 	/// <summary>
 	/// Gets rid of the textbox completely. 
