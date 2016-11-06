@@ -7,12 +7,18 @@ public class Interactable : MonoBehaviour {
      * An intractable object is any object that has a consequence for player interaction, be it movement or an "interact" hotkey.
      * Any object in this category that needs a custom version of OnTriggerEnter, SpeakDialogue, or PostDialogueAction should inherit from this class.
      * 
-     * Keep in mind that the base OnTriggerEnter function present here may be sufficient (Speaking dialogue and then performing a post-dialogue action).
+     * Keep in mind that the base OnTriggerEnter function present here may be sufficient (Speaking dialogue and then performing a stock post-dialogue action).
      * 
      * Virtual functions listed here:
      *      OnTriggerEnter
      *      SpeakDialogue
      *      PostDialogueAction
+     *      
+     * An Interactable object MUST HAVE:
+     *      BoxCollider2D
+     *      TextController
+     *      Sprite
+     * CheckPrefab attempts to manually add them to avoid nullref errors, but cannot guarantee completeness.
      */ 
 
 
@@ -59,19 +65,10 @@ public class Interactable : MonoBehaviour {
 
     }
 
-	void Start () {
-	
-	}
-	
-    void FixedUpdate() {
-
-    }
-
-	void Update () {
-	
-	}
-
-    //Reads the next numToRead strings in the dialogueArray 
+    /* Speaks dialogue from the dialogueArray
+    *  Repeats the last entry in the dialogueArray once dialogue has been exhausted.
+    *  Reads text until EOF or presence of flags.INTERRUPT in currentDialogue.
+    */
     protected virtual void SpeakDialogue() {
 
         //Repeat the last line of dialogue once we've exhausted all the dialogue
