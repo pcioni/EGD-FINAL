@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ItemBehavior : MonoBehaviour {
+
 
 	public string useItem(string itemName, GameObject user, GameObject target){
 		switch (itemName) {
@@ -23,6 +25,23 @@ public class ItemBehavior : MonoBehaviour {
 			return user.name + " uses a " + itemName + " on all of their allies!";
 		} else {
 			return user.name + " uses a " + itemName + " on the entire enemy team!";
+		}
+	}
+
+	public char needsTargeting(string itemName){
+		switch (itemName) {
+
+		case("Potion"):
+			return 'a';
+		case("Panacea Bottle"):
+			return 'a';
+		case("Magic Lens"):
+			return 'e';
+		case("The Kevin-Beater Bat"):
+			return 'e';
+		default:
+			return 'n';
+
 		}
 	}
 }
