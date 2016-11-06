@@ -5,7 +5,32 @@ using System.Collections.Generic;
 
 /// <summary>
 /// A wrapper for the amazing UI text display!
-/// </summary>
+
+/// TEXT FLAGS:
+
+/// # -> newline 
+/// "Hello there#...friend"
+/// Hello There
+/// ...friend
+
+/// _ -> 1.5 second pause
+
+/// ~ -> clears out textbox and writes the remainder in a new textbook
+
+/// @ -> choice
+/// "Where do you live? @(Here, There, Wither, Hither)"
+/// Where do you live?
+///   Here    There
+///   Wither  Hither
+
+/// % -> jump to index (appears after a choice)
+
+/// $ -> interruption
+/// Breaks the current readDialogue instance.
+
+/// </summary
+
+
 public class TextControl : MonoBehaviour {
 	[TextArea]
 	public string Notes;
