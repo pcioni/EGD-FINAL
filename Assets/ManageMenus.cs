@@ -62,6 +62,8 @@ public class ManageMenus : MonoBehaviour {
 		} 
 		else {
 			poof_interface.SetActive (true);
+			SetMode (2);
+			GameObject.Find ("About You Button").GetComponent<Button>().Select();
 			main_menu_interface.SetActive (false);
 		}
 	}
