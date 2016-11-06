@@ -8,6 +8,7 @@ public class BattleManager : MonoBehaviour {
 	List<GameObject> bad_guys;
 	List<GameObject> participants;
 	List<string> item_list;
+	List<int> item_list_amounts;
 	string state;
 	int picker;
 	int picker2;
@@ -45,8 +46,9 @@ public class BattleManager : MonoBehaviour {
 			"Potion",
 			"Panacea Bottle",
 			"Magic Lens",
-			"The Kevin-Is-Awesome Bat"
+			"The Kevin-Beater Bat"
 		};
+		item_list_amounts = new List<int>{ 0, 3, 4, 10, 3 };
 		inventory = GetComponent<ItemBehavior> ();
 	}
 
@@ -59,20 +61,15 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public string getItemName(int which){
-		return item_list [which - 1];
+		return item_list [which];
 	}
 
 	public char itemNeedsTargeting(int which){
-		if (which < 2) {
-			return 'a';
-		}
-		else{ 
-			return 'e'; 
-		}
+		return inventory.needsTargeting (item_list[which]);
 	}
 
 	public string useItem(int which, GameObject user, GameObject target){
-		return inventory.useItem(item_list [which - 1], user, target);
+		return inventory.useItem(item_list[which], user, target);
 	}
 
 	public void SendMessagey(string message){
@@ -101,6 +98,9 @@ public class BattleManager : MonoBehaviour {
 			if (state == "pick actions") {
 				if (picker > 0) {
 					awaiting_input = false;
+					if (good_guys [picker - 1].GetComponent<FightBehavior> ().turn_action == "item") {
+						item_list_amounts [good_guys [picker - 1].GetComponent<FightBehavior> ().action_number]++;
+					}
 					picker--;
 					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
 				}
@@ -164,19 +164,24 @@ public class BattleManager : MonoBehaviour {
 			if (action_selected > 0) {
 				continuer = true;
 				if (action_selected == 1) {
-					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks"));
+					good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks");
 					state = "select enemy";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", bad_guys[0].name, bad_guys[1].name, bad_guys[2].name, ""});
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " attack?", bad_guys[0].GetComponent<FightBehavior>().character_name, bad_guys[1].GetComponent<FightBehavior>().character_name, bad_guys[2].GetComponent<FightBehavior>().character_name, ""});
 				} else if (action_selected == 2) {
 					state = "select ability";
 					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listAbilities ());
 				} else if (action_selected == 3) {
-					pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards"));
+					good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards");
 					state = "select teammate";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", good_guys[0].name, good_guys[1].name, good_guys[2].name, good_guys[3].name});
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " guard?", good_guys[0].GetComponent<FightBehavior>().character_name, good_guys[1].GetComponent<FightBehavior>().character_name, good_guys[2].GetComponent<FightBehavior>().character_name, good_guys[3].GetComponent<FightBehavior>().character_name});
 				} else {
 					state = "select item";
-					pending_choices.Add (item_list);
+					List<string> current_items = new List<string> ();
+					current_items.Add(item_list[0]);
+					for (int x = 1; x < item_list.Count; x++) {
+						current_items.Add (item_list [x] + " - " + item_list_amounts [x]);
+					}
+					pending_choices.Add (current_items);
 				}
 				action_selected = 0;
 				return;
@@ -200,10 +205,10 @@ public class BattleManager : MonoBehaviour {
 				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("ability", action_selected));
 				if (need_target == 'e') {
 					state = "select enemy";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", bad_guys[0].name, bad_guys[1].name, bad_guys[2].name, ""});
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", bad_guys[0].GetComponent<FightBehavior>().character_name, bad_guys[1].GetComponent<FightBehavior>().character_name, bad_guys[2].GetComponent<FightBehavior>().character_name, ""});
 				} else if (need_target == 'a') {
 					state = "select teammate";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", good_guys[0].name, good_guys[1].name, good_guys[2].name, good_guys[3].name});
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", good_guys[0].GetComponent<FightBehavior>().character_name, good_guys[1].GetComponent<FightBehavior>().character_name, good_guys[2].GetComponent<FightBehavior>().character_name, good_guys[3].GetComponent<FightBehavior>().character_name});
 				} else {
 					state = "pick actions";
 					picker++;
@@ -218,13 +223,18 @@ public class BattleManager : MonoBehaviour {
 		case ("select item"):
 			need_target = 'n';
 			if (action_selected > 0) {
+				if (item_list_amounts [action_selected] < 1) {
+					action_selected = 0;
+					return;
+				}
 				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("item", action_selected));
+				item_list_amounts [action_selected]--;
 				if (need_target == 'e') {
 					state = "select enemy";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", bad_guys[0].name, bad_guys[1].name, bad_guys[2].name, ""});
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", bad_guys[0].GetComponent<FightBehavior>().character_name, bad_guys[1].GetComponent<FightBehavior>().character_name, bad_guys[2].GetComponent<FightBehavior>().character_name, ""});
 				} else if (need_target == 'a') {
 					state = "select teammate";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].name + " target?", good_guys[0].name, good_guys[1].name, good_guys[2].name, good_guys[3].name});
+					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", good_guys[0].GetComponent<FightBehavior>().character_name, good_guys[1].GetComponent<FightBehavior>().character_name, good_guys[2].GetComponent<FightBehavior>().character_name, good_guys[3].GetComponent<FightBehavior>().character_name});
 				} else {
 					state = "pick actions";
 					picker++;
@@ -239,7 +249,7 @@ public class BattleManager : MonoBehaviour {
 		case ("select enemy"):
 			if (action_selected > 0) {
 				good_guys [picker].GetComponent<FightBehavior> ().setTarget (bad_guys [action_selected - 1]);
-				pending_messages.Add (good_guys [picker].name + " will target " + bad_guys [action_selected - 1].name + "!");
+				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior>().character_name + " will target " + bad_guys [action_selected - 1].GetComponent<FightBehavior>().character_name + "!");
 				state = "pick actions";
 				picker++;
 				if (picker < good_guys.Count) {
@@ -252,7 +262,7 @@ public class BattleManager : MonoBehaviour {
 		case ("select teammate"):
 			if (action_selected > 0) {
 				good_guys [picker].GetComponent<FightBehavior> ().setTarget (good_guys [action_selected - 1]);
-				pending_messages.Add (good_guys [picker].name + " will target " + good_guys [action_selected - 1].name + "!");
+				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior>().character_name + " will target " + good_guys [action_selected - 1].GetComponent<FightBehavior>().character_name + "!");
 				state = "pick actions";
 				picker++;
 				if (picker < good_guys.Count) {
