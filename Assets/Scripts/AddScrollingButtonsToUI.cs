@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class AddScrollingButtonsToUI : MonoBehaviour {
 	EventSystem event_system;
@@ -15,15 +17,17 @@ public class AddScrollingButtonsToUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			if (scrollbar.value == 1) return;
-			Vector3 pos = transform.position;
-			transform.position = new Vector3 (pos.x, pos.y - 33, pos.z);
-		}
-		if (Input.GetKeyDown (KeyCode.DownArrow)) {
-			if (scrollbar.value == 0) return;
-			Vector3 pos = transform.position;
-			transform.position = new Vector3 (pos.x, pos.y + 33, pos.z);
+		if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)) {
+			//set scrollbar value to Selected's percentage through the option list
+			GameObject button = event_system.currentSelectedGameObject;
+			GameObject button_parent = button.transform.parent.gameObject;
+			Button[] button_array = button_parent.GetComponentsInChildren<Button> ();
+			List<Button> button_list = button_array.ToList ();
+			int index_of_button = 
+				button_list.IndexOf (button.GetComponent<Button> ());
+			float percentage_through_list = 
+				(float) index_of_button / (button_list.Count-1);
+			scrollbar.value = 1-percentage_through_list;
 		}
 	}
 
