@@ -5,26 +5,28 @@ using System.Collections.Generic;
 public class ItemBehavior : MonoBehaviour {
 
 
-	public string useItem(string itemName, GameObject user, GameObject target){
+	public string useItem(string itemName, FightBehavior user, FightBehavior target){
 		switch (itemName) {
 		case ("Potion"): 
-			return target.GetComponent<FightBehavior> ().heal (3);
+			return target.heal (3);
 		case ("Panacea Bottle"): 
-			return target.GetComponent<FightBehavior> ().removeNegativeEffects ();
+			return target.removeNegativeEffects ();
 		case ("Magic Lens"):
-			return target.GetComponent<FightBehavior> ().examine ();
+			return target.examine ();
 		case ("The Kevin-Beater Bat"):
-			return target.GetComponent<FightBehavior> ().damage (5, user.name);
+			return target.damage (5, user.character_name);
+		case("The Orange Overlord"):
+			return target.inflictStatus ("paralyzed", 5, user.character_name);
 		default:
-			return user.name + " uses a " + itemName + " on " + target.name + "!";
+			return user.character_name + " uses a " + itemName + " on " + target.character_name + "!";
 		}
 	}
 
-	public string useItem(string itemName, GameObject user, bool allies){
+	public string useItem(string itemName, FightBehavior user, bool allies){
 		if (allies) {
-			return user.name + " uses a " + itemName + " on all of their allies!";
+			return user.character_name + " uses a " + itemName + " on all of their allies!";
 		} else {
-			return user.name + " uses a " + itemName + " on the entire enemy team!";
+			return user.character_name + " uses a " + itemName + " on the entire enemy team!";
 		}
 	}
 

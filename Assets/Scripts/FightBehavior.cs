@@ -6,12 +6,16 @@ public class FightBehavior : MonoBehaviour {
 
 	[HideInInspector]
 	public string turn_action;
-	protected GameObject target;
+	protected FightBehavior target;
 	protected BattleManager managey;
 	int health;
 	int max_health;
+	int mana;
+	int max_mana;
 	protected bool good_guy;
 	Dictionary<string, int> effects;
+	protected List<string> abilities;
+	List<int> ability_costs;
 	GameObject myHealthBar;
 	[HideInInspector]
 	public int action_number;
@@ -22,12 +26,14 @@ public class FightBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		turn_action = "AI";
-		health = 3;
-		max_health = 3;
+		health = max_health = 3;
+		mana = max_mana = 10;
 		strength = 1;
 		managey = FindObjectOfType<BattleManager> ();
 		effects = new Dictionary<string, int> ();
-
+		abilities = new List<string> ();
+		setAbilities ();
+		ability_costs = Abilities.calculateCosts (abilities);
 		//Health bar stuff
 		GameObject bar = (GameObject)Instantiate (Resources.Load("Healthbar"));
 		bar.transform.SetParent(GameObject.Find ("Floating Character Canvas").transform);
@@ -51,18 +57,33 @@ public class FightBehavior : MonoBehaviour {
 		good_guy = goodness;
 	}
 
+	public virtual void setAbilities(){
+		abilities.Add ("Heal");
+		abilities.Add ("Poison");
+	}
+
 	public virtual List<string> listActions(){
 		List<string> result = new List<string> {"Pick an action for " + character_name + " to do this turn!", "Attack", "Ability", "Guard", "Item"};
 		return result;
 	}
 
-	public virtual List<string> listAbilities(){
-		List<string> result = new List<string> { "Pick an ability for " + character_name + " to use this turn!", "Poison", "Heal", "", "" };
+	public List<string> listAbilities(){
+		List<string> result = new List<string> { "Pick an ability for " + character_name + " to use this turn!" };
+		for (int x = 0; x < abilities.Count; x++) {
+			result.Add (abilities [x] + " - " + ability_costs [x]);
+		}
 		return result;
 	}
 
 	public virtual string examine(){
 		return character_name + ": This tells you all about this person!";
+	}
+
+	public bool enoughMana(int which){
+		if (ability_costs [which - 1] > mana) {
+			return false;
+		}
+		return true;
 	}
 
 	public string setAction(string action){
@@ -91,19 +112,15 @@ public class FightBehavior : MonoBehaviour {
 		} else if (action == "ability") {
 			turn_action = "ability";
 			action_number = which;
-			return setAbility ();
+			managey.NeedTargeting (Abilities.abilityNeedsTargeting(abilities[which - 1]));
+			return character_name + " will use " + abilities [which - 1] + " this turn!";
 		} else {
 			managey.NeedTargeting ('n');
 			return character_name + " doesn't understand the command: " + action;
 		}
 	}
 
-	public virtual string setAbility(){
-		managey.NeedTargeting ('n');
-		return character_name + " will use an ability this turn!";
-	}
-
-	public void setTarget(GameObject tar){
+	public void setTarget(FightBehavior tar){
 		target = tar;
 	}
 
@@ -112,9 +129,12 @@ public class FightBehavior : MonoBehaviour {
 			return character_name + "'s guard protects them from " + attacker + "'s attack!";
 		}
 		health -= amount;
+		if (health < 0) {
+			health = 0;
+		}
 		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
 		if (health <= 0) {
-			managey.kill (gameObject);
+			managey.kill (this);
 			return character_name + " has been defeated by " + attacker + "!";
 		}
 		return character_name + " takes " + amount + " damage from " + attacker;
@@ -129,20 +149,29 @@ public class FightBehavior : MonoBehaviour {
 		return character_name + " regains " + amount + " health!";
 	}
 
+	public string restoreMana (int amount){
+		if (mana + amount > max_mana) {
+			amount = max_mana - mana;
+		}
+		mana += amount;
+		return character_name + " regains " + amount + " mana!";
+	}
+
 	public string removeNegativeEffects(){
 		effects.Remove ("poisoned");
 		effects.Remove ("paralyzed");
 		return character_name + " has been cleansed of all negative effects!";
 	}
 
-	public string inflictStatus (string status, int duration, GameObject inflictor){
+	public string inflictStatus (string status, int duration, string inflictor){
 		effects.Remove (status);
 		effects.Add (status, duration);
-		return character_name + " was " + status + " by " + inflictor.GetComponent<FightBehavior>().character_name + "!";
+		return character_name + " was " + status + " by " + inflictor + "!";
 	}
 
 	public virtual List<string> useAbility(){
-		return new List<string> {character_name + " uses some generic ability. It does nothing."};
+		mana -= ability_costs [action_number - 1];
+		return Abilities.useAbility(abilities[action_number - 1], this, target);
 	}
 
 	public List<string> endTurn(){
@@ -171,14 +200,14 @@ public class FightBehavior : MonoBehaviour {
 
 		List<string> result = new List<string> ();
 
-		if (target != null && !target.activeSelf) {
-			managey.newTarget (gameObject, good_guy);
+		if (target != null && !target.gameObject.activeSelf) {
+			managey.newTarget (this, good_guy);
 		}
 
 		if (effects.ContainsKey ("berserk")) {
-			managey.newTarget (gameObject, true);
-			result.Add (character_name + " goes berserk on " + target.GetComponent<FightBehavior> ().character_name + "!");
-			result.Add (target.GetComponent<FightBehavior> ().damage (strength + 1, character_name));
+			managey.newTarget (this, true);
+			result.Add (character_name + " goes berserk on " + target.character_name + "!");
+			result.Add (target.damage (strength + 1, character_name));
 			return result;
 		} else if (effects.ContainsKey ("paralyzed") && Random.Range(1,3) == 1) {
 			result.Add (character_name + " cannot bring themself to move due to their paralysis!");
@@ -190,53 +219,25 @@ public class FightBehavior : MonoBehaviour {
 		case("AI"):
 			return AIAction ();
 
-		case ("insta-kill"):
-			result.Add (character_name + " launches a devastating, insta-death attack!");
-			List<GameObject> targets = new List<GameObject> ();
-			targets.AddRange (managey.getBadGuys ());
-			for (int x = 0; x < targets.Count; x++) {
-				result.Add (targets [x].GetComponent<FightBehavior> ().damage (9999, name));
-			}
-			return result;
-
 
 		case ("attacks"):
-			result.Add (character_name + " attacks " + target.GetComponent<FightBehavior> ().character_name);
-			result.Add (target.GetComponent<FightBehavior> ().damage (strength, character_name));
+			result.Add (character_name + " attacks " + target.character_name);
+			result.Add (target.damage (strength, character_name));
 			return result;
 
 
 		case ("guards"):
-			result.Add (character_name + " guards " + target.GetComponent<FightBehavior>().character_name);
-			result.Add (target.GetComponent<FightBehavior> ().inflictStatus ("guarded", 1, gameObject));
-			return result;
-
-		case ("hail-mary"):
-			result.Add (character_name + " launches a wave of attacks across the entire enemy line!");
-			List<GameObject> targets2 = new List<GameObject> ();
-			targets2.AddRange (managey.getBadGuys ());
-			for (int x = 0; x < targets2.Count; x++) {
-				result.Add (targets2 [x].GetComponent<FightBehavior> ().damage (1, character_name));
-			}
+			result.Add (character_name + " guards " + target.character_name);
+			result.Add (target.inflictStatus ("guarded", 1, character_name));
 			return result;
 
 		case ("item"):
 			result.Add (character_name + " uses a " + managey.getItemName (action_number) + "!");
-			result.Add (managey.useItem (action_number, gameObject, target));
+			result.Add (managey.useItem (action_number, this, target));
 			return result;
 
 		case("ability"):
 			result.AddRange (useAbility ());
-			return result;
-
-		case ("poison"):
-			result.Add (character_name + " shoots a poisonous dart at " + target.GetComponent<FightBehavior>().character_name);
-			result.Add (target.GetComponent<FightBehavior> ().inflictStatus ("poisoned", Random.Range (2, 5), gameObject));
-			return result;
-
-		case("heal"):
-			result.Add (character_name + " heals " + target.GetComponent<FightBehavior>().character_name);
-			result.Add (target.GetComponent<FightBehavior> ().heal (5));
 			return result;
 
 		default:
@@ -248,9 +249,9 @@ public class FightBehavior : MonoBehaviour {
 	public virtual List<string> AIAction(){
 		List<string> result = new List<string> ();
 		if (Random.Range (1, 10) <= 5) {
-			managey.newTarget (gameObject, good_guy);
-			result.Add (character_name + " hurls a fireball at " + target.GetComponent<FightBehavior>().character_name + "!");
-			result.Add (target.GetComponent<FightBehavior> ().damage (1, character_name));
+			managey.newTarget (this, good_guy);
+			result.Add (character_name + " hurls a fireball at " + target.character_name + "!");
+			result.Add (target.damage (1, character_name));
 		} else {
 			result.Add (character_name + " says something mean to you...");
 		}

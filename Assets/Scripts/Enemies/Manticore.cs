@@ -18,18 +18,18 @@ public class Manticore : FightBehavior {
 	{
 		List<string> result = new List<string> ();
 
-		managey.newTarget (gameObject, good_guy);
+		managey.newTarget (this, good_guy);
 
 
 		int action = Random.Range (0, 100);
 		if (action < 25) {
-			result.Add (character_name + " bites " + target.GetComponent<FightBehavior>().character_name + "!");
-			result.Add (target.GetComponent<FightBehavior> ().damage (1, name));
+			result.Add (character_name + " bites " + target.character_name + "!");
+			result.Add (target.damage (1, character_name));
 		} else if (action < 50) {
-			result.Add (character_name + " mauls " + target.GetComponent<FightBehavior>().character_name + " violently!");
-			result.Add (target.GetComponent<FightBehavior> ().damage (2, name));
+			result.Add (character_name + " mauls " + target.character_name + " violently!");
+			result.Add (target.damage (2, character_name));
 		} else {
-			result.Add (name + " is keeping its distance...");
+			result.Add (character_name + " is keeping its distance...");
 		}
 		return result;
 	}

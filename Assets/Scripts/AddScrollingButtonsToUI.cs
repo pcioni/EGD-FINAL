@@ -15,12 +15,12 @@ public class AddScrollingButtonsToUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+		if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) {
 			if (scrollbar.value == 1) return;
 			Vector3 pos = transform.position;
 			transform.position = new Vector3 (pos.x, pos.y - 33, pos.z);
 		}
-		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+		if (Input.GetKeyDown (KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) {
 			if (scrollbar.value == 0) return;
 			Vector3 pos = transform.position;
 			transform.position = new Vector3 (pos.x, pos.y + 33, pos.z);

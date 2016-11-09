@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PositionCharactersInBattle : MonoBehaviour {
 	public enum Arrangment{Diagonal, DiagonalReversed}
 	public Arrangment arrangement;
-	List<GameObject> characters;
+	List<FightBehavior> characters;
 	//^ this is likely just the way we do this while merging everything
 	Bounds b;
 
@@ -18,7 +18,7 @@ public class PositionCharactersInBattle : MonoBehaviour {
 		
 	}
 
-	public void ArrangeCharacters(List<GameObject> heroes, List<GameObject> enemies){
+	public void ArrangeCharacters(List<FightBehavior> heroes, List<FightBehavior> enemies){
 		bool rotate_em = false;
 		if (name.Contains ("Hero")) {
 			characters = heroes;

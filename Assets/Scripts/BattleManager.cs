@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class BattleManager : MonoBehaviour {
 
-	List<GameObject> good_guys;
-	List<GameObject> bad_guys;
-	List<GameObject> participants;
+	List<FightBehavior> good_guys;
+	List<FightBehavior> bad_guys;
+	List<FightBehavior> participants;
 	List<string> item_list;
 	List<int> item_list_amounts;
 	string state;
@@ -18,7 +18,7 @@ public class BattleManager : MonoBehaviour {
 	bool continuer;
 	public bool message_finished;
 	char need_target;
-	List<GameObject> pending_actions;
+	List<FightBehavior> pending_actions;
 	List<string> pending_messages;
 	List<List<string>> pending_choices;
 	TextControl text_controller;
@@ -28,16 +28,16 @@ public class BattleManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		state = "not started";
-		good_guys = new List<GameObject> ();
-		bad_guys = new List<GameObject> ();
-		participants = new List<GameObject> ();
+		good_guys = new List<FightBehavior> ();
+		bad_guys = new List<FightBehavior> ();
+		participants = new List<FightBehavior> ();
 		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Manticore", "Slime", "Manticore" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
 		continuer = false;
 		need_target = 'n';
-		pending_actions = new List<GameObject> ();
+		pending_actions = new List<FightBehavior> ();
 		pending_messages = new List<string> ();
 		text_controller = GameObject.Find ("Text Controller").GetComponent<TextControl> ();
 		pending_choices = new List<List<string>> ();
@@ -46,17 +46,18 @@ public class BattleManager : MonoBehaviour {
 			"Potion",
 			"Panacea Bottle",
 			"Magic Lens",
-			"The Kevin-Beater Bat"
+			"The Kevin-Beater Bat",
+			"The Orange Overlord"
 		};
-		item_list_amounts = new List<int>{ 0, 3, 4, 10, 3 };
+		item_list_amounts = new List<int>{ 0, 3, 4, 10, 3, 270 };
 		inventory = GetComponent<ItemBehavior> ();
 	}
 
-	public List<GameObject> getGoodGuys(){
+	public List<FightBehavior> getGoodGuys(){
 		return good_guys;
 	}
 
-	public List<GameObject> getBadGuys(){
+	public List<FightBehavior> getBadGuys(){
 		return bad_guys;
 	}
 
@@ -68,7 +69,7 @@ public class BattleManager : MonoBehaviour {
 		return inventory.needsTargeting (item_list[which]);
 	}
 
-	public string useItem(int which, GameObject user, GameObject target){
+	public string useItem(int which, FightBehavior user, FightBehavior target){
 		return inventory.useItem(item_list[which], user, target);
 	}
 
@@ -98,17 +99,17 @@ public class BattleManager : MonoBehaviour {
 			if (state == "pick actions") {
 				if (picker > 0) {
 					awaiting_input = false;
-					if (good_guys [picker - 1].GetComponent<FightBehavior> ().turn_action == "item") {
-						item_list_amounts [good_guys [picker - 1].GetComponent<FightBehavior> ().action_number]++;
+					if (good_guys [picker - 1].turn_action == "item") {
+						item_list_amounts [good_guys [picker - 1].action_number]++;
 					}
 					picker--;
-					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+					pending_choices.Add (good_guys [picker].listActions ());
 				}
 			} else if (state.Split (' ') [0] == "select") {
 				awaiting_input = false;
 				state = "pick actions";
 				continuer = false;
-				pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+				pending_choices.Add (good_guys [picker].listActions ());
 			}
 		}
 
@@ -128,7 +129,7 @@ public class BattleManager : MonoBehaviour {
 			return;
 		}
 		if (pending_actions.Count > 0) {
-			pending_messages.AddRange(pending_actions [0].GetComponent<FightBehavior> ().doAction ());
+			pending_messages.AddRange(pending_actions [0].doAction ());
 			pending_actions.RemoveAt (0);
 			return;
 		}
@@ -157,23 +158,31 @@ public class BattleManager : MonoBehaviour {
 			pending_messages.Add("A battle has begun!");
 			picker = 0;
 			state = "pick actions";
-			pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+			pending_choices.Add (good_guys [picker].listActions ());
 			return;
 
 		case ("pick actions"):
 			if (action_selected > 0) {
 				continuer = true;
 				if (action_selected == 1) {
-					good_guys [picker].GetComponent<FightBehavior> ().setAction ("attacks");
+					good_guys [picker].setAction ("attacks");
 					state = "select enemy";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " attack?", bad_guys[0].GetComponent<FightBehavior>().character_name, bad_guys[1].GetComponent<FightBehavior>().character_name, bad_guys[2].GetComponent<FightBehavior>().character_name, ""});
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " attack?" };
+					for (int x = 0; x < bad_guys.Count; x++) {
+						result.Add (bad_guys [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else if (action_selected == 2) {
 					state = "select ability";
-					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listAbilities ());
+					pending_choices.Add (good_guys [picker].listAbilities ());
 				} else if (action_selected == 3) {
-					good_guys [picker].GetComponent<FightBehavior> ().setAction ("guards");
+					good_guys [picker].setAction ("guards");
 					state = "select teammate";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " guard?", good_guys[0].GetComponent<FightBehavior>().character_name, good_guys[1].GetComponent<FightBehavior>().character_name, good_guys[2].GetComponent<FightBehavior>().character_name, good_guys[3].GetComponent<FightBehavior>().character_name});
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " guard?" };
+					for (int x = 0; x < good_guys.Count; x++) {
+						result.Add (good_guys [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "select item";
 					List<string> current_items = new List<string> ();
@@ -195,25 +204,37 @@ public class BattleManager : MonoBehaviour {
 					picker = 0;
 					return;
 				}
-				pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions());
+				pending_choices.Add (good_guys [picker].listActions());
 			}
 			return;
 
 		case ("select ability"):
 			need_target = 'n';
 			if (action_selected > 0) {
-				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("ability", action_selected));
+				if (!good_guys [picker].enoughMana (action_selected)) {
+					action_selected = 0;
+					return;
+				}
+				pending_messages.Add (good_guys [picker].setAction ("ability", action_selected));
 				if (need_target == 'e') {
 					state = "select enemy";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", bad_guys[0].GetComponent<FightBehavior>().character_name, bad_guys[1].GetComponent<FightBehavior>().character_name, bad_guys[2].GetComponent<FightBehavior>().character_name, ""});
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < bad_guys.Count; x++) {
+						result.Add (bad_guys [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else if (need_target == 'a') {
 					state = "select teammate";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", good_guys[0].GetComponent<FightBehavior>().character_name, good_guys[1].GetComponent<FightBehavior>().character_name, good_guys[2].GetComponent<FightBehavior>().character_name, good_guys[3].GetComponent<FightBehavior>().character_name});
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < good_guys.Count; x++) {
+						result.Add (good_guys [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "pick actions";
 					picker++;
 					if (picker < good_guys.Count) {
-						pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+						pending_choices.Add (good_guys [picker].listActions ());
 					}
 				}
 				action_selected = 0;
@@ -227,19 +248,27 @@ public class BattleManager : MonoBehaviour {
 					action_selected = 0;
 					return;
 				}
-				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior> ().setAction ("item", action_selected));
+				pending_messages.Add (good_guys [picker].setAction ("item", action_selected));
 				item_list_amounts [action_selected]--;
 				if (need_target == 'e') {
 					state = "select enemy";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", bad_guys[0].GetComponent<FightBehavior>().character_name, bad_guys[1].GetComponent<FightBehavior>().character_name, bad_guys[2].GetComponent<FightBehavior>().character_name, ""});
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < bad_guys.Count; x++) {
+						result.Add (bad_guys [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else if (need_target == 'a') {
 					state = "select teammate";
-					pending_choices.Add (new List<string> { "Who will " + good_guys[picker].GetComponent<FightBehavior>().character_name + " target?", good_guys[0].GetComponent<FightBehavior>().character_name, good_guys[1].GetComponent<FightBehavior>().character_name, good_guys[2].GetComponent<FightBehavior>().character_name, good_guys[3].GetComponent<FightBehavior>().character_name});
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < good_guys.Count; x++) {
+						result.Add (good_guys [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "pick actions";
 					picker++;
 					if (picker < good_guys.Count) {
-						pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+						pending_choices.Add (good_guys [picker].listActions ());
 					}
 				}
 				action_selected = 0;
@@ -248,12 +277,12 @@ public class BattleManager : MonoBehaviour {
 
 		case ("select enemy"):
 			if (action_selected > 0) {
-				good_guys [picker].GetComponent<FightBehavior> ().setTarget (bad_guys [action_selected - 1]);
-				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior>().character_name + " will target " + bad_guys [action_selected - 1].GetComponent<FightBehavior>().character_name + "!");
+				good_guys [picker].setTarget (bad_guys [action_selected - 1]);
+				pending_messages.Add (good_guys [picker].character_name + " will target " + bad_guys [action_selected - 1].character_name + "!");
 				state = "pick actions";
 				picker++;
 				if (picker < good_guys.Count) {
-					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+					pending_choices.Add (good_guys [picker].listActions ());
 				}
 				action_selected = 0;
 			}
@@ -261,12 +290,12 @@ public class BattleManager : MonoBehaviour {
 
 		case ("select teammate"):
 			if (action_selected > 0) {
-				good_guys [picker].GetComponent<FightBehavior> ().setTarget (good_guys [action_selected - 1]);
-				pending_messages.Add (good_guys [picker].GetComponent<FightBehavior>().character_name + " will target " + good_guys [action_selected - 1].GetComponent<FightBehavior>().character_name + "!");
+				good_guys [picker].setTarget (good_guys [action_selected - 1]);
+				pending_messages.Add (good_guys [picker].character_name + " will target " + good_guys [action_selected - 1].character_name + "!");
 				state = "pick actions";
 				picker++;
 				if (picker < good_guys.Count) {
-					pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+					pending_choices.Add (good_guys [picker].listActions ());
 				}
 				action_selected = 0;
 			}
@@ -281,7 +310,7 @@ public class BattleManager : MonoBehaviour {
 				picker++;
 			} 
 			if (picker < participants.Count) {
-				while (!participants [picker].activeSelf) {
+				while (!participants [picker].gameObject.activeSelf) {
 					picker++;
 					if (picker >= participants.Count) {
 						return;
@@ -305,13 +334,13 @@ public class BattleManager : MonoBehaviour {
 				picker++;
 			}
 			if (picker < participants.Count) {
-				while (!participants [picker].activeSelf) {
+				while (!participants [picker].gameObject.activeSelf) {
 					picker++;
 					if (picker >= participants.Count) {
 						return;
 					}
 				}
-				pending_messages.AddRange (participants [picker].GetComponent<FightBehavior> ().endTurn ());
+				pending_messages.AddRange (participants [picker].endTurn ());
 				continuer = true;
 			} else {
 				picker = 0;
@@ -329,7 +358,7 @@ public class BattleManager : MonoBehaviour {
 			} else {
 				state = "pick actions";
 				picker = 0;
-				pending_choices.Add (good_guys [picker].GetComponent<FightBehavior> ().listActions ());
+				pending_choices.Add (good_guys [picker].listActions ());
 			}
 			return;
 
@@ -340,14 +369,14 @@ public class BattleManager : MonoBehaviour {
 
 	void StartBattle(List<string> good, List<string> bad){
 		for (int x = 0; x < good.Count; x++) {
-			GameObject temp = (GameObject)Instantiate (Resources.Load (good [x]), Vector3.zero, Quaternion.identity);
-			temp.GetComponent<FightBehavior> ().setAlignment (true);
+			FightBehavior temp = ((GameObject)Instantiate (Resources.Load (good [x]), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior>();
+			temp.setAlignment (true);
 			good_guys.Add (temp);
 			participants.Add (temp);
 		}
 		for (int x = 0; x < bad.Count; x++) {
-			GameObject temp = (GameObject)Instantiate (Resources.Load (bad [x]), Vector3.zero, Quaternion.identity);
-			temp.GetComponent<FightBehavior> ().setAlignment (false);
+			FightBehavior temp = ((GameObject)Instantiate (Resources.Load (bad [x]), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior>();
+			temp.setAlignment (false);
 			bad_guys.Add (temp);
 			participants.Add (temp);
 		}
@@ -359,8 +388,8 @@ public class BattleManager : MonoBehaviour {
 		}
 	}
 
-	public void kill(GameObject which){
-		which.SetActive (false);
+	public void kill(FightBehavior which){
+		which.gameObject.SetActive (false);
 		good_guys.Remove (which);
 		bad_guys.Remove (which);
 		if (good_guys.Count == 0) {
@@ -371,11 +400,11 @@ public class BattleManager : MonoBehaviour {
 	}
 			
 
-	public void newTarget(GameObject which, bool good){
+	public void newTarget(FightBehavior which, bool good){
 		if (good) {
-			which.GetComponent<FightBehavior>().setTarget(bad_guys [Random.Range (0, bad_guys.Count)]);
+			which.setTarget(bad_guys [Random.Range (0, bad_guys.Count)]);
 		} else {
-			which.GetComponent<FightBehavior>().setTarget(good_guys [Random.Range (0, good_guys.Count)]);
+			which.setTarget(good_guys [Random.Range (0, good_guys.Count)]);
 		}
 	}
 

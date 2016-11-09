@@ -18,13 +18,13 @@ public class Slime : FightBehavior {
 	{
 		List<string> result = new List<string> ();
 
-		managey.newTarget (gameObject, good_guy);
+		managey.newTarget (this, good_guy);
 
 
 		int action = Random.Range (0, 100);
 		if (action < 50) {
-			result.Add (character_name + " painfully wraps around " + target.GetComponent<FightBehavior>().character_name + "'s leg!");
-			result.Add (target.GetComponent<FightBehavior> ().damage (1, name));
+			result.Add (character_name + " painfully wraps around " + target.character_name + "'s leg!");
+			result.Add (target.damage (1, character_name));
 		} else {
 			result.Add (character_name + " takes some time to recompose its matter.");
 			result.Add (heal (1));
