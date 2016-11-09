@@ -30,7 +30,7 @@ public class Interactable : MonoBehaviour {
     protected virtual void checkPrefab() {
         boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null) {
-            Debug.Log("No BoxCollider2D attached to Interactable object -- adding one manually");
+            Debug.Log(string.Format("No BoxCollider2D attached to Interactable object {0} -- adding one manually", name));
             boxCollider = addBoxCollider2D();
         }
     }

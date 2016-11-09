@@ -14,7 +14,7 @@ public class InteractableDoor : Interactable {
     protected override void checkPrefab() {
         boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null) {
-            Debug.Log("No BoxCollider2D attached to Interactable object -- adding one manually");
+            Debug.Log(string.Format("No BoxCollider2D attached to Interactable object {0} -- adding one manually", name));
             boxCollider = addBoxCollider2D();
         }
 
@@ -23,14 +23,12 @@ public class InteractableDoor : Interactable {
     }
 
     protected void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("hello");
         isTriggered = true;
         player = other.gameObject;
     }
 
     protected override void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("bye");
         isTriggered = false;
         player = null;
     }

@@ -45,21 +45,21 @@ public class InteractableSpeaker : Interactable {
         boxCollider = GetComponent<BoxCollider2D>();
         if (boxCollider == null)
         {
-            Debug.Log("No BoxCollider2D attached to Interactable object -- adding one manually");
+            Debug.Log(string.Format("No BoxCollider2D attached to Interactable object {0} -- adding one manually", name));
             boxCollider = addBoxCollider2D();
         }
 
         textController = GetComponent<TextControl>();
         if (textController == null)
         {
-            Debug.Log("No TextControl attached to Interactable object -- adding one manually");
+            Debug.Log(string.Format("No TextControl attached to Interactable object {0} -- adding one manually", name));
             textController = gameObject.AddComponent<TextControl>() as TextControl;
         }
 
         sprite = GetComponent<Sprite>();
         if (sprite == null)
         {
-            Debug.LogError("No Sprite attached to Interactable object");
+            Debug.LogError(string.Format("No Sprite attached to Interactable object {0}", name));
             Debug.Break();
         }
     }
