@@ -27,7 +27,7 @@ public class InteractableDoor : Interactable {
         player = other.gameObject;
     }
 
-    protected override void OnTriggerExit2D(Collider2D other)
+    protected void OnTriggerExit2D(Collider2D other)
     {
         isTriggered = false;
         player = null;
@@ -41,6 +41,7 @@ public class InteractableDoor : Interactable {
         }
     }
 
+    //set player transform to target transform.
     private void Teleport()
     {
         Debug.Log("Teleporting player...");

@@ -5,7 +5,6 @@ public class InteractableSpeaker : Interactable {
 
     /*
      * Any object in this category that needs a custom version of SpeakDialogue, or PostDialogueAction should inherit from this class.
-     * 
      * Keep in mind that the base OnTriggerEnter function present here may be sufficient (Speaking dialogue and then performing a stock post-dialogue action).
      * 
      * Virtual functions listed here:
@@ -29,8 +28,6 @@ public class InteractableSpeaker : Interactable {
 
     private string currentDialogue;
     private bool interrupted;
-
-
 
     void Awake()
     {
@@ -64,7 +61,12 @@ public class InteractableSpeaker : Interactable {
         }
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter2D(Collider2D other)
+    {
+
+    }
+
+    protected void OnTriggerExit2D(Collider2D other)
     {
 
     }

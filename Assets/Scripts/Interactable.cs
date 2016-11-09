@@ -35,10 +35,6 @@ public class Interactable : MonoBehaviour {
         }
     }
 
-    protected virtual void OnTriggerExit2D(Collider2D other) {
-        isTriggered = false;
-    }
-
     protected virtual BoxCollider2D addBoxCollider2D() {
         boxCollider = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
         boxCollider.isTrigger = true;
