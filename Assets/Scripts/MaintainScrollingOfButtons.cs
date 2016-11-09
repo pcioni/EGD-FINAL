@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class AddScrollingButtonsToUI : MonoBehaviour {
+public class MaintainScrollingOfButtons : MonoBehaviour {
 	EventSystem event_system;
 	Scrollbar scrollbar;
 
@@ -14,12 +14,19 @@ public class AddScrollingButtonsToUI : MonoBehaviour {
 		event_system = EventSystem.current.GetComponent<EventSystem> ();
 		scrollbar = GameObject.Find ("Button List Scrollbar").GetComponent<Scrollbar> ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)) {
+		if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) 
+			|| Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) {
 			//set scrollbar value to Selected's percentage through the option list
 			GameObject button = event_system.currentSelectedGameObject;
+			if (button == null || button.GetComponent<Button>() == null) { 
+				Button button_component = 
+					GameObject.Find ("Button List Grid").GetComponentsInChildren<Button> () [0];
+				button_component.Select ();
+				button = button_component.gameObject;
+			}
 			GameObject button_parent = button.transform.parent.gameObject;
 			Button[] button_array = button_parent.GetComponentsInChildren<Button> ();
 			List<Button> button_list = button_array.ToList ();
@@ -31,14 +38,5 @@ public class AddScrollingButtonsToUI : MonoBehaviour {
 		}
 	}
 
-	public void AddButtons(string[] button_array){
-		scrollbar.value = 1;
-		GetComponentsInChildren<Button> () [0].Select ();
-
-	}
-
-	void AutoScrollButtons(int direction){
-		
-	}
-
 }
+
