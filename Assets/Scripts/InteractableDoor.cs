@@ -46,6 +46,7 @@ public class InteractableDoor : Interactable {
     {
         Debug.Log("Teleporting player...");
         player.transform.position = targetDest.position;
+        player.GetComponent<CharacterController>().ClampToGround();
     }
 
 
