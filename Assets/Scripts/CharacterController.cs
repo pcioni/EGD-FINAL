@@ -25,7 +25,7 @@ public class CharacterController : MonoBehaviour {
         //InputManager is currently set to 1/10 of a second to smooth input from +-1 to 0.
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
-        rb.velocity = new Vector2(dx * maxSpeed, dy * maxSpeed);
+        rb.velocity = new Vector2(dx * maxSpeed, rb.velocity.y);
     }
 
 	void Update () {
