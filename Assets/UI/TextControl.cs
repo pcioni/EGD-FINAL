@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System.Linq;
 
 /// <summary>
 /// A wrapper for the amazing UI text display!
@@ -45,6 +47,7 @@ public class TextControl : MonoBehaviour {
 	public GameObject button_grid;
 	public Scrollbar scrollbar;
 	public GameObject battleManager;
+	EventSystem event_system;
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +60,7 @@ public class TextControl : MonoBehaviour {
 		buttons.Add (GameObject.Find ("Choice Button 3 Text"));
 		buttons.Add (GameObject.Find ("Choice Button 4 Text"));
 		first_button = GameObject.Find ("Choice Button 1");
+		event_system = EventSystem.current.GetComponent<EventSystem> ();
 	}
 
 	///<summary>
@@ -119,12 +123,17 @@ public class TextControl : MonoBehaviour {
 			}
 			listText.GetComponent<typeMessage> ().SetMessage (s, true);
 
+			//clear pre-existing buttons
+			foreach (Button button in button_grid.GetComponentsInChildren<Button>()) {
+				Destroy (button.gameObject);
+			}
+
 			for (int x = 0; x < b.Count; x++) {
 				GameObject new_button = Instantiate (list_button_prefab);
 				new_button.transform.SetParent (button_grid.transform);
 				new_button.GetComponent<Text> ().text = b [x];
 				new_button.transform.localScale = Vector3.one;
-				new_button.GetComponent<Button> ().onClick.AddListener (delegate{OnClickSendNumber(x.ToString());}); //ONCLIKGIVESNUMBER
+				new_button.GetComponent<Button> ().onClick.AddListener (OnClickSendNumber); //ONCLIKGIVESNUMBER
 			}
 			scrollbar.value = 1;
 			button_grid.GetComponentsInChildren<Button> ()[0].Select ();
@@ -132,8 +141,10 @@ public class TextControl : MonoBehaviour {
 
 	}
 
-	void OnClickSendNumber(string x){
-		battleManager.GetComponent<BattleManager> ().ReceiveButtonSignal (x);
+	void OnClickSendNumber(){
+		GameObject button = event_system.currentSelectedGameObject;
+		int loc = GameObject.Find ("Button List Grid").GetComponentsInChildren<Button> ().ToList ().IndexOf (button.GetComponent<Button> ())+1;
+		battleManager.GetComponent<BattleManager> ().ReceiveButtonSignal (loc.ToString());
 	}
 		
 
