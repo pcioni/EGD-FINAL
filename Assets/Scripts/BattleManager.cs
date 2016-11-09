@@ -46,9 +46,10 @@ public class BattleManager : MonoBehaviour {
 			"Potion",
 			"Panacea Bottle",
 			"Magic Lens",
-			"The Kevin-Beater Bat"
+			"The Kevin-Beater Bat",
+			"Game Design"
 		};
-		item_list_amounts = new List<int>{ 0, 3, 4, 10, 3 };
+		item_list_amounts = new List<int>{ 0, 3, 4, 10, 3, 5 };
 		inventory = GetComponent<ItemBehavior> ();
 	}
 
