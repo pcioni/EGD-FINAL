@@ -129,15 +129,54 @@ public class FightBehavior : MonoBehaviour {
 			return character_name + "'s guard protects them from " + attacker + "'s attack!";
 		}
 		health -= amount;
+		StopCoroutine ("damageFlash");
+		StartCoroutine ("damageFlash");
 		if (health < 0) {
 			health = 0;
 		}
 		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
 		if (health <= 0) {
 			managey.kill (this);
+			StopCoroutine ("damageFlash");
+			StartCoroutine ("deathFlash");
 			return character_name + " has been defeated by " + attacker + "!";
 		}
 		return character_name + " takes " + amount + " damage from " + attacker;
+	}
+
+	IEnumerator damageFlash(){
+		SpriteRenderer rendy = GetComponent<SpriteRenderer> ();
+		rendy.color = Color.white;
+		float flash_rate = 0.2f;
+		while (rendy.color.g > 0f) {
+			rendy.color -= new Color (0f, flash_rate, flash_rate, 0f);
+			yield return new WaitForEndOfFrame ();
+		}
+		while (rendy.color.g < 1f) {
+			rendy.color += new Color (0f, flash_rate, flash_rate, 0f);
+			yield return new WaitForEndOfFrame ();
+		}
+		while (rendy.color.g > 0f) {
+			rendy.color -= new Color (0f, flash_rate, flash_rate, 0f);
+			yield return new WaitForEndOfFrame ();
+		}
+		while (rendy.color.g < 1f) {
+			rendy.color += new Color (0f, flash_rate, flash_rate, 0f);
+			yield return new WaitForEndOfFrame ();
+		}
+		rendy.color = Color.white;
+	}
+
+	IEnumerator deathFlash(){
+		SpriteRenderer rendy = GetComponent<SpriteRenderer> ();
+		rendy.color = Color.red;
+		float fade_rate = 0.01f;
+		while (rendy.color.a > 0f) {
+			rendy.color -= new Color (0f, 0f, 0f, fade_rate);
+			yield return new WaitForEndOfFrame ();
+		}
+		rendy.color = Color.white;
+		gameObject.SetActive (false);
 	}
 
 	public string heal (int amount){
@@ -221,13 +260,13 @@ public class FightBehavior : MonoBehaviour {
 
 
 		case ("attacks"):
-			result.Add (character_name + " attacks " + target.character_name);
+			result.Add (character_name + " attacks " + target.character_name + "!");
 			result.Add (target.damage (strength, character_name));
 			return result;
 
 
 		case ("guards"):
-			result.Add (character_name + " guards " + target.character_name);
+			result.Add (character_name + " guards " + target.character_name + "!");
 			result.Add (target.inflictStatus ("guarded", 1, character_name));
 			return result;
 
