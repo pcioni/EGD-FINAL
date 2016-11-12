@@ -42,7 +42,7 @@ public class InteractableSpeaker : Interactable {
 			Idle ();
 		}
 
-		if (in_range_to_talk && Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Return)) {
+		if (in_range_to_talk && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Return))) {
 			//TEMPORARY
 			if (textController.back.activeInHierarchy)//temp
 				textController.noText ();//temp
