@@ -21,9 +21,11 @@ public class InteractableSpeaker : Interactable {
 
     protected int dialogueIndex;
 	protected SpriteRenderer sprite_renderer;
+	public bool idle;
 	public TextControl textController;
     protected StringParser stringParser;
     public string[] dialogueArray;
+	bool in_range_to_talk = false;
 
     private string currentDialogue;
     private bool interrupted;
@@ -33,8 +35,21 @@ public class InteractableSpeaker : Interactable {
         checkPrefab();
         dialogueIndex = 0;
         stringParser = new StringParser();
-		textController.write ("Welcome to the world, you fool");
     }
+
+	void Update(){
+		if (idle) {
+			Idle ();
+		}
+
+		if (in_range_to_talk && Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Return)) {
+			//TEMPORARY
+			if (textController.back.activeInHierarchy)//temp
+				textController.noText ();//temp
+			else//temp
+				SpeakDialogue ();
+		}
+	}
 
     //ensures the interactable has all the required components
     protected override void checkPrefab()
@@ -63,12 +78,12 @@ public class InteractableSpeaker : Interactable {
 
     protected void OnTriggerEnter2D(Collider2D other)
     {
-
+		in_range_to_talk = true;
     }
 
     protected void OnTriggerExit2D(Collider2D other)
     {
-
+		in_range_to_talk = false;
     }
 
     /* Speaks dialogue from the dialogueArray
@@ -111,4 +126,14 @@ public class InteractableSpeaker : Interactable {
 		boxCollider.size = new Vector2(sprite_renderer.sprite.border.x + 50, sprite_renderer.sprite.border.y); //extend collider outside the sprite for onTrigger collisions.
         return boxCollider;
     }
+
+	void Idle(){
+		int flip_chance = 300;
+		if (Random.Range (0, flip_chance) == 0) {
+			//one in flip_chance possiblity that 
+			//the character will turn around
+			transform.Rotate(new Vector3(0,180,0));
+
+		}
+	}
 }

@@ -5,6 +5,8 @@ public class InteractableDoor : Interactable {
 
     public Transform targetDest;
     private GameObject player;
+	public bool automatic;
+	public bool just_received_player;
 
     void Awake() {
         checkPrefab();
@@ -25,6 +27,10 @@ public class InteractableDoor : Interactable {
     protected void OnTriggerEnter2D(Collider2D other) {
         isTriggered = true;
         player = other.gameObject;
+		if (automatic && !just_received_player) {
+			Teleport ();
+		}
+		just_received_player = false;
     }
 
     protected void OnTriggerExit2D(Collider2D other)
@@ -47,6 +53,10 @@ public class InteractableDoor : Interactable {
         Debug.Log("Teleporting player...");
         player.transform.position = targetDest.position;
         player.GetComponent<CharacterController>().ClampToGround();
+		InteractableDoor id = targetDest.GetComponent<InteractableDoor> ();
+		if (id) {
+			id.just_received_player = true;
+		}
     }
 
 

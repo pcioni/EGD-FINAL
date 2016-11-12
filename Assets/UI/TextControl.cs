@@ -53,7 +53,6 @@ public class TextControl : MonoBehaviour {
 	void Start () {
 		choiceText.SetActive (true);
 		//longText = GameObject.Find("UI Long Text");
-		back = GameObject.Find ("Text Background");
 		buttons = new List<GameObject> ();
 		buttons.Add (GameObject.Find ("Choice Button 1 Text"));
 		buttons.Add (GameObject.Find ("Choice Button 2 Text"));

@@ -7,15 +7,13 @@ public class CharacterController : MonoBehaviour {
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
 	private Animator animator;
+	public TextControl text_control;
 
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
 		animator = GetComponent<Animator> ();
     }
-
-    void Start () {
-	}
 	
     private void FixedUpdate() {
         HandleInput();
@@ -26,9 +24,19 @@ public class CharacterController : MonoBehaviour {
     }
 
     private void HandleMovement() {
+		if (text_control.back.activeInHierarchy)
+			return; //don't move if talking
         //InputManager is currently set to 1/10 of a second to smooth input from +-1 to 0.
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
+
+		if (dx > 0) {
+			animator.SetInteger ("Direction", 1);
+		} else if (dx < 0) {
+			animator.SetInteger ("Direction", -1);
+		} else {
+			animator.SetInteger ("Direction", 0);
+		}
 
         rb.velocity = new Vector2(dx * maxSpeed, rb.velocity.y);
 		//animator.SetFloat ("Speed", rb.velocity.x);
@@ -49,15 +57,4 @@ public class CharacterController : MonoBehaviour {
         }
     }
 
-	void Update () {
-		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)){
-			animator.SetInteger("Direction", -1);
-		}
-		else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)){
-			animator.SetInteger("Direction", 1);
-		}
-		else{
-			animator.SetInteger ("Direction", 0);
-		}
-	}
 }
