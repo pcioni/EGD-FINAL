@@ -52,7 +52,8 @@ public class typeMessage : MonoBehaviour {
 			yield return new WaitForSeconds (letter_seconds);
 			count++;
 		}
-		FindObjectOfType<BattleManager> ().message_finished = true;
+		if (FindObjectOfType<BattleManager> ())
+			FindObjectOfType<BattleManager> ().message_finished = true;
 	}
 
 	public void SetMessage(string new_message, bool instant){

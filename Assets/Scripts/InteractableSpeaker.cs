@@ -14,15 +14,14 @@ public class InteractableSpeaker : Interactable {
      *      
      * An Interactable object MUST HAVE:
      *      BoxCollider2D
-     *      TextController
      *      Sprite
      * CheckPrefab attempts to manually add them to avoid nullref errors, but cannot guarantee completeness.
      */
 
 
     protected int dialogueIndex;
-    protected Sprite sprite;
-    protected TextControl textController;
+	protected SpriteRenderer sprite_renderer;
+	public TextControl textController;
     protected StringParser stringParser;
     public string[] dialogueArray;
 
@@ -34,6 +33,7 @@ public class InteractableSpeaker : Interactable {
         checkPrefab();
         dialogueIndex = 0;
         stringParser = new StringParser();
+		textController.write ("Welcome to the world, you fool");
     }
 
     //ensures the interactable has all the required components
@@ -46,17 +46,17 @@ public class InteractableSpeaker : Interactable {
             boxCollider = addBoxCollider2D();
         }
 
-        textController = GetComponent<TextControl>();
+		textController = GameObject.Find("TextControl").GetComponent<TextControl>();
         if (textController == null)
         {
             Debug.Log(string.Format("No TextControl attached to Interactable object {0} -- adding one manually", name));
             textController = gameObject.AddComponent<TextControl>() as TextControl;
         }
 
-        sprite = GetComponent<Sprite>();
-        if (sprite == null)
+        sprite_renderer = GetComponent<SpriteRenderer>();
+        if (sprite_renderer == null)
         {
-            Debug.LogError(string.Format("No Sprite attached to Interactable object {0}", name));
+            Debug.LogError(string.Format("No SpriteRenderer attached to Interactable object {0}", name));
             Debug.Break();
         }
     }
@@ -108,7 +108,7 @@ public class InteractableSpeaker : Interactable {
     {
         boxCollider = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
         boxCollider.isTrigger = true;
-        boxCollider.size = new Vector2(sprite.border.x + 50, sprite.border.y); //extend collider outside the sprite for onTrigger collisions.
+		boxCollider.size = new Vector2(sprite_renderer.sprite.border.x + 50, sprite_renderer.sprite.border.y); //extend collider outside the sprite for onTrigger collisions.
         return boxCollider;
     }
 }

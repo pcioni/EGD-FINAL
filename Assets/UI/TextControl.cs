@@ -61,6 +61,7 @@ public class TextControl : MonoBehaviour {
 		buttons.Add (GameObject.Find ("Choice Button 4 Text"));
 		first_button = GameObject.Find ("Choice Button 1");
 		event_system = EventSystem.current.GetComponent<EventSystem> ();
+		noText ();
 	}
 
 	///<summary>
