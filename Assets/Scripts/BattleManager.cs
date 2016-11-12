@@ -389,7 +389,6 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public void kill(FightBehavior which){
-		which.gameObject.SetActive (false);
 		good_guys.Remove (which);
 		bad_guys.Remove (which);
 		if (good_guys.Count == 0) {

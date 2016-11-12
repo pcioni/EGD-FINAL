@@ -26,6 +26,7 @@ public class typeMessage : MonoBehaviour {
 	IEnumerator writeMessage(){
 		int count = 0;
 		text_component = GetComponent<Text> ();
+		skip = false;
 		while (count < message.Length){
 
 			if (skip) {
