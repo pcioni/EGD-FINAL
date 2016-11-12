@@ -5,12 +5,25 @@ using System.Collections;
 /// Put this script on the background sprite.
 /// </summary>
 public class FitBackgroundToCamera : MonoBehaviour {
-	Vector3 start_position = Vector3.zero;
+	public bool first_scene = false;
+	private bool already_aligned = false;
+	public GameObject my_camera;
 
 	// Use this for initialization
 	void Start () {
-		start_position = transform.position;
-		transform.position = Vector3.zero;
+		if (first_scene) {
+			Align (my_camera.transform);
+		}
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+
+	public void Align(Transform t){
+		if (already_aligned) return;
+		print ("aligning " + name);
 		transform.localScale = Vector3.one;
 
 		float width = GetComponent<SpriteRenderer> ().bounds.size.x;
@@ -20,11 +33,9 @@ public class FitBackgroundToCamera : MonoBehaviour {
 		float screenWidth = screenHeight / Screen.height * Screen.width;
 
 		transform.localScale = new Vector3(screenWidth / width, screenHeight / height, 0);
-		transform.position = start_position;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		transform.position = t.transform.position;
+		transform.position = new Vector3 (transform.position.x, transform.position.y, 10);
+
+		already_aligned = true;
 	}
 }

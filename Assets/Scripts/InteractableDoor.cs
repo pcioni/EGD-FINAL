@@ -4,6 +4,9 @@ using System.Collections;
 public class InteractableDoor : Interactable {
 
     public Transform targetDest;
+	public Camera destCamera;
+	public Camera myCamera;
+	public GameObject[] backgrounds;
     private GameObject player;
 	public bool automatic;
 	public bool just_received_player;
@@ -25,7 +28,8 @@ public class InteractableDoor : Interactable {
     }
 
     protected void OnTriggerEnter2D(Collider2D other) {
-        isTriggered = true;
+		print ("Trigger on");
+		isTriggered = true;
         player = other.gameObject;
 		if (automatic && !just_received_player) {
 			Teleport ();
@@ -35,6 +39,7 @@ public class InteractableDoor : Interactable {
 
     protected void OnTriggerExit2D(Collider2D other)
     {
+		print ("Trigger off");
         isTriggered = false;
         player = null;
     }
@@ -50,15 +55,22 @@ public class InteractableDoor : Interactable {
     //set player transform to target transform.
     private void Teleport()
     {
-        Debug.Log("Teleporting player...");
+        //Debug.Log("Teleporting player...");
         player.transform.position = targetDest.position;
-        player.GetComponent<CharacterController>().ClampToGround();
+		if (destCamera != null) {
+			myCamera.enabled = false;
+			destCamera.enabled = true;
+		}
+		foreach(GameObject b in backgrounds){
+			b.GetComponent<FitBackgroundToCamera> ().
+			Align (destCamera.gameObject.transform);
+		}
+		player.GetComponent<CharacterController>().ClampToGround();
 		InteractableDoor id = targetDest.GetComponent<InteractableDoor> ();
 		if (id) {
 			id.just_received_player = true;
 		}
     }
-
 
 
 }
