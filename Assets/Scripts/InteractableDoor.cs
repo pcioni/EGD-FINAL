@@ -4,16 +4,25 @@ using System.Collections;
 public class InteractableDoor : Interactable {
 
     public Transform targetDest;
-	public Camera destCamera;
-	public Camera myCamera;
-	public GameObject[] backgrounds;
+	Camera destCamera;
+	Camera myCamera;
+	GameObject[] backgrounds;
     private GameObject player;
 	public bool automatic;
-	public bool just_received_player;
+	bool just_received_player;
 
     void Awake() {
         checkPrefab();
-    }
+		myCamera = transform.parent.GetComponentInChildren<Camera> ();
+		destCamera = targetDest.transform.parent.GetComponentInChildren<Camera> ();
+		FitBackgroundToCamera[] fit_array = targetDest.transform.parent.GetComponentsInChildren<FitBackgroundToCamera> ();
+		backgrounds = new GameObject[fit_array.Length];
+		int i = 0;
+		foreach (FitBackgroundToCamera f in fit_array) {
+			backgrounds [i] = f.gameObject;
+			i++;
+		}
+	}
 
     //ensures the interactable has all the required components
     protected override void checkPrefab() {
@@ -44,7 +53,7 @@ public class InteractableDoor : Interactable {
         player = null;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (isTriggered && Input.GetKeyDown(KeyCode.Space))
         {
