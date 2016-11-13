@@ -23,7 +23,7 @@ public class FitBackgroundToCamera : MonoBehaviour {
 
 	public void Align(Transform t){
 		if (already_aligned) return;
-		print ("aligning " + name);
+		//print ("aligning " + name);
 		transform.localScale = Vector3.one;
 
 		float width = GetComponent<SpriteRenderer> ().bounds.size.x;

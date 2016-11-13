@@ -22,10 +22,16 @@ public class InteractableSpeaker : Interactable {
     protected int dialogueIndex;
 	protected SpriteRenderer sprite_renderer;
 	public bool idle;
+	public bool facePlayer = false;
 	public TextControl textController;
     protected StringParser stringParser;
     public string[] dialogueArray;
 	bool in_range_to_talk = false;
+	public bool sprite_starts_left = true;
+	GameObject main_character;
+	int counter = 0;
+	public bool is_object;
+	private GameObject interactable_particles;
 
     private string currentDialogue;
     private bool interrupted;
@@ -35,6 +41,7 @@ public class InteractableSpeaker : Interactable {
         checkPrefab();
         dialogueIndex = 0;
         stringParser = new StringParser();
+		main_character = GameObject.FindGameObjectWithTag ("Player");
     }
 
 	void Update(){
@@ -79,11 +86,24 @@ public class InteractableSpeaker : Interactable {
     protected void OnTriggerEnter2D(Collider2D other)
     {
 		in_range_to_talk = true;
+		if (facePlayer) {
+			FacePlayer ();
+		}
+		if (is_object) {
+			interactable_particles = (GameObject) Instantiate (Resources.Load("Interactable Particles"));
+		}
+
     }
 
     protected void OnTriggerExit2D(Collider2D other)
     {
 		in_range_to_talk = false;
+		if (facePlayer) {
+			FacePlayer ();
+		}
+		if (interactable_particles != null) {
+			Destroy (interactable_particles);
+		}
     }
 
     /* Speaks dialogue from the dialogueArray
@@ -92,7 +112,9 @@ public class InteractableSpeaker : Interactable {
     */
     protected virtual void SpeakDialogue()
     {
-
+		FacePlayer ();
+		bool do_restore_idle = idle;
+		idle = false;
         //Repeat the last line of dialogue once we've exhausted all the dialogue
         // i.e. "I'm done with you" -> "Go away..." -> "Go away..."
         if (dialogueIndex > dialogueArray.Length)
@@ -112,6 +134,8 @@ public class InteractableSpeaker : Interactable {
             textController.write(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
             currentDialogue = dialogueArray[dialogueIndex];
         }
+		if (do_restore_idle)
+			idle = true;
     }
 
     protected virtual void PostDialogueAction()
@@ -135,5 +159,27 @@ public class InteractableSpeaker : Interactable {
 			transform.Rotate(new Vector3(0,180,0));
 
 		}
+	}
+
+	void FacePlayer(){
+		if (main_character.transform.position.x < transform.position.x ) {
+			if (sprite_starts_left) {
+				transform.eulerAngles = Vector3.zero;
+			} 
+			else {
+				transform.eulerAngles = new Vector3 (0, 180, 0);
+			}
+		}
+		else if (main_character.transform.position.x > transform.position.x ) {
+			print ("Sam is to my right");
+			if (!sprite_starts_left) {
+				print ("turning toward Sam");
+				transform.eulerAngles = Vector3.zero;
+			} 
+			else {
+				transform.eulerAngles = new Vector3(0,180,0);
+			}
+		}
+
 	}
 }

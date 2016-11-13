@@ -37,7 +37,7 @@ public class InteractableDoor : Interactable {
     }
 
     protected void OnTriggerEnter2D(Collider2D other) {
-		print ("Trigger on");
+		//print ("Trigger on");
 		isTriggered = true;
         player = other.gameObject;
 		if (automatic && !just_received_player) {
@@ -48,7 +48,7 @@ public class InteractableDoor : Interactable {
 
     protected void OnTriggerExit2D(Collider2D other)
     {
-		print ("Trigger off");
+		//print ("Trigger off");
         isTriggered = false;
         player = null;
     }
