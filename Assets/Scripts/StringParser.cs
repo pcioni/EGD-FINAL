@@ -19,15 +19,6 @@ public enum flags {
 /*
  * A handy library for parsing  string text and checking for flags.
  * A lot of these functions are ineffecient since they repeat a lot of operations.
- * 
- * ALL STRINGS SHOULD BE IN THIS FORM:
- * FLAG1 | FLAG2 | FLAG3 | DIALOGUE TEXT
- * e.g. 
- * "@'HELLO THERE':5/'WHY, HELLO':6 | !beep.wav | *glitter.prefab | 'And just who are you?'"
- * 
- * Trailing whitespace BEFORE or AFTER a | is acceptable, as we call Trim()
- * 
- * TODO: make this not god awfully ineffecient. 
  */
 public class StringParser : MonoBehaviour {
 
@@ -73,7 +64,7 @@ public class StringParser : MonoBehaviour {
 
 	//returns SPEAKER in index 0, DIALOGUE in index 1
 	//takes a string of form "SPEAKER|DIALOGUE
-	public string[] ParseString(string s) {
+	public string[] ParseNameDialogueString(string s) {
 		string[] result = new string[2];
 		string[] split = s.Split('|');
 		result[0] = split[0];
