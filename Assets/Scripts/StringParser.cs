@@ -17,15 +17,17 @@ public enum flags {
 
 
 /*
- * A handy library for parsing string text and checking for flags.
+ * A handy library for parsing  string text and checking for flags.
  * A lot of these functions are ineffecient since they repeat a lot of operations.
  * 
  * ALL STRINGS SHOULD BE IN THIS FORM:
  * FLAG1 | FLAG2 | FLAG3 | DIALOGUE TEXT
  * e.g. 
- * "@'HELLO THERE':5,'WHY, HELLO':6 | !beep.wav | *glitter.prefab | 'And just who are you?'"
+ * "@'HELLO THERE':5/'WHY, HELLO':6 | !beep.wav | *glitter.prefab | 'And just who are you?'"
  * 
  * Trailing whitespace BEFORE or AFTER a | is acceptable, as we call Trim()
+ * 
+ * TODO: make this not god awfully ineffecient. 
  */
 public class StringParser : MonoBehaviour {
 
@@ -59,30 +61,42 @@ public class StringParser : MonoBehaviour {
 	public Dictionary<char, int> CreateFlagDict(string str) {
 		resetFlagMap();
 
-		str = str.Split('|');
+		string[] splitStr = str.Split('|');
 
-		for (int i = 0; i < str.Length - 1; i++) { //don't need to check dialogue string for flags
+		foreach (string segment in splitStr) {
 			if (flagMap.ContainsKey(segment[0]))
-                flagMap[c]++;
+				flagMap[segment[0]]++;
         }
 
         return flagMap;
     }
 
+	//returns SPEAKER in index 0, DIALOGUE in index 1
+	//takes a string of form "SPEAKER|DIALOGUE
+	public string[] ParseString(string s) {
+		string[] result = new string[2];
+		string[] split = s.Split('|');
+		result[0] = split[0];
+		result[1] = split[1];
+		return result;
+	}
+
+	//pass this function the original string.
 	public List<string> getChoices(string s) {
 		List<string> choices = new List<string>();
 		string[] splitString = s.Split('|');
-		strFlags = splitString[0];
 
-		bool reading = false;
-		string choice = "";
-		for (int i = 0; i < strFlags.Length; i++) {
-			if (strFlags[i] == '@') 
-				reading = true;
-			if (reading) {
-
-			}
+		string choicesString = null;
+		foreach (string segment in splitString) {
+			if (segment[0] == '@')
+				choicesString = segment;
 		}
+
+		for (int i = 0; i < choicesString.Length; i++) {
+
+		}
+
+		return choices;
 
 	}
 
