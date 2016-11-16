@@ -19,22 +19,22 @@ public class InteractableSpeaker : Interactable {
      */
 
 
+    public string[] dialogueArray;
     protected int dialogueIndex;
-	protected SpriteRenderer sprite_renderer;
+
+    protected SpriteRenderer sprite_renderer;
+
 	public bool idle;
 	public bool facePlayer = false;
+
 	public TextControl textController;
     protected StringParser stringParser;
-    public string[] dialogueArray;
+
 	bool in_range_to_talk = false;
 	public bool sprite_starts_left = true;
 	GameObject main_character;
-	int counter = 0;
 	public bool is_object;
 	private GameObject interactable_particles;
-
-    private string currentDialogue;
-    private bool interrupted;
 
     void Awake()
     {
@@ -117,10 +117,8 @@ public class InteractableSpeaker : Interactable {
 		idle = false;
         //Repeat the last line of dialogue once we've exhausted all the dialogue
         // i.e. "I'm done with you" -> "Go away..." -> "Go away..."
-        if (dialogueIndex > dialogueArray.Length)
+        if (dialogueIndex >= dialogueArray.Length)
             dialogueIndex--;
-
-        currentDialogue = dialogueArray[dialogueIndex];
 
         while (dialogueIndex < dialogueArray.Length) {
             string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
