@@ -11,6 +11,7 @@ public class Information : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		DontDestroyOnLoad (gameObject);
 		inventory = new Dictionary<string, int> ();
 		defaultInventory ();
 
