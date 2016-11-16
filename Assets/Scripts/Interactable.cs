@@ -20,7 +20,6 @@ public class Interactable : MonoBehaviour {
 
 
     protected BoxCollider2D boxCollider;
-    protected bool isTriggered = false;
 
     void Awake() {
         checkPrefab();

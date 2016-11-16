@@ -14,6 +14,7 @@ public class CharacterController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
 		animator = GetComponent<Animator> ();
+        ClampToGround();
     }
 	
     private void FixedUpdate() {

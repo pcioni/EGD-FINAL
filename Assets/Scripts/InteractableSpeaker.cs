@@ -35,6 +35,7 @@ public class InteractableSpeaker : Interactable {
 	GameObject main_character;
 	public bool is_object;
 	private GameObject interactable_particles;
+    private bool isSpeaking = false;
 
     private bool isTriggered = false;
 
@@ -61,8 +62,10 @@ public class InteractableSpeaker : Interactable {
 	}
 
     void FixedUpdate() {
-        if (isTriggered && Input.GetKeyDown(KeyCode.Space))
-            SpeakDialogue();
+        if (isTriggered && !isSpeaking && Input.GetKeyDown(KeyCode.Space)) {
+            isSpeaking = true;
+            StartCoroutine("SpeakDialogue");
+        }
     }
 
     //ensures the interactable has all the required components
@@ -90,7 +93,7 @@ public class InteractableSpeaker : Interactable {
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D other) {
+    protected virtual void OnTriggerEnter2D(Collider2D other) {
         isTriggered = true;
 		in_range_to_talk = true;
 		if (facePlayer) {
@@ -102,7 +105,7 @@ public class InteractableSpeaker : Interactable {
 
     }
 
-    protected void OnTriggerExit2D(Collider2D other) {
+    protected virtual void OnTriggerExit2D(Collider2D other) {
         isTriggered = false;
 		in_range_to_talk = false;
 		if (facePlayer) {
@@ -117,22 +120,25 @@ public class InteractableSpeaker : Interactable {
     *  Repeats the last entry in the dialogueArray once dialogue has been exhausted.
     *  Reads text until EOF or presence of flags.INTERRUPT in currentDialogue.
     */
-    protected virtual void SpeakDialogue()
-    {
+    protected virtual IEnumerator SpeakDialogue() {
+        isSpeaking = true;
 		FacePlayer ();
 		bool do_restore_idle = idle;
 		idle = false;
         //Repeat the last line of dialogue once we've exhausted all the dialogue
         // i.e. "I'm done with you" -> "Go away..." -> "Go away..."
-        if (dialogueIndex >= dialogueArray.Length)
-            dialogueIndex--;
+
 
         while (dialogueIndex < dialogueArray.Length) {
             string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
             string speaker = parseInfo[0];
             string dialogue = parseInfo[1];
-
+    
+            Debug.Log("writing dialogue: " + dialogue);
             textController.write(dialogue);
+
+            //TODO: feeds the data too fast, skipping dialogue lines
+            yield return StartCoroutine(WaitForKeyDown(KeyCode.Space)); 
 
             if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
                 Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
@@ -140,8 +146,15 @@ public class InteractableSpeaker : Interactable {
             }
         }
 
+        isSpeaking = false;
+
 		if (do_restore_idle)
 			idle = true;
+    }
+
+    IEnumerator WaitForKeyDown(KeyCode keyCode) {
+        while (!Input.GetKeyDown(keyCode))
+            yield return null;
     }
 
     protected virtual void PostDialogueAction()
