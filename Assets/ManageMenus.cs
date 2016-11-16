@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ManageMenus : MonoBehaviour {
 	//TOP LEVEL
@@ -115,12 +116,24 @@ public class ManageMenus : MonoBehaviour {
 		string[] s = GetComponent<MenuMenuTextStorage> ().getGameInfo (n);
 		SetCenterPanelText (s [0], s [1], s [2]);
 		selectedLevel = levelSceneNames[n];
+		Sprite game_image = Resources.Load<Sprite> ("Title Placards/" + n.ToString());
+		print (game_image);
+		if (game_image != null) {
+			GameObject.Find ("Logo").GetComponent<Image> ().sprite = game_image;
+		} else {
+			GameObject.Find ("Logo").GetComponent<Image> ().sprite = null;
+		}
+		//TODO: Set play_button's onClick here
 	}
 
 	public void SetCenterPanelText(string descr, string title, string quick_facts){
 		GameObject.Find ("Description Text").GetComponent<Text> ().text = descr;
 		GameObject.Find ("Game Title Text").GetComponent<Text> ().text = title;
 		GameObject.Find ("Quick Facts").GetComponent<Text> ().text = quick_facts;
+	}
+
+	public void OpenLevelScene(){
+		SceneManager.LoadScene ("Overworld Test");
 	}
 		
 }

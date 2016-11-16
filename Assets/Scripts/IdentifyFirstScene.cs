@@ -17,7 +17,8 @@ public class IdentifyFirstScene : MonoBehaviour {
 	void Start () {
 		if (firstScene) {
 			foreach (Camera c in GameObject.FindObjectsOfType<Camera>()) {
-				if (c.transform.parent.gameObject.GetComponent<IdentifyFirstScene>().firstScene){
+				if (c.transform.parent.gameObject.GetComponent<IdentifyFirstScene>().firstScene
+					&& name!=c.transform.parent.gameObject.name){
 					print ("ERROR: there can be only ONE first scene!!\n" +
 						"At least "+name+" and "+c.transform.parent.gameObject.name+" have been designated as first_scene");
 				}

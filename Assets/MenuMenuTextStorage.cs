@@ -12,9 +12,9 @@ public class MenuMenuTextStorage : MonoBehaviour {
 			"proportions!\nForm a guild with your friends and battle to " +
 			"become MOST EPIC KNIGHT. For players 12 and up.",
 			//Title
-			"MMORPG",
+			"Mamorpaga",
 			//Quick Facts
-			"Spectacular graphics make this game a must try. -Reviewer Magazine"
+			"What a fantastic name. -Andrew, Reviewer Magazine\n\n10/10 -Kevin Kortright"
 	};
 
 	string[] game2 = {	
