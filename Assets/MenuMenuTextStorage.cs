@@ -8,7 +8,7 @@ public class MenuMenuTextStorage : MonoBehaviour {
 			//Game 1
 			//Description
 			"Only the bravest and boldest may play in the realm of " +
-			"MMORPG, a knights and dragons fantasy game of epic " +
+			"Mamorpaga, a knights and dragons fantasy game of epic " +
 			"proportions!\nForm a guild with your friends and battle to " +
 			"become MOST EPIC KNIGHT. For players 12 and up.",
 			//Title
