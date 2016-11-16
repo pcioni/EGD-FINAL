@@ -32,6 +32,8 @@ public class BattleManager : MonoBehaviour {
 		good_guys = new List<FightBehavior> ();
 		bad_guys = new List<FightBehavior> ();
 		participants = new List<FightBehavior> ();
+		item_list = new List<string> { "Pick an item to use!" };
+		item_list_amounts = new List<int>{ 0 };
 		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Manticore", "Slime", "Manticore" });
 		awaiting_input = false;
 		victory = false;
@@ -42,8 +44,6 @@ public class BattleManager : MonoBehaviour {
 		pending_messages = new List<string> ();
 		text_controller = GameObject.Find ("Text Controller").GetComponent<TextControl> ();
 		pending_choices = new List<List<string>> ();
-		item_list = new List<string> { "Pick an item to use!" };
-		item_list_amounts = new List<int>{ 0 };
 		inventory = GetComponent<ItemBehavior> ();
 	}
 
@@ -384,6 +384,7 @@ public class BattleManager : MonoBehaviour {
 			item.ArrangeCharacters (good_guys, bad_guys);
 		}
 		info = FindObjectOfType<Information> ();
+	
 		item_list.AddRange( info.getItemNames () );
 		item_list_amounts.AddRange( info.getItemAmounts () );
 	}
