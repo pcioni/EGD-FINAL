@@ -5,13 +5,12 @@ using System.Collections;
 /// Put this script on the background sprite.
 /// </summary>
 public class FitBackgroundToCamera : MonoBehaviour {
-	public bool first_scene = false;
 	private bool already_aligned = false;
 	public GameObject my_camera;
 
 	// Use this for initialization
 	void Start () {
-		if (first_scene) {
+		if (transform.parent.GetComponent<IdentifyFirstScene>().firstScene) {
 			Align (my_camera.transform);
 		}
 	}
