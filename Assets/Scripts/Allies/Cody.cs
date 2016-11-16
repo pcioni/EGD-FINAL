@@ -7,6 +7,7 @@ public class Cody : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Cody";
+		setStats ();
 	}
 
 	public override string examine ()

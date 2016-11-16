@@ -7,6 +7,7 @@ public class Nico : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Nico";
+		setStats ();
 	}
 
 	public override string examine ()

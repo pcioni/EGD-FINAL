@@ -51,19 +51,22 @@ public class FightBehavior : MonoBehaviour {
 		character_name = "Unknown Name";
 	}
 
-	void setStats(){
+	protected void setStats(){
 		Party_Member info = FindObjectOfType<Information> ().getPartyMember(character_name);
 		health = info.health;
 		max_health = info.max_health;
 		mana = info.mana;
 		max_mana = info.max_mana;
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+	}
+
+	protected void setAIStats(int healthy){
+		max_health = health = healthy;
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
 	}
 
 	public void setAlignment(bool goodness){
 		good_guy = goodness;
-		if (good_guy) {
-			setStats ();
-		}
 	}
 
 	public virtual void setAbilities(){

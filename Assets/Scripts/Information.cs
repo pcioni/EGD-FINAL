@@ -28,9 +28,9 @@ public class Information : MonoBehaviour {
 
 	void defaultParty(){
 		party.Add (new Party_Member ("Sam", 3, 10));
-		party.Add (new Party_Member ("Amelia", 3, 10));
-		party.Add (new Party_Member ("Cody", 3, 10));
-		party.Add (new Party_Member ("Nico", 3, 10));
+		party.Add (new Party_Member ("Amelia", 4, 10));
+		party.Add (new Party_Member ("Cody", 10, 10));
+		party.Add (new Party_Member ("Nico", 2, 10));
 	}
 
 	public Party_Member getPartyMember(string name){
@@ -39,6 +39,7 @@ public class Information : MonoBehaviour {
 				return person;
 			}
 		}
+		Debug.Log ("Couldn't find the person: " + name);
 		return null;
 	}
 

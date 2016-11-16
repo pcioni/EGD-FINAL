@@ -7,6 +7,7 @@ public class Manticore : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Manticore";
+		setAIStats (5);
 	}
 
 	public override string examine ()
