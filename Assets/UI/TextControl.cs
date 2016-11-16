@@ -87,7 +87,7 @@ public class TextControl : MonoBehaviour {
 	/// If the string array is not empty, the button texts are changed to
 	/// the contents of the array. 
 	/// </summary>
-	public void write(string s, List<string> b){
+	public void write(string s, List<string> b, string speaker = null){
 		if (!back.activeInHierarchy){
 			back.SetActive (true);
 		}

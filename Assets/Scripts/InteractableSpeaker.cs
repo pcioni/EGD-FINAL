@@ -120,20 +120,21 @@ public class InteractableSpeaker : Interactable {
         if (dialogueIndex > dialogueArray.Length)
             dialogueIndex--;
 
-        interrupted = false;
         currentDialogue = dialogueArray[dialogueIndex];
 
-        while (dialogueIndex < dialogueArray.Length || interrupted == false)
-        {
-            if (stringParser.ContainsFlag(currentDialogue, flags.INTERRUPT))
-            {
-                interrupted = true;
-                Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, currentDialogue));
-            }
+        while (dialogueIndex < dialogueArray.Length) {
+            string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
+            string speaker = parseInfo[0];
+            string dialogue = parseInfo[1];
 
-            textController.write(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
-            currentDialogue = dialogueArray[dialogueIndex];
+            textController.write(dialogue);
+
+            if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
+                Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
+                break;
+            }
         }
+
 		if (do_restore_idle)
 			idle = true;
     }
