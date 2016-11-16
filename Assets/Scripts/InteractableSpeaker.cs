@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class InteractableSpeaker : Interactable {
 
@@ -56,6 +57,10 @@ public class InteractableSpeaker : Interactable {
 			//TEMPORARY
 			if (textController.back.activeInHierarchy)//temp
 				textController.noText ();//temp
+			else if (name == "Thug 1") {
+				//DUCT TAPE!!!
+				SceneManager.LoadScene("BattleSystem");
+			}
 			else//temp
 				SpeakDialogue ();
 		}
