@@ -47,8 +47,9 @@ public class ManageMenus : MonoBehaviour {
 					buttn.interactable = false;
 			}
 		}
+		poof_interface.SetActive (true);
 		SetMode (2);
-
+		poof_interface.SetActive (false);
 	}
 	
 	// Update is called once per frame
