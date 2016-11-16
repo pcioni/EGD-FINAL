@@ -8,10 +8,10 @@ public class FightBehavior : MonoBehaviour {
 	public string turn_action;
 	protected FightBehavior target;
 	protected BattleManager managey;
-	int health;
-	int max_health;
-	int mana;
-	int max_mana;
+	protected int health;
+	protected int max_health;
+	protected int mana;
+	protected int max_mana;
 	protected bool good_guy;
 	Dictionary<string, int> effects;
 	protected List<string> abilities;
@@ -26,8 +26,6 @@ public class FightBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		turn_action = "AI";
-		health = max_health = 3;
-		mana = max_mana = 10;
 		strength = 1;
 		managey = FindObjectOfType<BattleManager> ();
 		effects = new Dictionary<string, int> ();
@@ -53,8 +51,19 @@ public class FightBehavior : MonoBehaviour {
 		character_name = "Unknown Name";
 	}
 
+	void setStats(){
+		Party_Member info = FindObjectOfType<Information> ().getPartyMember(character_name);
+		health = info.health;
+		max_health = info.max_health;
+		mana = info.mana;
+		max_mana = info.max_mana;
+	}
+
 	public void setAlignment(bool goodness){
 		good_guy = goodness;
+		if (good_guy) {
+			setStats ();
+		}
 	}
 
 	public virtual void setAbilities(){
@@ -295,5 +304,12 @@ public class FightBehavior : MonoBehaviour {
 			result.Add (character_name + " says something mean to you...");
 		}
 		return result;
+	}
+
+	public void sendInfoUpdate(){
+		if (!good_guy) {
+			return;
+		}
+		FindObjectOfType<Information> ().updatePartyMember (character_name, health, mana);
 	}
 }
