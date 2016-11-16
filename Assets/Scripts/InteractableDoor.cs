@@ -10,6 +10,7 @@ public class InteractableDoor : Interactable {
     private GameObject player;
 	public bool automatic;
 	bool just_received_player;
+    private bool isTriggered = false;
 
     void Awake() {
         checkPrefab();
@@ -46,7 +47,7 @@ public class InteractableDoor : Interactable {
 		just_received_player = false;
     }
 
-    protected void OnTriggerExit2D(Collider2D other)
+    protected virtual void OnTriggerExit2D(Collider2D other)
     {
 		//print ("Trigger off");
         isTriggered = false;

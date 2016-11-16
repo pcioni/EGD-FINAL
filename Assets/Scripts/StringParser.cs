@@ -20,7 +20,7 @@ public enum flags {
  * A handy library for parsing  string text and checking for flags.
  * A lot of these functions are ineffecient since they repeat a lot of operations.
  */
-public class StringParser : MonoBehaviour {
+public class StringParser {
 
     private Dictionary<char, int> flagMap = new Dictionary<char, int> {
             {'@', 0},

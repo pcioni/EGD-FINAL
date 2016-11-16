@@ -8,14 +8,19 @@ public class ItemBehavior : MonoBehaviour {
 	public string useItem(string itemName, FightBehavior user, FightBehavior target){
 		switch (itemName) {
 		case ("Potion"): 
+			FindObjectOfType<Information> ().useItem ("Potion");
 			return target.heal (3);
 		case ("Panacea Bottle"): 
+			FindObjectOfType<Information> ().useItem ("Panacea Bottle");
 			return target.removeNegativeEffects ();
 		case ("Magic Lens"):
+			FindObjectOfType<Information> ().useItem ("Magic Lens");
 			return target.examine ();
 		case ("The Kevin-Beater Bat"):
+			FindObjectOfType<Information> ().useItem ("The Kevin-Beater Bat");
 			return target.damage (5, user.character_name);
 		case("The Orange Overlord"):
+			FindObjectOfType<Information> ().useItem ("The Orange Overlord");
 			return target.inflictStatus ("paralyzed", 5, user.character_name);
 		default:
 			return user.character_name + " uses a " + itemName + " on " + target.character_name + "!";

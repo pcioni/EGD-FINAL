@@ -19,22 +19,25 @@ public class InteractableSpeaker : Interactable {
      */
 
 
+    public string[] dialogueArray;
     protected int dialogueIndex;
-	protected SpriteRenderer sprite_renderer;
+
+    protected SpriteRenderer sprite_renderer;
+
 	public bool idle;
 	public bool facePlayer = false;
+
 	public TextControl textController;
     protected StringParser stringParser;
-    public string[] dialogueArray;
+
 	bool in_range_to_talk = false;
 	public bool sprite_starts_left = true;
 	GameObject main_character;
-	int counter = 0;
 	public bool is_object;
 	private GameObject interactable_particles;
+    private bool isSpeaking = false;
 
-    private string currentDialogue;
-    private bool interrupted;
+    private bool isTriggered = false;
 
     void Awake()
     {
@@ -57,6 +60,13 @@ public class InteractableSpeaker : Interactable {
 				SpeakDialogue ();
 		}
 	}
+
+    void FixedUpdate() {
+        if (isTriggered && !isSpeaking && Input.GetKeyDown(KeyCode.Space)) {
+            isSpeaking = true;
+            StartCoroutine("SpeakDialogue");
+        }
+    }
 
     //ensures the interactable has all the required components
     protected override void checkPrefab()
@@ -83,8 +93,8 @@ public class InteractableSpeaker : Interactable {
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
-    {
+    protected virtual void OnTriggerEnter2D(Collider2D other) {
+        isTriggered = true;
 		in_range_to_talk = true;
 		if (facePlayer) {
 			FacePlayer ();
@@ -95,8 +105,8 @@ public class InteractableSpeaker : Interactable {
 
     }
 
-    protected void OnTriggerExit2D(Collider2D other)
-    {
+    protected virtual void OnTriggerExit2D(Collider2D other) {
+        isTriggered = false;
 		in_range_to_talk = false;
 		if (facePlayer) {
 			FacePlayer ();
@@ -110,32 +120,41 @@ public class InteractableSpeaker : Interactable {
     *  Repeats the last entry in the dialogueArray once dialogue has been exhausted.
     *  Reads text until EOF or presence of flags.INTERRUPT in currentDialogue.
     */
-    protected virtual void SpeakDialogue()
-    {
+    protected virtual IEnumerator SpeakDialogue() {
+        isSpeaking = true;
 		FacePlayer ();
 		bool do_restore_idle = idle;
 		idle = false;
         //Repeat the last line of dialogue once we've exhausted all the dialogue
         // i.e. "I'm done with you" -> "Go away..." -> "Go away..."
-        if (dialogueIndex > dialogueArray.Length)
-            dialogueIndex--;
 
-        interrupted = false;
-        currentDialogue = dialogueArray[dialogueIndex];
 
-        while (dialogueIndex < dialogueArray.Length || interrupted == false)
-        {
-            if (stringParser.ContainsFlag(currentDialogue, flags.INTERRUPT))
-            {
-                interrupted = true;
-                Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, currentDialogue));
+        while (dialogueIndex < dialogueArray.Length) {
+            string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
+            string speaker = parseInfo[0];
+            string dialogue = parseInfo[1];
+    
+            Debug.Log("writing dialogue: " + dialogue);
+            textController.write(dialogue);
+
+            //TODO: feeds the data too fast, skipping dialogue lines
+            yield return StartCoroutine(WaitForKeyDown(KeyCode.Space)); 
+
+            if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
+                Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
+                break;
             }
-
-            textController.write(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
-            currentDialogue = dialogueArray[dialogueIndex];
         }
+
+        isSpeaking = false;
+
 		if (do_restore_idle)
 			idle = true;
+    }
+
+    IEnumerator WaitForKeyDown(KeyCode keyCode) {
+        while (!Input.GetKeyDown(keyCode))
+            yield return null;
     }
 
     protected virtual void PostDialogueAction()

@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour {
 	List<List<string>> pending_choices;
 	TextControl text_controller;
 	ItemBehavior inventory;
+	Information info;
 	int action_selected;
 
 	// Use this for initialization
@@ -41,15 +42,8 @@ public class BattleManager : MonoBehaviour {
 		pending_messages = new List<string> ();
 		text_controller = GameObject.Find ("Text Controller").GetComponent<TextControl> ();
 		pending_choices = new List<List<string>> ();
-		item_list = new List<string> {
-			"Pick an item to use!",
-			"Potion",
-			"Panacea Bottle",
-			"Magic Lens",
-			"The Kevin-Beater Bat",
-			"The Orange Overlord"
-		};
-		item_list_amounts = new List<int>{ 0, 3, 4, 10, 3, 270 };
+		item_list = new List<string> { "Pick an item to use!" };
+		item_list_amounts = new List<int>{ 0 };
 		inventory = GetComponent<ItemBehavior> ();
 	}
 
@@ -354,6 +348,9 @@ public class BattleManager : MonoBehaviour {
 		case ("check win"):
 			if (victory) {
 				pending_messages.Add ("Congratulations, you have won!");
+				foreach (FightBehavior participant in participants) {
+					participant.sendInfoUpdate ();
+				}
 				state = "";
 			} else {
 				state = "pick actions";
@@ -386,6 +383,9 @@ public class BattleManager : MonoBehaviour {
 		foreach (PositionCharactersInBattle item in tempy) {
 			item.ArrangeCharacters (good_guys, bad_guys);
 		}
+		info = FindObjectOfType<Information> ();
+		item_list.AddRange( info.getItemNames () );
+		item_list_amounts.AddRange( info.getItemAmounts () );
 	}
 
 	public void kill(FightBehavior which){
