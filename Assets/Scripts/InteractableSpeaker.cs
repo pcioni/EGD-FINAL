@@ -36,6 +36,8 @@ public class InteractableSpeaker : Interactable {
 	public bool is_object;
 	private GameObject interactable_particles;
 
+    private bool isTriggered = false;
+
     void Awake()
     {
         checkPrefab();
@@ -57,6 +59,11 @@ public class InteractableSpeaker : Interactable {
 				SpeakDialogue ();
 		}
 	}
+
+    void FixedUpdate() {
+        if (isTriggered && Input.GetKeyDown(KeyCode.Space))
+            SpeakDialogue();
+    }
 
     //ensures the interactable has all the required components
     protected override void checkPrefab()
@@ -83,8 +90,8 @@ public class InteractableSpeaker : Interactable {
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
-    {
+    protected void OnTriggerEnter2D(Collider2D other) {
+        isTriggered = true;
 		in_range_to_talk = true;
 		if (facePlayer) {
 			FacePlayer ();
@@ -95,8 +102,8 @@ public class InteractableSpeaker : Interactable {
 
     }
 
-    protected void OnTriggerExit2D(Collider2D other)
-    {
+    protected void OnTriggerExit2D(Collider2D other) {
+        isTriggered = false;
 		in_range_to_talk = false;
 		if (facePlayer) {
 			FacePlayer ();
