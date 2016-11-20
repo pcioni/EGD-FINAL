@@ -10,7 +10,9 @@ public class FitBackgroundToCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (!(FindObjectOfType<BattleManager>() || FindObjectOfType<ManageMenus>()) && transform.parent.GetComponent<IdentifyFirstScene>().firstScene) {
+		my_camera = transform.parent.gameObject.GetComponentInChildren<Camera> ().gameObject;
+		print ("Found camera " + my_camera);
+		if (!(FindObjectOfType<BattleManager>() || FindObjectOfType<ManageMenus>()) /*&& transform.parent.GetComponent<IdentifyFirstScene>().firstScene*/) {
 			Align (my_camera.transform);
 		}
 		else if (FindObjectOfType<BattleManager>() || FindObjectOfType<ManageMenus>()){

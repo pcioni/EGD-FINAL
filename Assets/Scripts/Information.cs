@@ -17,6 +17,8 @@ public class Information : MonoBehaviour {
 
 		party = new List<Party_Member> ();
 		defaultParty ();
+
+		printInventory ();
 	}
 
 	void defaultInventory(){
@@ -75,6 +77,22 @@ public class Information : MonoBehaviour {
 			result.Add (item);
 		}
 		return result;
+	}
+
+	public void addItemToInventory(string item, int number){
+		if (inventory.ContainsKey (item)) {
+			inventory [item] += number;
+		} else {
+			inventory.Add (item, number);
+		}
+		//TEST STUFF
+		//printInventory ();
+	}
+
+	void printInventory(){
+		foreach (string key in inventory.Keys) {
+			print (key + ": " + inventory [key]);
+		}
 	}
 		
 }

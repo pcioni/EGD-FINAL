@@ -45,6 +45,9 @@ public class InteractableSpeaker : Interactable {
 	public bool allowing_progress = false;
 	public GameObject[] contingencies;//see ProgressLevel for explanation of contingencies
 
+	public string give_item = "";
+	public int item_quantity = 0;
+
     void Awake()
     {
         checkPrefab();
@@ -135,7 +138,7 @@ public class InteractableSpeaker : Interactable {
     */
     protected virtual IEnumerator SpeakDialogue() {
         isSpeaking = true;
-		FacePlayer ();
+		if (!is_object) FacePlayer ();
 		bool do_restore_idle = idle;
 		idle = false;
         //Repeat the last line of dialogue once we've exhausted all the dialogue
@@ -166,12 +169,18 @@ public class InteractableSpeaker : Interactable {
 
 		if (dialogueIndex == dialogueArray.Length) {
 			do_sparkle = false;
+			if (interactable_particles != null)
+				Destroy (interactable_particles);
 		}
 
 		//finished obligatory conversation
 		allowing_progress = true;
 		if (new_progress_number != -1 && contingenciesAllow()) {
 			GameObject.FindObjectOfType<ProgressLevel> ().updateOverworldProgress(new_progress_number);
+		}
+
+		if (give_item != "") {
+			GameObject.FindObjectOfType<Information> ().addItemToInventory (give_item, item_quantity); 
 		}
     }
 

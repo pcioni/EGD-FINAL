@@ -70,9 +70,9 @@ public class ManageMenus : MonoBehaviour {
 		}
 	}
 
-	public void SetMode(int mode){
+	public void SetMode(int m){
 		//enable the correct side panel
-		switch (mode) {
+		switch (m) {
 		case 0: //Friends
 			gamesList.SetActive (false);
 			friendsList.SetActive (true);
@@ -87,7 +87,7 @@ public class ManageMenus : MonoBehaviour {
 			break;
 		}
 		//enable the correct middle panel
-		switch (mode) {
+		switch (m) {
 		case 0: //Friends
 			SetFriendInfo("Cody");
 			play_button.SetActive (false);
@@ -105,6 +105,7 @@ public class ManageMenus : MonoBehaviour {
 			play_button.SetActive (false);
 			break;
 		}
+		mode = m;
 	}
 
 	public void SetFriendInfo(string friend_name){
