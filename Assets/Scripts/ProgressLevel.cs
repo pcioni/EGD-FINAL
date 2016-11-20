@@ -61,4 +61,14 @@ public class ProgressLevel : MonoBehaviour {
 			d.SetActive (false);
 		}
 	}
+
+	public void ProgressTo(int number){
+		int x = 0; 
+		while (x <= number) {
+			overworld_progress = x;
+			EnableAndDisableObjects ();
+			x++;
+		}
+	}
+
 }

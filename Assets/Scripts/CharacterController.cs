@@ -33,7 +33,7 @@ public class CharacterController : MonoBehaviour {
 		}
         //InputManager is currently set to 1/10 of a second to smooth input from +-1 to 0.
         float dx = Input.GetAxis("Horizontal");
-        float dy = Input.GetAxis("Vertical");
+        //float dy = Input.GetAxis("Vertical");
 
 		if (dx > 0) {
 			animator.SetInteger ("Direction", 1);

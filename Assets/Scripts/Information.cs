@@ -8,6 +8,10 @@ public class Information : MonoBehaviour {
 	Dictionary<string, int> inventory;
 	List<Party_Member> party;
 
+	//Overworld Save Data
+	//Remember to wipe these when starting a new level
+	Vector3 mainCharacterPosition;
+	int progress_number;
 
 	// Use this for initialization
 	void Start () {
@@ -93,6 +97,16 @@ public class Information : MonoBehaviour {
 		foreach (string key in inventory.Keys) {
 			print (key + ": " + inventory [key]);
 		}
+	}
+
+	void OverworldSave(){
+		mainCharacterPosition = GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position;
+		progress_number = GameObject.FindObjectOfType<ProgressLevel> ().getOverworldProgress();
+	}
+
+	void OverworldLoad(){
+		GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position = mainCharacterPosition;
+		GameObject.FindObjectOfType<ProgressLevel> ().ProgressTo (progress_number);
 	}
 		
 }

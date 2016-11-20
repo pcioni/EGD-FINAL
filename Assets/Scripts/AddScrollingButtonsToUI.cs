@@ -4,12 +4,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class AddScrollingButtonsToUI : MonoBehaviour {
-	EventSystem event_system;
+	//EventSystem event_system;
 	Scrollbar scrollbar;
 
 	// Use this for initialization
 	void Start () {
-		event_system = EventSystem.current.GetComponent<EventSystem> ();
+		//event_system = EventSystem.current.GetComponent<EventSystem> ();
 		scrollbar = GameObject.Find ("Button List Scrollbar").GetComponent<Scrollbar> ();
 	}
 	
