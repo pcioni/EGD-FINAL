@@ -36,9 +36,14 @@ public class InteractableSpeaker : Interactable {
 	GameObject main_character;
 	public bool is_object;
 	private GameObject interactable_particles;
+	private bool do_sparkle = true;
     private bool isSpeaking = false;
 
     private bool isTriggered = false;
+
+	public int new_progress_number = -1;
+	public bool allowing_progress = false;
+	public GameObject[] contingencies;//see ProgressLevel for explanation of contingencies
 
     void Awake()
     {
@@ -46,6 +51,13 @@ public class InteractableSpeaker : Interactable {
         dialogueIndex = 0;
         stringParser = new StringParser();
 		main_character = GameObject.FindGameObjectWithTag ("Player");
+		//check contingencies array for correctness
+		foreach (GameObject obj in contingencies) {
+			int their_num = obj.GetComponent<InteractableSpeaker> ().new_progress_number;
+			if (their_num != new_progress_number) {
+				print ("OBJECTION! New progress numbers in contingencies array must all match. " + their_num + " != " + new_progress_number);
+			}
+		}
     }
 
 	void Update(){
@@ -57,10 +69,6 @@ public class InteractableSpeaker : Interactable {
 			//TEMPORARY
 			if (textController.back.activeInHierarchy)//temp
 				textController.noText ();//temp
-			else if (name == "Thug 1") {
-				//DUCT TAPE!!!
-				SceneManager.LoadScene("BattleSystem");
-			}
 			else//temp
 				SpeakDialogue ();
 		}
@@ -104,8 +112,8 @@ public class InteractableSpeaker : Interactable {
 		if (facePlayer) {
 			FacePlayer ();
 		}
-		if (is_object) {
-			interactable_particles = (GameObject) Instantiate (Resources.Load("Interactable Particles"));
+		if (is_object && do_sparkle) {
+			interactable_particles = (GameObject) Instantiate (Resources.Load("Interactable Particles"), transform.position, Quaternion.identity);
 		}
 
     }
@@ -146,7 +154,7 @@ public class InteractableSpeaker : Interactable {
             yield return StartCoroutine(WaitForKeyDown(KeyCode.Space)); 
 
             if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
-                Debug.Log(string.Format("Text Interrupted: dialougeIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
+                Debug.Log(string.Format("Text Interrupted: dialogueIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
                 break;
             }
         }
@@ -155,12 +163,31 @@ public class InteractableSpeaker : Interactable {
 
 		if (do_restore_idle)
 			idle = true;
+
+		if (dialogueIndex == dialogueArray.Length) {
+			do_sparkle = false;
+		}
+
+		//finished obligatory conversation
+		allowing_progress = true;
+		if (new_progress_number != -1 && contingenciesAllow()) {
+			GameObject.FindObjectOfType<ProgressLevel> ().updateOverworldProgress(new_progress_number);
+		}
     }
 
     IEnumerator WaitForKeyDown(KeyCode keyCode) {
         while (!Input.GetKeyDown(keyCode))
             yield return null;
     }
+
+	bool contingenciesAllow(){
+		foreach (GameObject obj in contingencies) {
+			if (!obj.GetComponent<InteractableSpeaker> ().allowing_progress) {
+				return false;
+			}
+		}
+		return true;
+	}
 
     protected virtual void PostDialogueAction()
     {
