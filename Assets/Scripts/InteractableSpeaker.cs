@@ -20,16 +20,17 @@ public class InteractableSpeaker : Interactable {
      */
 
 
+	protected SpriteRenderer sprite_renderer;
+
+	[Header("Dialogue")]
     public string[] dialogueArray;
     protected int dialogueIndex;
+	public TextControl textController;
+	protected StringParser stringParser;
 
-    protected SpriteRenderer sprite_renderer;
-
+	[Header("Behavior")]
 	public bool idle;
 	public bool facePlayer = false;
-
-	public TextControl textController;
-    protected StringParser stringParser;
 
 	bool in_range_to_talk = false;
 	public bool sprite_starts_left = true;
@@ -41,12 +42,24 @@ public class InteractableSpeaker : Interactable {
 
     private bool isTriggered = false;
 
+	[Header("Progress")]
+	[Tooltip("Leave Progress fields empty to skip these actions")]
 	public int new_progress_number = -1;
 	public bool allowing_progress = false;
 	public GameObject[] contingencies;//see ProgressLevel for explanation of contingencies
 
+	[Header("Item")]
+	[Tooltip("Leave Item, fields empty to skip these actions")]
+	private Information info;
 	public string give_item = "";
 	public int item_quantity = 0;
+
+	[Header("Battle")]
+	[Tooltip("Leave Battle fields empty to skip these actions")]
+	public string[] our_team;
+	public string[] enemy_team;
+
+
 
     void Awake()
     {
@@ -61,6 +74,7 @@ public class InteractableSpeaker : Interactable {
 				print ("OBJECTION! New progress numbers in contingencies array must all match. " + their_num + " != " + new_progress_number);
 			}
 		}
+		info = GameObject.FindObjectOfType<Information> ();
     }
 
 	void Update(){
@@ -147,7 +161,7 @@ public class InteractableSpeaker : Interactable {
 
         while (dialogueIndex < dialogueArray.Length) {
             string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
-            string speaker = parseInfo[0];
+            //string speaker = parseInfo[0];
             string dialogue = parseInfo[1];
     
             Debug.Log("writing dialogue: " + dialogue);
@@ -180,7 +194,13 @@ public class InteractableSpeaker : Interactable {
 		}
 
 		if (give_item != "") {
-			GameObject.FindObjectOfType<Information> ().addItemToInventory (give_item, item_quantity); 
+			info.addItemToInventory (give_item, item_quantity); 
+		}
+
+		if (our_team.Length != 0 && enemy_team.Length != 0) {
+			info.OverworldSave ();
+			//DAN: Start battle
+
 		}
     }
 

@@ -10,8 +10,8 @@ public class Information : MonoBehaviour {
 
 	//Overworld Save Data
 	//Remember to wipe these when starting a new level
-	Vector3 mainCharacterPosition;
-	int progress_number;
+	Vector3 mainCharacterPosition = Vector3.zero;
+	int progress_number = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,10 @@ public class Information : MonoBehaviour {
 		party = new List<Party_Member> ();
 		defaultParty ();
 
-		printInventory ();
+		if (progress_number != 0) {
+			//we must be starting from a save point
+			OverworldLoad();
+		}
 	}
 
 	void defaultInventory(){
@@ -99,12 +102,12 @@ public class Information : MonoBehaviour {
 		}
 	}
 
-	void OverworldSave(){
+	public void OverworldSave(){
 		mainCharacterPosition = GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position;
 		progress_number = GameObject.FindObjectOfType<ProgressLevel> ().getOverworldProgress();
 	}
 
-	void OverworldLoad(){
+	public void OverworldLoad(){
 		GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position = mainCharacterPosition;
 		GameObject.FindObjectOfType<ProgressLevel> ().ProgressTo (progress_number);
 	}

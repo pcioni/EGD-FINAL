@@ -9,7 +9,7 @@ public class ManageMenus : MonoBehaviour {
 	public GameObject poof_interface;
 
 	//POOF
-	int mode = 2;
+	//int mode = 2;
 	public GameObject gamesList;
 	public GameObject friendsList;
 
@@ -105,7 +105,7 @@ public class ManageMenus : MonoBehaviour {
 			play_button.SetActive (false);
 			break;
 		}
-		mode = m;
+		//mode = m;
 	}
 
 	public void SetFriendInfo(string friend_name){
