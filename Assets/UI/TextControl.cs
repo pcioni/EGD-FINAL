@@ -41,6 +41,7 @@ public class TextControl : MonoBehaviour {
 	public GameObject longText;
 	public GameObject listText;
 	public GameObject back;
+	public GameObject face;
 	List<GameObject> buttons;
 	GameObject first_button;
 	public GameObject list_button_prefab; 
@@ -160,6 +161,16 @@ public class TextControl : MonoBehaviour {
 
 	public bool waitForSpace(){
 		return longText.activeSelf;
+	}
+
+	public void displayFace(string name){
+		face.SetActive (true);
+		Sprite s = Resources.Load<Sprite> ("Character Headshots/" + name);
+		if (s == null) {
+			face.SetActive (false);
+			return;
+		}
+		face.GetComponent<Image> ().sprite = s;
 	}
 		
 }

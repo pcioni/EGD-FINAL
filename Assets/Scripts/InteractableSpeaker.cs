@@ -161,11 +161,12 @@ public class InteractableSpeaker : Interactable {
 
         while (dialogueIndex < dialogueArray.Length) {
             string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
-            //string speaker = parseInfo[0];
+            string speaker = parseInfo[0];
             string dialogue = parseInfo[1];
     
             Debug.Log("writing dialogue: " + dialogue);
             textController.write(dialogue);
+			textController.displayFace (speaker);
 
             //TODO: feeds the data too fast, skipping dialogue lines
             yield return StartCoroutine(WaitForKeyDown(KeyCode.Space)); 
