@@ -89,7 +89,12 @@ public class ManageMenus : MonoBehaviour {
 		//enable the correct middle panel
 		switch (m) {
 		case 0: //Friends
-			SetFriendInfo("Cody");
+			if (current_level > 1)
+				SetFriendInfo ("Cody");
+			else {
+				SetCenterPanelText ("","No friends to show","");
+				GameObject.Find ("Logo").GetComponent<Image> ().sprite = null;
+			}
 			play_button.SetActive (false);
 			break;
 		case 1: // Games
