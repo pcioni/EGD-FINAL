@@ -51,12 +51,10 @@ public class StringParser {
     // Returns a Dict of flags and their occurences count. flagMap[flag] > 0 -> flag is present in string.
 	public Dictionary<char, int> CreateFlagDict(string str) {
 		resetFlagMap();
-
-		string[] splitStr = str.Split('|');
-
-		foreach (string segment in splitStr) {
-			if (flagMap.ContainsKey(segment[0]))
-				flagMap[segment[0]]++;
+  
+		foreach (char c in str) {
+			if (flagMap.ContainsKey(c))
+				flagMap[c]++;
         }
 
         return flagMap;
