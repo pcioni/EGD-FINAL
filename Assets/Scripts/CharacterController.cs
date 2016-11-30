@@ -16,6 +16,7 @@ public class CharacterController : MonoBehaviour {
         boxCollider = GetComponent<BoxCollider2D>();
 		animator = GetComponent<Animator> ();
         ClampToGround();
+
     }
 
 	void Start(){
@@ -64,10 +65,10 @@ public class CharacterController : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(self, -Vector2.up);
         if (hit.collider != null)
         {
-            //Debug.Log("clamping");
-            //Debug.Log(hit.point);
+            Debug.Log("clamping");
+            Debug.Log(hit.point);
             //Player is adjust upwards equal to half othe boxcollider height
-            transform.position = new Vector2(hit.point.x, hit.point.y + boxCollider.bounds.size.y / 2);
+            transform.position = new Vector2(hit.point.x, hit.point.y - boxCollider.bounds.size.y / 2);
         }
     }
 
