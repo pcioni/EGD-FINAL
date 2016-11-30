@@ -7,6 +7,8 @@ public class Information : MonoBehaviour {
 
 	Dictionary<string, int> inventory;
 	List<Party_Member> party;
+	List<string> good_guys;
+	List<string> bad_guys;
 
 	//Overworld Save Data
 	//Remember to wipe these when starting a new level
@@ -26,6 +28,8 @@ public class Information : MonoBehaviour {
 			//we must be starting from a save point
 			OverworldLoad();
 		}
+		good_guys = new List<string> ();
+		bad_guys = new List<string> ();
 	}
 
 	void defaultInventory(){
@@ -111,6 +115,21 @@ public class Information : MonoBehaviour {
 	public void OverworldLoad(){
 		GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position = mainCharacterPosition;
 		GameObject.FindObjectOfType<ProgressLevel> ().ProgressTo (progress_number);
+	}
+
+	public void setBattlers(string[] goods, string[] bads){
+		good_guys.Clear ();
+		bad_guys.Clear ();
+		good_guys.AddRange(goods);
+		bad_guys.AddRange(bads);
+	}
+
+	public List<string> getAllies(){
+		return good_guys;
+	}
+
+	public List<string> getEnemies(){
+		return bad_guys;
 	}
 		
 }

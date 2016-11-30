@@ -7,7 +7,7 @@ public class ClanThug1 : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Brute";
-		setAIStats (100);
+		setAIStats (20);
 	}
 
 	public override string examine ()
