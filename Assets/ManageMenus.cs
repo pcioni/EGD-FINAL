@@ -16,7 +16,7 @@ public class ManageMenus : MonoBehaviour {
 	//GAMES
 	public int current_level;
 	public GameObject play_button;
-	string[] levelSceneNames = { "mmo.unity", "party.unity", "fps.unity", "survival.unity", "arena.unity", "mmo2.unity" };
+	string[] levelSceneNames = { "Level 1 Overworld.unity", "Level 2 Overworld.unity", "fps.unity", "survival.unity", "arena.unity", "mmo2.unity" };
 	public string selectedLevel;
 	public Sprite[] logoSprites;
 
@@ -107,6 +107,8 @@ public class ManageMenus : MonoBehaviour {
 			"power it would be the power to fly.",
 				"DragonBlaster40 (Sam)",
 				"Fantastic dancer.");
+			GameObject.Find ("Logo").GetComponent<Image> ().sprite = 
+				Resources.Load<Sprite> ("Character Headshots/sam");
 			play_button.SetActive (false);
 			break;
 		}
@@ -116,6 +118,12 @@ public class ManageMenus : MonoBehaviour {
 	public void SetFriendInfo(string friend_name){
 		string[] s = GetComponent<MenuMenuTextStorage> ().getFriendInfo (friend_name);
 		SetCenterPanelText (s [0], s [1], s [2]);
+		Sprite friend_image = Resources.Load<Sprite> ("Character Headshots/" + friend_name.ToString());
+		if (friend_image != null) {
+			GameObject.Find ("Logo").GetComponent<Image> ().sprite = friend_image;
+		} else {
+			GameObject.Find ("Logo").GetComponent<Image> ().sprite = null;
+		}
 		//selectedFriend = levelSceneNames[n];
 	}
 
@@ -124,7 +132,7 @@ public class ManageMenus : MonoBehaviour {
 		SetCenterPanelText (s [0], s [1], s [2]);
 		selectedLevel = levelSceneNames[n];
 		Sprite game_image = Resources.Load<Sprite> ("Title Placards/" + n.ToString());
-		print (game_image);
+		//print (game_image);
 		if (game_image != null) {
 			GameObject.Find ("Logo").GetComponent<Image> ().sprite = game_image;
 		} else {
