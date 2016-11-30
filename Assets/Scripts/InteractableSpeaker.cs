@@ -32,7 +32,6 @@ public class InteractableSpeaker : Interactable {
 	public bool idle;
 	public bool facePlayer = false;
 
-	bool in_range_to_talk = false;
 	public bool sprite_starts_left = true;
 	GameObject main_character;
 	public bool is_object;
@@ -117,7 +116,6 @@ public class InteractableSpeaker : Interactable {
 
     protected virtual void OnTriggerEnter2D(Collider2D other) {
         isTriggered = true;
-		in_range_to_talk = true;
 		if (facePlayer) {
 			FacePlayer ();
 		}
@@ -129,7 +127,6 @@ public class InteractableSpeaker : Interactable {
 
     protected virtual void OnTriggerExit2D(Collider2D other) {
         isTriggered = false;
-		in_range_to_talk = false;
 		if (facePlayer) {
 			FacePlayer ();
 		}
