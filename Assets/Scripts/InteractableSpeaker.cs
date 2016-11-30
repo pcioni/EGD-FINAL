@@ -24,7 +24,7 @@ public class InteractableSpeaker : Interactable {
 
 	[Header("Dialogue")]
     public string[] dialogueArray;
-    protected int dialogueIndex;
+	public int dialogueIndex;
 	public TextControl textController;
 	protected StringParser stringParser;
 
@@ -58,6 +58,10 @@ public class InteractableSpeaker : Interactable {
 	[Tooltip("Leave Battle fields empty to skip these actions")]
 	public string[] our_team;
 	public string[] enemy_team;
+
+	[Header("Hotfix")]
+	//Used for a specific instance when a battle occurs before the first progress point
+	public GameObject enableAfterTalking = null;
 
 
 
@@ -190,10 +194,13 @@ public class InteractableSpeaker : Interactable {
 		}
 
 		if (our_team.Length != 0 && enemy_team.Length != 0) {
-			info.OverworldSave ();
+			info.OverworldSave (/*gameObject.name, dialogueIndex*/);
 			info.setBattlers (our_team, enemy_team);
 			SceneManager.LoadScene ("BattleSystem");
 		}
+
+		if (enableAfterTalking != null)
+			enableAfterTalking.SetActive (true);
 
         yield return null;
     }

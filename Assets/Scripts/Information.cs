@@ -16,8 +16,9 @@ public class Information : MonoBehaviour {
 	Vector3 mainCharacterPosition = Vector3.zero;
 	public int progress_number = 0;
 	string scene_name = "";
-	//string current_camera = "";
 	public string current_section = "";
+	public string disable_battle = "";
+	public int dialogue_index = -1;
 
 	// Use this for initialization
 	void Start () {
@@ -107,7 +108,7 @@ public class Information : MonoBehaviour {
 		}
 	}
 
-	public void OverworldSave(){
+	public void OverworldSave(/*string caller = "", int dialogue_position = -1*/){
 		mainCharacterPosition = GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position;
 		progress_number = GameObject.FindObjectOfType<ProgressLevel> ().getOverworldProgress();
 		scene_name = SceneManager.GetActiveScene().name;
@@ -118,6 +119,11 @@ public class Information : MonoBehaviour {
 				print ("first scene will be " + current_section);
 			}
 		}
+		/*
+		disable_battle = caller;
+		if (dialogue_position != -1) dialogue_index = dialogue_position;
+		*/
+
 
 	}
 
@@ -131,6 +137,18 @@ public class Information : MonoBehaviour {
 				i.firstScene = true;
 			}
 		}
+		/*if (disable_battle != "" || dialogue_index != -1){
+			InteractableSpeaker s = GameObject.Find (disable_battle).GetComponent<InteractableSpeaker> ();
+			print (s.name + "will no longer be able to battle!");
+			if (disable_battle != "") {
+				s.our_team = new string[0];
+				s.enemy_team = new string[0];
+			}
+			if (dialogue_index != -1) {
+				s.dialogueIndex = dialogue_index;
+			}
+		}*/
+			
 	}
 
 	public void setBattlers(string[] goods, string[] bads){
