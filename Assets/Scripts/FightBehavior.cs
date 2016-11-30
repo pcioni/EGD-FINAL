@@ -21,7 +21,8 @@ public class FightBehavior : MonoBehaviour {
 	public int action_number;
 	[HideInInspector]
 	public string character_name;
-	int strength;
+	protected int strength;
+	bool ignore_death;
 
 	// Use this for initialization
 	void Start () {
@@ -45,10 +46,19 @@ public class FightBehavior : MonoBehaviour {
 			transform.position.y + height_above, 0);
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
 		setName();
+		ignore_death = false;
 	}
 
 	public virtual void setName(){
 		character_name = "Unknown Name";
+	}
+
+	public int getHealth(){
+		return health;
+	}
+
+	public int getMaxHealth(){
+		return max_health;
 	}
 
 	protected void setStats(){
@@ -58,6 +68,7 @@ public class FightBehavior : MonoBehaviour {
 		mana = info.mana;
 		max_mana = info.max_mana;
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		strength = info.strength;
 	}
 
 	protected void setAIStats(int healthy){
@@ -120,7 +131,7 @@ public class FightBehavior : MonoBehaviour {
 			turn_action = "item";
 			action_number = which;
 			managey.NeedTargeting (managey.itemNeedsTargeting (action_number));
-			return gameObject.name + " will use " + managey.getItemName (action_number) + " this turn!";
+			return character_name + " will use " + managey.getItemName (action_number) + " this turn!";
 		} else if (action == "ability") {
 			turn_action = "ability";
 			action_number = which;
@@ -134,6 +145,11 @@ public class FightBehavior : MonoBehaviour {
 
 	public void setTarget(FightBehavior tar){
 		target = tar;
+	}
+
+	public void setTarget(FightBehavior tar, bool dead_target){
+		target = tar;
+		ignore_death = dead_target;
 	}
 
 	public string damage (int amount, string attacker){
@@ -211,6 +227,7 @@ public class FightBehavior : MonoBehaviour {
 	public string removeNegativeEffects(){
 		effects.Remove ("poisoned");
 		effects.Remove ("paralyzed");
+		effects.Remove ("blinded");
 		return character_name + " has been cleansed of all negative effects!";
 	}
 
@@ -220,9 +237,19 @@ public class FightBehavior : MonoBehaviour {
 		return character_name + " was " + status + " by " + inflictor + "!";
 	}
 
-	public virtual List<string> useAbility(){
+	public List<string> useAbility(){
 		mana -= ability_costs [action_number - 1];
 		return Abilities.useAbility(abilities[action_number - 1], this, target);
+	}
+
+	public List<string> useAbility(string ability){
+		mana -= Abilities.calculateCosts (new List<string> { ability }) [0];
+		return Abilities.useAbility (ability, this, target);
+	}
+
+	public string revive(){
+		myHealthBar.SetActive (true);
+		return managey.revive (target);
 	}
 
 	public List<string> endTurn(){
@@ -235,7 +262,7 @@ public class FightBehavior : MonoBehaviour {
 		foreach (string key in keys) {
 
 			if (key == "poisoned") {
-				result.Add (damage (1, "poison"));
+				result.Add (damage (10, "poison"));
 			}
 
 			effects[key] = effects[key] - 1;
@@ -251,17 +278,22 @@ public class FightBehavior : MonoBehaviour {
 
 		List<string> result = new List<string> ();
 
-		if (target != null && !target.gameObject.activeSelf) {
+		if (target != null && target.health <= 0 && !ignore_death) {
 			managey.newTarget (this, good_guy);
 		}
+
+		ignore_death = false;
 
 		if (effects.ContainsKey ("berserk")) {
 			managey.newTarget (this, true);
 			result.Add (character_name + " goes berserk on " + target.character_name + "!");
 			result.Add (target.damage (strength + 1, character_name));
 			return result;
-		} else if (effects.ContainsKey ("paralyzed") && Random.Range(1,3) == 1) {
+		} else if (effects.ContainsKey ("paralyzed") && Random.Range (1, 3) == 1) {
 			result.Add (character_name + " cannot bring themself to move due to their paralysis!");
+			return result;
+		} else if (effects.ContainsKey ("blinded") && Random.Range (1, 3) == 1) {
+			result.Add (character_name + " attacked wildly, but missed the target!");
 			return result;
 		}
 

@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour {
 	List<FightBehavior> good_guys;
 	List<FightBehavior> bad_guys;
 	List<FightBehavior> participants;
+	List<FightBehavior> dead;
 	List<string> item_list;
 	List<int> item_list_amounts;
 	string state;
@@ -25,6 +26,7 @@ public class BattleManager : MonoBehaviour {
 	ItemBehavior inventory;
 	Information info;
 	int action_selected;
+	int turn_number;
 
 	// Use this for initialization
 	void Start () {
@@ -32,9 +34,10 @@ public class BattleManager : MonoBehaviour {
 		good_guys = new List<FightBehavior> ();
 		bad_guys = new List<FightBehavior> ();
 		participants = new List<FightBehavior> ();
+		dead = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
-		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Manticore", "Slime", "Manticore" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Cody", "Nico" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -224,6 +227,13 @@ public class BattleManager : MonoBehaviour {
 						result.Add (good_guys [x].character_name);
 					}
 					pending_choices.Add (result);
+				} else if (need_target == 'd') {
+					state = "select dead";
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < dead.Count; x++) {
+						result.Add (dead [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "pick actions";
 					picker++;
@@ -258,6 +268,13 @@ public class BattleManager : MonoBehaviour {
 						result.Add (good_guys [x].character_name);
 					}
 					pending_choices.Add (result);
+				} else if (need_target == 'd') {
+					state = "select dead";
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < dead.Count; x++) {
+						result.Add (dead [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "pick actions";
 					picker++;
@@ -286,6 +303,19 @@ public class BattleManager : MonoBehaviour {
 			if (action_selected > 0) {
 				good_guys [picker].setTarget (good_guys [action_selected - 1]);
 				pending_messages.Add (good_guys [picker].character_name + " will target " + good_guys [action_selected - 1].character_name + "!");
+				state = "pick actions";
+				picker++;
+				if (picker < good_guys.Count) {
+					pending_choices.Add (good_guys [picker].listActions ());
+				}
+				action_selected = 0;
+			}
+			return;
+
+		case("select dead"):
+			if (action_selected > 0) {
+				good_guys [picker].setTarget (dead [action_selected - 1], true);
+				pending_messages.Add (good_guys [picker].character_name + " will revive " + dead [action_selected - 1].character_name + "!");
 				state = "pick actions";
 				picker++;
 				if (picker < good_guys.Count) {
@@ -337,6 +367,7 @@ public class BattleManager : MonoBehaviour {
 				pending_messages.AddRange (participants [picker].endTurn ());
 				continuer = true;
 			} else {
+				turn_number++;
 				picker = 0;
 				state = "check win";
 				if (!victory) {
@@ -387,16 +418,26 @@ public class BattleManager : MonoBehaviour {
 	
 		item_list.AddRange( info.getItemNames () );
 		item_list_amounts.AddRange( info.getItemAmounts () );
+		turn_number = 1;
 	}
 
 	public void kill(FightBehavior which){
 		good_guys.Remove (which);
 		bad_guys.Remove (which);
+		dead.Add (which);
 		if (good_guys.Count == 0) {
 			defeat = true;
 		} else if (bad_guys.Count == 0) {
 			victory = true;
 		}
+	}
+
+	public string revive(FightBehavior who){
+		good_guys.Add (who);
+		dead.Remove (who);
+		who.gameObject.SetActive (true);
+		who.heal (who.getMaxHealth () / 2);
+		return who.character_name + " has been revived!";
 	}
 			
 
@@ -408,8 +449,34 @@ public class BattleManager : MonoBehaviour {
 		}
 	}
 
+	public void newTargetWeakest(FightBehavior which, bool good){
+		if (good) {
+			int weakest = bad_guys [0].getHealth ();
+			which.setTarget (bad_guys [0]);
+			for (int x = 1; x < bad_guys.Count; x++) {
+				if (bad_guys [x].getHealth () < weakest) {
+					weakest = bad_guys [x].getHealth ();
+					which.setTarget (bad_guys [x]);
+				}
+			}
+		} else {
+			int weakest = good_guys [0].getHealth ();
+			which.setTarget (good_guys [0]);
+			for (int x = 1; x < good_guys.Count; x++) {
+				if (good_guys [x].getHealth () < weakest) {
+					weakest = good_guys [x].getHealth ();
+					which.setTarget (good_guys [x]);
+				}
+			}
+		}
+	}
+
 	public void ReceiveButtonSignal(string button_name){
 		action_selected = int.Parse (button_name);
 		awaiting_input = false;
+	}
+
+	public int getTurnNumber(){
+		return turn_number;
 	}
 }

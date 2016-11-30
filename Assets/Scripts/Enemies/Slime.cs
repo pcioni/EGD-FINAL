@@ -7,7 +7,7 @@ public class Slime : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Slime";
-		setAIStats (3);
+		setAIStats (30);
 	}
 
 	public override string examine ()
