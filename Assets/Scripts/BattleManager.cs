@@ -50,6 +50,8 @@ public class BattleManager : MonoBehaviour {
 		text_controller = GameObject.Find ("Text Controller").GetComponent<TextControl> ();
 		pending_choices = new List<List<string>> ();
 		inventory = GetComponent<ItemBehavior> ();
+		SpriteRenderer backgroundo = GameObject.FindObjectOfType<FitBackgroundToCamera> ().gameObject.GetComponent<SpriteRenderer> ();
+		backgroundo.sprite = Resources.Load<Sprite> (info.current_section);
 	}
 
 	public List<FightBehavior> getGoodGuys(){

@@ -17,7 +17,7 @@ public class Information : MonoBehaviour {
 	public int progress_number = 0;
 	string scene_name = "";
 	//string current_camera = "";
-	string current_section = "";
+	public string current_section = "";
 
 	// Use this for initialization
 	void Start () {
