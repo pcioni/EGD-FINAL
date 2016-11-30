@@ -20,11 +20,12 @@ public class MenuMenuTextStorage : MonoBehaviour {
 	string[] game2 = {	
 			//Game 2
 			//Description
-			"Everyday's a party with new Super Ultra Mega Neato Awesome Party! " +
-			"Play this game to show your friends how good you are at " +
-			"rather inconsequential activities!",
+			"Test your reaction time, aim, and determination in the grueling " +
+			"world of Combat Zone, where every second counts. Use an array of " +
+			"firearms and explosives to decimate the other team and prove " +
+			"yourself the best of the best.",
 			//Title
-			"Party Game",
+			"Combat Zone",
 			//Quick Facts
 			"I played this game and I liked it so you should like it. -Reviewer Magazine"
 	};
