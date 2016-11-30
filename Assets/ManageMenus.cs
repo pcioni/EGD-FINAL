@@ -107,6 +107,8 @@ public class ManageMenus : MonoBehaviour {
 			"power it would be the power to fly.",
 				"DragonBlaster40 (Sam)",
 				"Fantastic dancer.");
+			GameObject.Find ("Logo").GetComponent<Image> ().sprite = 
+				Resources.Load<Sprite> ("Character Headshots/sam");
 			play_button.SetActive (false);
 			break;
 		}
