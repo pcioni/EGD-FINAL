@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour {
 
@@ -30,6 +31,7 @@ public class BattleManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		info = FindObjectOfType<Information> ();
 		state = "not started";
 		good_guys = new List<FightBehavior> ();
 		bad_guys = new List<FightBehavior> ();
@@ -37,7 +39,7 @@ public class BattleManager : MonoBehaviour {
 		dead = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
-		StartBattle (new List<string>{ "Sam", "Amelia", "Cody", "Nico" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
+		StartBattle ();
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -382,7 +384,7 @@ public class BattleManager : MonoBehaviour {
 				foreach (FightBehavior participant in participants) {
 					participant.sendInfoUpdate ();
 				}
-				state = "";
+				state = "finished";
 			} else {
 				state = "pick actions";
 				picker = 0;
@@ -390,12 +392,18 @@ public class BattleManager : MonoBehaviour {
 			}
 			return;
 
+		case("finished"):
+			SceneManager.LoadScene ("Overworld Test");
+			return;
+
 		default:
 			return;
 		}
 	}
 
-	void StartBattle(List<string> good, List<string> bad){
+	void StartBattle(){
+		List<string> good = info.getAllies ();
+		List<string> bad = info.getEnemies ();
 		for (int x = 0; x < good.Count; x++) {
 			FightBehavior temp = ((GameObject)Instantiate (Resources.Load (good [x]), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior>();
 			temp.setAlignment (true);
@@ -414,7 +422,6 @@ public class BattleManager : MonoBehaviour {
 		foreach (PositionCharactersInBattle item in tempy) {
 			item.ArrangeCharacters (good_guys, bad_guys);
 		}
-		info = FindObjectOfType<Information> ();
 	
 		item_list.AddRange( info.getItemNames () );
 		item_list_amounts.AddRange( info.getItemAmounts () );

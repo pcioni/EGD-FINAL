@@ -200,8 +200,8 @@ public class InteractableSpeaker : Interactable {
 
 		if (our_team.Length != 0 && enemy_team.Length != 0) {
 			info.OverworldSave ();
-			//DAN: Start battle
-
+			info.setBattlers (our_team, enemy_team);
+			SceneManager.LoadScene ("BattleSystem");
 		}
     }
 
