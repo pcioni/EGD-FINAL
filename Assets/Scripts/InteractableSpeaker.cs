@@ -24,9 +24,11 @@ public class InteractableSpeaker : Interactable {
 
 	[Header("Dialogue")]
     public string[] dialogueArray;
+	public string dialogueID = "";
 	public int dialogueIndex;
 	public TextControl textController;
 	protected StringParser stringParser;
+	OverworldTextStorage text_storage;
 
 	[Header("Behavior")]
 	public bool idle;
@@ -78,6 +80,9 @@ public class InteractableSpeaker : Interactable {
 			}
 		}
 		info = GameObject.FindObjectOfType<Information> ();
+		text_storage = GameObject.FindObjectOfType<OverworldTextStorage> ();
+		if (dialogueID != "")
+			dialogueArray = text_storage.RetrieveDialogue (dialogueID);
     }
 
 	void Update(){
