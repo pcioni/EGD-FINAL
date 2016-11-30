@@ -89,7 +89,7 @@ public static class Abilities {
 
 		case("Heal"):
 			result.Add (user.character_name + " casts a healing spell on " + target.character_name + "!");
-			result.Add (target.heal (3));
+			result.Add (target.heal (30));
 			return result;
 
 		case("Poison"):
@@ -99,17 +99,17 @@ public static class Abilities {
 
 		case("Fireball"):
 			result.Add (user.character_name + " launches a fireball at " + target.character_name + "!");
-			result.Add (target.damage (2, user.character_name));
+			result.Add (target.damage (20, user.character_name));
 			return result;
 
 		case("Lightning"):
 			result.Add (user.character_name + " summons a lightning bolt upon " + target.character_name + "!");
-			result.Add (target.damage (Random.Range (1, 3), user.character_name));
+			result.Add (target.damage (Random.Range (10, 30), user.character_name));
 			return result;
 
 		case("Icicle"):
 			result.Add (user.character_name + " extrudes razor-sharp icicles below " + target.character_name + "!");
-			result.Add (target.damage (2, user.character_name));
+			result.Add (target.damage (20, user.character_name));
 			return result;
 
 		case("Berserk"):
@@ -119,7 +119,7 @@ public static class Abilities {
 
 		case("Beat Rush"):
 			result.Add (user.character_name + " launches an onslaught of attacks on " + target.character_name + "!");
-			result.Add (target.damage (3, user.character_name));
+			result.Add (target.damage (30, user.character_name));
 			return result;
 
 		case("Paralyze"):

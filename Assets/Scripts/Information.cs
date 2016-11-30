@@ -37,10 +37,10 @@ public class Information : MonoBehaviour {
 	}
 
 	void defaultParty(){
-		party.Add (new Party_Member ("Sam", 3, 10));
-		party.Add (new Party_Member ("Amelia", 4, 10));
-		party.Add (new Party_Member ("Cody", 10, 10));
-		party.Add (new Party_Member ("Nico", 2, 10));
+		party.Add (new Party_Member ("Sam", 60, 10, 12));
+		party.Add (new Party_Member ("Amelia", 60, 10, 15));
+		party.Add (new Party_Member ("Cody", 100, 10, 10));
+		party.Add (new Party_Member ("Nico", 40, 10, 18));
 	}
 
 	public Party_Member getPartyMember(string name){

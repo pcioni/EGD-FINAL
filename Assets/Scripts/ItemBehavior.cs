@@ -9,7 +9,7 @@ public class ItemBehavior : MonoBehaviour {
 		switch (itemName) {
 		case ("Potion"): 
 			FindObjectOfType<Information> ().useItem ("Potion");
-			return target.heal (3);
+			return target.heal (30);
 		case ("Panacea Bottle"): 
 			FindObjectOfType<Information> ().useItem ("Panacea Bottle");
 			return target.removeNegativeEffects ();
@@ -18,7 +18,7 @@ public class ItemBehavior : MonoBehaviour {
 			return target.examine ();
 		case ("The Kevin-Beater Bat"):
 			FindObjectOfType<Information> ().useItem ("The Kevin-Beater Bat");
-			return target.damage (5, user.character_name);
+			return target.damage (50, user.character_name);
 		case("The Orange Overlord"):
 			FindObjectOfType<Information> ().useItem ("The Orange Overlord");
 			return target.inflictStatus ("paralyzed", 5, user.character_name);

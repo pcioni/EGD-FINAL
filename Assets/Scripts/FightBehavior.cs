@@ -21,7 +21,7 @@ public class FightBehavior : MonoBehaviour {
 	public int action_number;
 	[HideInInspector]
 	public string character_name;
-	int strength;
+	protected int strength;
 
 	// Use this for initialization
 	void Start () {
@@ -51,6 +51,10 @@ public class FightBehavior : MonoBehaviour {
 		character_name = "Unknown Name";
 	}
 
+	public int getHealth(){
+		return health;
+	}
+
 	protected void setStats(){
 		Party_Member info = FindObjectOfType<Information> ().getPartyMember(character_name);
 		health = info.health;
@@ -58,6 +62,7 @@ public class FightBehavior : MonoBehaviour {
 		mana = info.mana;
 		max_mana = info.max_mana;
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		strength = info.strength;
 	}
 
 	protected void setAIStats(int healthy){
@@ -220,9 +225,14 @@ public class FightBehavior : MonoBehaviour {
 		return character_name + " was " + status + " by " + inflictor + "!";
 	}
 
-	public virtual List<string> useAbility(){
+	public List<string> useAbility(){
 		mana -= ability_costs [action_number - 1];
 		return Abilities.useAbility(abilities[action_number - 1], this, target);
+	}
+
+	public List<string> useAbility(string ability){
+		mana -= Abilities.calculateCosts (new List<string> { ability }) [0];
+		return Abilities.useAbility (ability, this, target);
 	}
 
 	public List<string> endTurn(){
@@ -251,7 +261,7 @@ public class FightBehavior : MonoBehaviour {
 
 		List<string> result = new List<string> ();
 
-		if (target != null && !target.gameObject.activeSelf) {
+		if (target != null && target.health <= 0) {
 			managey.newTarget (this, good_guy);
 		}
 
@@ -260,9 +270,11 @@ public class FightBehavior : MonoBehaviour {
 			result.Add (character_name + " goes berserk on " + target.character_name + "!");
 			result.Add (target.damage (strength + 1, character_name));
 			return result;
-		} else if (effects.ContainsKey ("paralyzed") && Random.Range(1,3) == 1) {
+		} else if (effects.ContainsKey ("paralyzed") && Random.Range (1, 3) == 1) {
 			result.Add (character_name + " cannot bring themself to move due to their paralysis!");
 			return result;
+		} else if (effects.ContainsKey ("blinded") && Random.Range (1, 3) == 1) {
+			result.Add (character_name + " attacked wildly, but missed the target!");
 		}
 
 		switch (turn_action) {

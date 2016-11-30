@@ -25,6 +25,7 @@ public class BattleManager : MonoBehaviour {
 	ItemBehavior inventory;
 	Information info;
 	int action_selected;
+	int turn_number;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +35,7 @@ public class BattleManager : MonoBehaviour {
 		participants = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
-		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Manticore", "Slime", "Manticore" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -337,6 +338,7 @@ public class BattleManager : MonoBehaviour {
 				pending_messages.AddRange (participants [picker].endTurn ());
 				continuer = true;
 			} else {
+				turn_number++;
 				picker = 0;
 				state = "check win";
 				if (!victory) {
@@ -387,6 +389,7 @@ public class BattleManager : MonoBehaviour {
 	
 		item_list.AddRange( info.getItemNames () );
 		item_list_amounts.AddRange( info.getItemAmounts () );
+		turn_number = 1;
 	}
 
 	public void kill(FightBehavior which){
@@ -408,8 +411,34 @@ public class BattleManager : MonoBehaviour {
 		}
 	}
 
+	public void newTargetWeakest(FightBehavior which, bool good){
+		if (good) {
+			int weakest = bad_guys [0].getHealth ();
+			which.setTarget (bad_guys [0]);
+			for (int x = 1; x < bad_guys.Count; x++) {
+				if (bad_guys [x].getHealth () < weakest) {
+					weakest = bad_guys [x].getHealth ();
+					which.setTarget (bad_guys [x]);
+				}
+			}
+		} else {
+			int weakest = good_guys [0].getHealth ();
+			which.setTarget (good_guys [0]);
+			for (int x = 1; x < good_guys.Count; x++) {
+				if (good_guys [x].getHealth () < weakest) {
+					weakest = good_guys [x].getHealth ();
+					which.setTarget (good_guys [x]);
+				}
+			}
+		}
+	}
+
 	public void ReceiveButtonSignal(string button_name){
 		action_selected = int.Parse (button_name);
 		awaiting_input = false;
+	}
+
+	public int getTurnNumber(){
+		return turn_number;
 	}
 }
