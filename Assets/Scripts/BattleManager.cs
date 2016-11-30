@@ -37,7 +37,7 @@ public class BattleManager : MonoBehaviour {
 		dead = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
-		StartBattle (new List<string>{ "Sam", "Amelia" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Cody", "Nico" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
