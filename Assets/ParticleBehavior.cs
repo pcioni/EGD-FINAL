@@ -17,7 +17,6 @@ public class ParticleBehavior : MonoBehaviour {
 	//public string burst_name;
 	public GameObject burst_obj;
 	public bool arc;
-	float arc_height = 1f;
 	public GameObject current_path_node;
 	public bool unravel;
 

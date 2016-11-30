@@ -43,7 +43,6 @@ public class typeMessage : MonoBehaviour {
 				yield return new WaitForSeconds (pause_seconds);
 				count++;
 				continue;
-				print ("hello world");
 			}
 			if (next_char == '~') {
 				text_component.text = "";
