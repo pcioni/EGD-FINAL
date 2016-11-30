@@ -167,6 +167,7 @@ public class InteractableSpeaker : Interactable {
             }
         }
 
+
         textController.noText();
 
         isSpeaking = false;
@@ -175,7 +176,8 @@ public class InteractableSpeaker : Interactable {
 			idle = true;
 
 		if (dialogueIndex == dialogueArray.Length) {
-			do_sparkle = false;
+            dialogueIndex--;
+            do_sparkle = false;
 			if (interactable_particles != null)
 				Destroy (interactable_particles);
 		}
