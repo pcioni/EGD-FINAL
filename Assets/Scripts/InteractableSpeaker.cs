@@ -78,20 +78,8 @@ public class InteractableSpeaker : Interactable {
     }
 
 	void Update(){
-		if (idle) {
+		if (idle)
 			Idle ();
-		}
-
-		if (in_range_to_talk && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Return))) {
-			//TEMPORARY
-			if (textController.back.activeInHierarchy)//temp
-				textController.noText ();//temp
-			else//temp
-				SpeakDialogue ();
-		}
-	}
-
-    void FixedUpdate() {
         if (isTriggered && !isSpeaking && Input.GetKeyDown(KeyCode.Space)) {
             isSpeaking = true;
             StartCoroutine("SpeakDialogue");
@@ -168,14 +156,17 @@ public class InteractableSpeaker : Interactable {
             textController.write(dialogue);
 			textController.displayFace (speaker);
 
-            //TODO: feeds the data too fast, skipping dialogue lines
-            yield return StartCoroutine(WaitForKeyDown(KeyCode.Space)); 
+            //the wait call prevents multiple lines of dialogue being read in one frame
+            yield return new WaitForSeconds(.2f);
+            yield return StartCoroutine(WaitForKeyDown(KeyCode.Space));
 
             if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
                 Debug.Log(string.Format("Text Interrupted: dialogueIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
                 break;
             }
         }
+
+        textController.noText();
 
         isSpeaking = false;
 
@@ -203,6 +194,8 @@ public class InteractableSpeaker : Interactable {
 			//DAN: Start battle
 
 		}
+
+        yield return null;
     }
 
     IEnumerator WaitForKeyDown(KeyCode keyCode) {
