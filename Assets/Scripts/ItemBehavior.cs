@@ -22,6 +22,9 @@ public class ItemBehavior : MonoBehaviour {
 		case("The Orange Overlord"):
 			FindObjectOfType<Information> ().useItem ("The Orange Overlord");
 			return target.inflictStatus ("paralyzed", 5, user.character_name);
+		case("Life Bottle"):
+			FindObjectOfType<Information> ().useItem ("Life Bottle");
+			return user.revive ();
 		default:
 			return user.character_name + " uses a " + itemName + " on " + target.character_name + "!";
 		}
@@ -46,6 +49,10 @@ public class ItemBehavior : MonoBehaviour {
 			return 'e';
 		case("The Kevin-Beater Bat"):
 			return 'e';
+		case("The Orange Overlord"):
+			return 'e';
+		case("Life Bottle"):
+			return 'd';
 		default:
 			return 'n';
 

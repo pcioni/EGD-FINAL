@@ -21,6 +21,7 @@ public class ClanThug1 : FightBehavior {
 
 
 		managey.newTarget (this, false);
+		target = managey.getGoodGuys () [0];
 
 
 		int action = Random.Range (0, 100);

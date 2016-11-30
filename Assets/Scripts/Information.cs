@@ -34,10 +34,11 @@ public class Information : MonoBehaviour {
 		inventory ["Magic Lens"] = 5;
 		inventory ["The Kevin-Beater Bat"] = 99;
 		inventory ["The Orange Overlord"] = 270;
+		inventory ["Life Bottle"] = 5;
 	}
 
 	void defaultParty(){
-		party.Add (new Party_Member ("Sam", 60, 10, 12));
+		party.Add (new Party_Member ("Sam", 10, 10, 12));
 		party.Add (new Party_Member ("Amelia", 60, 10, 15));
 		party.Add (new Party_Member ("Cody", 100, 10, 10));
 		party.Add (new Party_Member ("Nico", 40, 10, 18));
