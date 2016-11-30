@@ -34,6 +34,7 @@ public class Information : MonoBehaviour {
 		inventory ["Magic Lens"] = 5;
 		inventory ["The Kevin-Beater Bat"] = 99;
 		inventory ["The Orange Overlord"] = 270;
+		inventory ["Life Bottle"] = 5;
 	}
 
 	void defaultParty(){

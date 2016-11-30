@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour {
 	List<FightBehavior> good_guys;
 	List<FightBehavior> bad_guys;
 	List<FightBehavior> participants;
+	List<FightBehavior> dead;
 	List<string> item_list;
 	List<int> item_list_amounts;
 	string state;
@@ -33,9 +34,10 @@ public class BattleManager : MonoBehaviour {
 		good_guys = new List<FightBehavior> ();
 		bad_guys = new List<FightBehavior> ();
 		participants = new List<FightBehavior> ();
+		dead = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
-		StartBattle (new List<string>{ "Sam", "Amelia", "Nico", "Cody" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
+		StartBattle (new List<string>{ "Sam", "Amelia", "Cody", "Nico" }, new List<string>{ "Clan Thug 1", "Clan Thug 2" });
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -225,6 +227,13 @@ public class BattleManager : MonoBehaviour {
 						result.Add (good_guys [x].character_name);
 					}
 					pending_choices.Add (result);
+				} else if (need_target == 'd') {
+					state = "select dead";
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < dead.Count; x++) {
+						result.Add (dead [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "pick actions";
 					picker++;
@@ -259,6 +268,13 @@ public class BattleManager : MonoBehaviour {
 						result.Add (good_guys [x].character_name);
 					}
 					pending_choices.Add (result);
+				} else if (need_target == 'd') {
+					state = "select dead";
+					List<string> result = new List<string> { "Who will " + good_guys [picker].character_name + " target?" };
+					for (int x = 0; x < dead.Count; x++) {
+						result.Add (dead [x].character_name);
+					}
+					pending_choices.Add (result);
 				} else {
 					state = "pick actions";
 					picker++;
@@ -287,6 +303,19 @@ public class BattleManager : MonoBehaviour {
 			if (action_selected > 0) {
 				good_guys [picker].setTarget (good_guys [action_selected - 1]);
 				pending_messages.Add (good_guys [picker].character_name + " will target " + good_guys [action_selected - 1].character_name + "!");
+				state = "pick actions";
+				picker++;
+				if (picker < good_guys.Count) {
+					pending_choices.Add (good_guys [picker].listActions ());
+				}
+				action_selected = 0;
+			}
+			return;
+
+		case("select dead"):
+			if (action_selected > 0) {
+				good_guys [picker].setTarget (dead [action_selected - 1], true);
+				pending_messages.Add (good_guys [picker].character_name + " will revive " + dead [action_selected - 1].character_name + "!");
 				state = "pick actions";
 				picker++;
 				if (picker < good_guys.Count) {
@@ -395,11 +424,20 @@ public class BattleManager : MonoBehaviour {
 	public void kill(FightBehavior which){
 		good_guys.Remove (which);
 		bad_guys.Remove (which);
+		dead.Add (which);
 		if (good_guys.Count == 0) {
 			defeat = true;
 		} else if (bad_guys.Count == 0) {
 			victory = true;
 		}
+	}
+
+	public string revive(FightBehavior who){
+		good_guys.Add (who);
+		dead.Remove (who);
+		who.gameObject.SetActive (true);
+		who.heal (who.getMaxHealth () / 2);
+		return who.character_name + " has been revived!";
 	}
 			
 
