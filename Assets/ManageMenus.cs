@@ -17,6 +17,7 @@ public class ManageMenus : MonoBehaviour {
 	public int current_level;
 	public GameObject play_button;
 	string[] levelSceneNames = { "Level 1 Overworld.unity", "Level 2 Overworld.unity", "fps.unity", "survival.unity", "arena.unity", "mmo2.unity" };
+	string[] current_level_dates = { "June 28th, 2006", "February 7th, 2009", "May 14th, 2013", "The Future" };
 	public string selectedLevel;
 	public Sprite[] logoSprites;
 
@@ -49,12 +50,14 @@ public class ManageMenus : MonoBehaviour {
 		}
 		poof_interface.SetActive (true);
 		SetMode (2);
+		GameObject.Find ("Date").GetComponent<Text> ().text = current_level_dates [current_level - 1];
 		poof_interface.SetActive (false);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (poof_interface.activeInHierarchy)
+			UpdateTime ();
 	}
 
 	public void PoofOnPoofOff(){
@@ -149,6 +152,23 @@ public class ManageMenus : MonoBehaviour {
 
 	public void OpenLevelScene(){
 		SceneManager.LoadScene ("Level 1 Overworld");
+	}
+
+	void UpdateTime(){
+		int hour = System.DateTime.Now.Hour;
+		string am_pm = "";
+		if (hour >= 12) {
+			if (hour != 12) hour -= 12;
+			am_pm = "pm";
+		} else {
+			if (hour == 0)hour = 12;
+			am_pm = "am";
+		}
+		string minute = System.DateTime.Now.Minute.ToString ();
+		if (minute.Length < 2)
+			minute = "0" + minute;
+		string current_time = hour +":"+ minute + am_pm;
+		GameObject.Find ("Time").GetComponent<Text> ().text = current_time;
 	}
 		
 }
