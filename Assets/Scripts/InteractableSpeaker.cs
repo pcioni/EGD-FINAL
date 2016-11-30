@@ -152,7 +152,7 @@ public class InteractableSpeaker : Interactable {
             string speaker = parseInfo[0];
             string dialogue = parseInfo[1];
     
-            Debug.Log("writing dialogue: " + dialogue);
+            //Debug.Log("writing dialogue: " + dialogue);
             textController.write(dialogue);
 			textController.displayFace (speaker);
 
@@ -245,9 +245,7 @@ public class InteractableSpeaker : Interactable {
 			}
 		}
 		else if (main_character.transform.position.x > transform.position.x ) {
-			print ("Sam is to my right");
 			if (!sprite_starts_left) {
-				print ("turning toward Sam");
 				transform.eulerAngles = Vector3.zero;
 			} 
 			else {

@@ -69,7 +69,7 @@ public class InteractableDoor : Interactable {
         player.transform.position = targetDest.position;
 		if (destCamera != null) {
 			myCamera.enabled = false;
-			print ("enabling " + destCamera);
+			//print ("enabling " + destCamera);
 			destCamera.enabled = true;
 		}
 		foreach(GameObject b in backgrounds){

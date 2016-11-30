@@ -393,7 +393,7 @@ public class BattleManager : MonoBehaviour {
 			return;
 
 		case("finished"):
-			SceneManager.LoadScene ("Overworld Test");
+			SceneManager.LoadScene (info.GetOverworldName());
 			return;
 
 		default:

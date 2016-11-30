@@ -9,6 +9,7 @@ public class CharacterController : MonoBehaviour {
 	private Animator animator;
 	public TextControl text_control;
 	public Camera currentCamera;
+	private Information info;
 
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
@@ -16,6 +17,14 @@ public class CharacterController : MonoBehaviour {
 		animator = GetComponent<Animator> ();
         ClampToGround();
     }
+
+	void Start(){
+		info = GameObject.FindObjectOfType<Information> ();
+		if (info.progress_number != 0) {
+			//we must be starting from a save point
+			info.OverworldLoad();
+		}
+	}
 	
     private void FixedUpdate() {
         HandleInput();

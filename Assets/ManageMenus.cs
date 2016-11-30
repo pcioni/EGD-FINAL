@@ -140,7 +140,7 @@ public class ManageMenus : MonoBehaviour {
 	}
 
 	public void OpenLevelScene(){
-		SceneManager.LoadScene ("Overworld Test");
+		SceneManager.LoadScene ("Level 1 Overworld");
 	}
 		
 }

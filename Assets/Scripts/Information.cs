@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Information : MonoBehaviour {
 
@@ -13,7 +14,10 @@ public class Information : MonoBehaviour {
 	//Overworld Save Data
 	//Remember to wipe these when starting a new level
 	Vector3 mainCharacterPosition = Vector3.zero;
-	int progress_number = 0;
+	public int progress_number = 0;
+	string scene_name = "";
+	//string current_camera = "";
+	string current_section = "";
 
 	// Use this for initialization
 	void Start () {
@@ -24,10 +28,6 @@ public class Information : MonoBehaviour {
 		party = new List<Party_Member> ();
 		defaultParty ();
 
-		if (progress_number != 0) {
-			//we must be starting from a save point
-			OverworldLoad();
-		}
 		good_guys = new List<string> ();
 		bad_guys = new List<string> ();
 	}
@@ -110,11 +110,27 @@ public class Information : MonoBehaviour {
 	public void OverworldSave(){
 		mainCharacterPosition = GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position;
 		progress_number = GameObject.FindObjectOfType<ProgressLevel> ().getOverworldProgress();
+		scene_name = SceneManager.GetActiveScene().name;
+
+		foreach (Camera c in GameObject.FindObjectsOfType<Camera>()) {
+			if (c.enabled) {
+				current_section = c.transform.parent.gameObject.name;
+				print ("first scene will be " + current_section);
+			}
+		}
+
 	}
 
 	public void OverworldLoad(){
 		GameObject.FindObjectOfType<CharacterController> ().gameObject.transform.position = mainCharacterPosition;
 		GameObject.FindObjectOfType<ProgressLevel> ().ProgressTo (progress_number);
+		foreach (IdentifyFirstScene i in GameObject.FindObjectsOfType<IdentifyFirstScene>()) {
+			if (i.name != current_section) {
+				i.firstScene = false;
+			} else {
+				i.firstScene = true;
+			}
+		}
 	}
 
 	public void setBattlers(string[] goods, string[] bads){
@@ -129,7 +145,12 @@ public class Information : MonoBehaviour {
 	}
 
 	public List<string> getEnemies(){
+		//oh no you have enemies now!
 		return bad_guys;
+	}
+
+	public string GetOverworldName(){
+		return scene_name;
 	}
 		
 }
