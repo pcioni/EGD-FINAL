@@ -66,7 +66,7 @@ public class InteractableSpeaker : Interactable {
 
 
 
-    void Awake()
+    void Start()
     {
         checkPrefab();
         dialogueIndex = 0;
@@ -83,6 +83,8 @@ public class InteractableSpeaker : Interactable {
 		text_storage = GameObject.FindObjectOfType<OverworldTextStorage> ();
 		if (dialogueID != "")
 			dialogueArray = text_storage.RetrieveDialogue (dialogueID);
+		if (info.talked_to.ContainsKey (name))
+			dialogueIndex = info.talked_to [name];
     }
 
 	void Update(){
@@ -152,6 +154,10 @@ public class InteractableSpeaker : Interactable {
         //Repeat the last line of dialogue once we've exhausted all the dialogue
         // i.e. "I'm done with you" -> "Go away..." -> "Go away..."
 
+		/*if (info != null && info.talked_to.ContainsKey (name) && info.talked_to [name] > dialogueIndex) {
+			print ("we've already talked to " + name);
+			dialogueIndex = info.talked_to [name];
+		}*/
 
         while (dialogueIndex < dialogueArray.Length) {
             string[] parseInfo = stringParser.ParseNameDialogueString(dialogueArray[dialogueIndex++]); //index++ indexes the array and then increments
@@ -195,8 +201,10 @@ public class InteractableSpeaker : Interactable {
 			info.addItemToInventory (give_item, item_quantity); 
 		}
 
-		if (our_team.Length != 0 && enemy_team.Length != 0) {
-			info.OverworldSave (/*gameObject.name, dialogueIndex*/);
+		if (our_team.Length != 0 && enemy_team.Length != 0 
+			&& !info.talked_to.ContainsKey(name)) {
+			info.OverworldSave ();
+			info.talked_to.Add (name, dialogueIndex);
 			info.setBattlers (our_team, enemy_team);
 			SceneManager.LoadScene ("BattleSystem");
 		}

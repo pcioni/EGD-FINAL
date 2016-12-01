@@ -16,6 +16,7 @@ public class IdentifyFirstScene : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (firstScene) {
+			GetComponentInChildren<Camera> ().enabled = true;
 			foreach (Camera c in GameObject.FindObjectsOfType<Camera>()) {
 				if (c.transform.parent.gameObject.GetComponent<IdentifyFirstScene>().firstScene
 					&& name!=c.transform.parent.gameObject.name){

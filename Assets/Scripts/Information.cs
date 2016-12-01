@@ -19,6 +19,9 @@ public class Information : MonoBehaviour {
 	public string current_section = "";
 	public string disable_battle = "";
 	public int dialogue_index = -1;
+	public Dictionary<string, int> talked_to;
+	//the string is someone not to fight again,
+	//the int is which dialogue index you left off on
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +34,8 @@ public class Information : MonoBehaviour {
 
 		good_guys = new List<string> ();
 		bad_guys = new List<string> ();
+
+		talked_to = new Dictionary<string, int> ();
 	}
 
 	void defaultInventory(){
