@@ -237,6 +237,7 @@ public class OverworldTextStorage : MonoBehaviour {
 
 		//EPILOGUE
 		epilogue.Add ("epilogue", new string[] {
+			//"EPILOGUE",
 			"Sam Walker finally found his passion for academics, attending a " +
 			"prestigious New York college to study Computer Science.",
 			"Amelia Ramirez went on to study Chemical Engineering at the same " +

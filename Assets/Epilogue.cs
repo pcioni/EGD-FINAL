@@ -26,6 +26,7 @@ public class Epilogue : MonoBehaviour {
 
 		fade_foreground = GameObject.Find ("Foreground").GetComponent<Image> ();
 		audioo = GameObject.FindObjectOfType<AudioSource> ();
+		print ("I am aware of the null ref, don't touch it!");
 	}
 	
 	// Update is called once per frame
