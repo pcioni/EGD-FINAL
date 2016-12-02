@@ -4,18 +4,18 @@ using System.Collections;
 public static class ParticleManager {
 
 	/// <summary>
-	/// Triggers the specified particle effect. Including a user AND target
-	/// will cause the system to move from user to target. Including just
-	/// one of those will cause the system to occur at that object.
-	/// Returns the duration of the particle effect.
+	/// Triggers particle system, returns time for effect to run.
 	/// </summary>
-	/// <returns>The duration of particle effect.</returns>
 	public static float doEffect(string attack, FightBehavior target){
 		GameObject temp = (GameObject)GameObject.Instantiate (Resources.Load ("Particles/"+attack));	
 		temp.transform.position = target.transform.position;
 		return temp.GetComponent<ParticleBehavior>().GetSecondsOfParticleEffect();
 	}
 
+	/// <summary>
+	/// Fires the particle effect from user to target, returns the total time the effect runs, 
+	/// including its travel time.
+	/// </summary>
 	public static float doEffect(string attack, FightBehavior user, FightBehavior target){
 		GameObject temp = (GameObject)GameObject.Instantiate (Resources.Load ("Particles/"+attack));	
 		temp.GetComponent<ParticleBehavior>().moveTo_start = user.transform;
