@@ -94,9 +94,14 @@ public class BattleManager : MonoBehaviour {
 	public void NeedTargeting(char which){
 		need_target = which;
 	}
-	
+		
+
 	// Update is called once per frame
 	void Update () {
+
+		//if (Input.GetKeyDown (KeyCode.P))
+			//ParticleManager.doEffect ("bolt", bad_guys [0]);
+
 
 		if (Input.GetKeyDown (KeyCode.Backspace)) {
 			if (state == "pick actions") {
@@ -430,6 +435,7 @@ public class BattleManager : MonoBehaviour {
 		item_list.AddRange( info.getItemNames () );
 		item_list_amounts.AddRange( info.getItemAmounts () );
 		turn_number = 1;
+
 	}
 
 	public void kill(FightBehavior which){

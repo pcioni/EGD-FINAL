@@ -27,6 +27,8 @@ public class ParticleBehavior : MonoBehaviour {
 		destination_time = Time.time + travel_time_in_seconds;
 		if (moveTo_start != null && moveTo_finish != null) {
 			transform.position = moveTo_start.position;
+			print ("Starting at " + moveTo_start.name);
+
 		} 
 		else if (current_path_node != null) {
 			transform.position = current_path_node.transform.position;
@@ -68,7 +70,7 @@ public class ParticleBehavior : MonoBehaviour {
 			if (transform.position != moveTo_finish.transform.position) {
 				//move in a certain time
 				transform.position = Vector3.Lerp (moveTo_start.position, 
-					moveTo_finish.position, (start_time + Time.time) / destination_time);
+					moveTo_finish.position, (Time.time - start_time) / travel_time_in_seconds);
 
 				//move at a certain speed
 				//transform.position = Vector3.MoveTowards (transform.position, moveTo_finish.position, .15f);
