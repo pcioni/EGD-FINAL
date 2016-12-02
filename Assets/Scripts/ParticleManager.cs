@@ -9,10 +9,14 @@ public static class ParticleManager {
 	public static float doEffect(string attack, FightBehavior target){
 		GameObject temp = (GameObject)GameObject.Instantiate (Resources.Load ("Particles/"+attack));	
 		temp.transform.position = target.transform.position;
-		ParticleBehavior pb = temp.GetComponent<ParticleBehavior>(); 
-		if (pb == null)
-			pb = pb.transform.GetComponentInChildren<ParticleBehavior> ();
-		return pb.GetSecondsOfParticleEffect();
+		if (temp.GetComponent<ParticleBehavior> () != null) {
+			ParticleBehavior pb = temp.GetComponent<ParticleBehavior> ();
+			return pb.GetSecondsOfParticleEffect();
+		} else {
+			ParticleBehavior pb = temp.transform.GetComponentInChildren<ParticleBehavior> ();
+			return pb.GetSecondsOfParticleEffect();
+		}
+
 	}
 
 	/// <summary>

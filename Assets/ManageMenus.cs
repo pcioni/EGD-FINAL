@@ -37,7 +37,6 @@ public class ManageMenus : MonoBehaviour {
 		}
 		//enable buttons based on how far we are
 		VerticalLayoutGroup[] f= friendsList.GetComponentsInChildren<VerticalLayoutGroup>();
-		foreach (VerticalLayoutGroup thing in f) print (thing.name);
 		for (int x = 0; x < f.Length; x++) {
 			if (f [x].name == "Friends List") continue;
 			if (x <= current_level) {
