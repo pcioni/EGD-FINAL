@@ -82,6 +82,20 @@ public static class Abilities {
 		}
 	}
 
+	public static List<string> useAbility(string ability, FightBehavior user, BattleManager managey){
+		List<string> result = new List<string> ();
+
+		switch (ability) {
+
+		case("Revive Team"):
+			result.AddRange (managey.reviveTeam (user.getAlignment()));
+			return result;
+		default:
+			result.Add (user.character_name + " tried to use a non-existent ability!");
+			return result;
+		}
+	}
+
 	public static List<string> useAbility(string ability, FightBehavior user, FightBehavior target){
 		List<string> result = new List<string> ();
 
@@ -128,7 +142,7 @@ public static class Abilities {
 			return result;
 
 		default:
-			result.Add (user.character_name + " tried to use a non-existant ability!");
+			result.Add (user.character_name + " tried to use a non-existent ability!");
 			return result;
 		}
 	}

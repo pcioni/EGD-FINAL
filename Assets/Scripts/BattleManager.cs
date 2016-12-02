@@ -9,6 +9,7 @@ public class BattleManager : MonoBehaviour {
 	List<FightBehavior> bad_guys;
 	List<FightBehavior> participants;
 	List<FightBehavior> dead;
+	List<FightBehavior> defeated_enemies;
 	List<string> item_list;
 	List<int> item_list_amounts;
 	string state;
@@ -37,6 +38,7 @@ public class BattleManager : MonoBehaviour {
 		bad_guys = new List<FightBehavior> ();
 		participants = new List<FightBehavior> ();
 		dead = new List<FightBehavior> ();
+		defeated_enemies = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
 		StartBattle ();
@@ -431,9 +433,14 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public void kill(FightBehavior which){
-		good_guys.Remove (which);
-		bad_guys.Remove (which);
-		dead.Add (which);
+		if (which.getAlignment ()) {
+			good_guys.Remove (which);
+			dead.Add (which);
+		} else {
+			bad_guys.Remove (which);
+			defeated_enemies.Add (which);
+		}
+		
 		if (good_guys.Count == 0) {
 			defeat = true;
 		} else if (bad_guys.Count == 0) {
@@ -442,11 +449,36 @@ public class BattleManager : MonoBehaviour {
 	}
 
 	public string revive(FightBehavior who){
-		good_guys.Add (who);
-		dead.Remove (who);
 		who.gameObject.SetActive (true);
-		who.heal (who.getMaxHealth () / 2);
-		return who.character_name + " has been revived!";
+		if (who.getAlignment ()) {
+			dead.Remove (who);
+			good_guys.Add (who);
+			who.heal (who.getMaxHealth () / 2);
+			return who.character_name + " has been revived!";
+		} else {
+			defeated_enemies.Remove (who);
+			bad_guys.Add (who);
+			who.heal (who.getMaxHealth ());
+			return "Another " + who.character_name + " has arrived to the battlefield!";
+		}
+
+
+	}
+
+	public List<string> reviveTeam(bool good_guys){
+		List<string> result = new List<string> ();
+		if (good_guys) {
+			for (int x = 0; x < dead.Count; x++) {
+				result.Add (revive (dead [x]));
+			}
+			return result;
+		} else {
+			for (int x = 0; x < defeated_enemies.Count; x++) {
+				result.Add (revive (defeated_enemies [x]));
+			}
+			return result;
+		}
+
 	}
 			
 

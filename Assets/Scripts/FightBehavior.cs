@@ -80,6 +80,10 @@ public class FightBehavior : MonoBehaviour {
 		good_guy = goodness;
 	}
 
+	public bool getAlignment(){
+		return good_guy;
+	}
+
 	public virtual void setAbilities(){
 		abilities.Add ("Heal");
 		abilities.Add ("Poison");
