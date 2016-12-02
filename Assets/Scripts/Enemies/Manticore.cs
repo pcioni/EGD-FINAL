@@ -34,9 +34,11 @@ public class Manticore : FightBehavior {
 		if (action < 25) {
 			result.Add (character_name + " bites " + target.character_name + "!");
 			result.Add (target.damage (10, character_name));
+			ParticleManager.doEffect ("claw", target);
 		} else if (action < 50 || manticore_enraged) {
 			result.Add (character_name + " mauls " + target.character_name + " violently!");
 			result.Add (target.damage (20, character_name));
+			ParticleManager.doEffect ("claw", target);
 		} else {
 			result.Add (character_name + " is keeping its distance...");
 		}

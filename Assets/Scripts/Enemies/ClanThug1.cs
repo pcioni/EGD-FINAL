@@ -7,7 +7,7 @@ public class ClanThug1 : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Brute";
-		setAIStats (20);
+		setAIStats (35);
 	}
 
 	public override string examine ()
@@ -29,10 +29,11 @@ public class ClanThug1 : FightBehavior {
 			result.Add (target.inflictStatus ("blinded", Random.Range (1, 4), character_name));
 		} else if (action < 60) {
 			result.Add (character_name + " slashes at " + target.character_name + "!");
-			result.Add (target.damage (20, character_name));
+			result.Add (target.damage (20, character_name, ParticleManager.doEffect ("generic hit", target)));
 		} else if (action < 90) {
 			result.Add (character_name + " kicks " + target.character_name + " in the shins!");
-			result.Add (target.damage (10, character_name));
+			result.Add (target.damage (10, character_name, ParticleManager.doEffect ("generic hit", target)));
+
 		} else {
 			managey.newTargetWeakest (this, true);
 			result.Add (character_name + " throws a healing potion to " + target.character_name + "!");

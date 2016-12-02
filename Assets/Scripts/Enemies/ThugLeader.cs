@@ -39,13 +39,13 @@ public class ThugLeader : FightBehavior {
 			result.AddRange (Abilities.useAbility("Poison", this, target));
 		} else if (action < 60) {
 			result.Add (character_name + " swings violently at " + target.character_name + "!");
-			result.Add (target.damage (15, character_name));
+			result.Add (target.damage (15, character_name, ParticleManager.doEffect ("generic hit", target)));
 		} else if (action < 90) {
 			result.Add (character_name + " throws multiple knives at " + target.character_name + "!");
 			int number = Random.Range (1, 6);
 			for (int x = 0; x < number; x++) {
 				managey.newTarget (this, false);
-				result.Add (target.damage (5, character_name));
+				result.Add (target.damage (5, character_name, ParticleManager.doEffect ("thug attack", this, target)));
 			}
 		} else {
 			managey.newTargetWeakest (this, true);

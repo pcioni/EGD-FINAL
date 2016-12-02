@@ -107,33 +107,35 @@ public static class Abilities {
 			return result;
 
 		case("Poison"):
+			ParticleManager.doEffect ("poison", target);
 			result.Add (user.character_name + " summons poisonous clouds of gas around " + target.character_name + "!");
 			result.Add (target.inflictStatus ("poisoned", Random.Range (2, 5), user.character_name));
 			return result;
 
 		case("Fireball"):
 			result.Add (user.character_name + " launches a fireball at " + target.character_name + "!");
-			result.Add (target.damage (20, user.character_name));
+			result.Add (target.damage (20, user.character_name, ParticleManager.doEffect("fireball", user, target)));
 			return result;
 
 		case("Lightning"):
 			result.Add (user.character_name + " summons a lightning bolt upon " + target.character_name + "!");
-			result.Add (target.damage (Random.Range (10, 30), user.character_name));
+			result.Add (target.damage (Random.Range (10, 30), user.character_name, ParticleManager.doEffect ("bolt", target)));
 			return result;
 
 		case("Icicle"):
 			result.Add (user.character_name + " extrudes razor-sharp icicles below " + target.character_name + "!");
-			result.Add (target.damage (20, user.character_name));
+			result.Add (target.damage (20, user.character_name, ParticleManager.doEffect ("icicle", user, target)));
 			return result;
 
 		case("Berserk"):
+			ParticleManager.doEffect ("enrage", target);
 			result.Add (user.character_name + " has gone berserk!");
 			user.inflictStatus ("berserk", Random.Range (2, 5), user.character_name);
 			return result;
 
 		case("Beat Rush"):
 			result.Add (user.character_name + " launches an onslaught of attacks on " + target.character_name + "!");
-			result.Add (target.damage (30, user.character_name));
+			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("beat rush", target)));
 			return result;
 
 		case("Paralyze"):
