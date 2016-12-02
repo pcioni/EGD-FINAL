@@ -7,10 +7,10 @@ public class MenuMenuTextStorage : MonoBehaviour {
 	string[] game1 = {		
 			//Game 1
 			//Description
-			"Only the bravest and boldest may play in the realm of " +
-			"Mamorpaga, a knights and dragons fantasy game of epic " +
-			"proportions!\nForm a guild with your friends and battle to " +
-			"become MOST EPIC KNIGHT. For players 12 and up.",
+			"Adventure! Achievement! Triumph! Experience the " +
+			"thrill of this medieval fantasy RPG of epic " +
+			"proportions!\nJoin a guild with your friends and fight " +
+			"hard to earn your glory!",
 			//Title
 			"Mamorpaga",
 			//Quick Facts
