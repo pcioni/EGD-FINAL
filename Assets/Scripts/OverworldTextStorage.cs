@@ -11,6 +11,7 @@ public class OverworldTextStorage : MonoBehaviour {
 	Dictionary<string, string[]> level1;
 	Dictionary<string, string[]> level2;
 	Dictionary<string, string[]> level3;
+	Dictionary<string, string[]> epilogue;
 
 	// Use this for initialization
 	void Awake () {
@@ -19,6 +20,7 @@ public class OverworldTextStorage : MonoBehaviour {
 		level1 = new Dictionary<string, string[]> ();
 		level2 = new Dictionary<string, string[]> ();
 		level3 = new Dictionary<string, string[]> ();
+		epilogue = new Dictionary<string, string[]> ();
 
 		//Set the correct one
 		switch (level_number) {
@@ -30,6 +32,9 @@ public class OverworldTextStorage : MonoBehaviour {
 			break;
 		case 3:
 			dialogue = level3;
+			break;
+		case 5:
+			dialogue = epilogue;
 			break;
 		}
 
@@ -228,6 +233,29 @@ public class OverworldTextStorage : MonoBehaviour {
 			"Sam|Nico where did you even come from?",
 			"Cody|Thanks for bringing us together Sam. Let's meet up again soon!",
 			"Poof|You recieved a friend request from Cooldy456."
+		});
+
+		//EPILOGUE
+		epilogue.Add ("epilogue", new string[] {
+			"Sam Walker finally found his passion for academics, attending a " +
+			"prestigious New York college to study Computer Science.",
+			"Amelia Ramirez went on to study Chemical Engineering at the same " +
+			"school as Sam._# They started dating in September of 2013.",
+			"Lacking the financial means to pursue higher education, Cody Baron " +
+			"entered the workforce as a sales clerk after high school graduation, " +
+			"_but an essay contest led to his obtaining a full scholarship to study " +
+			"Marine Biology at his dream school in Florida.",
+			"Nico Da Silva tired of education, and left college after his first " +
+			"semester._ He joined an improvisational comedy troupe in Los Angeles " +
+			"and was called a rising star by three LA newspapers within two months " +
+			"of his stage debut.",
+			"Sam Walker was fond of recounting stories of his adventures with the " +
+			"Fireclomplers, and he never forgot his happy days playing games with his " +
+			"guild.",
+			"CREDITS: #Programming by #Kevin Kortright #Daniel Haynes #and #Phil Cioni ",
+			"Art by #Yijia Chen ##Music and Sound by #Mitchell Krueger ",
+			"THE END##On behalf of our entire team, thank you for playing."
+
 		});
 	
 	}
