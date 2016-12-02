@@ -146,10 +146,8 @@ public class ParticleBehavior : MonoBehaviour {
 
 	public float GetSecondsOfParticleEffect(){
 		//if it travels
-		float burst_time = 0;
 		if (burst_obj != null){
-			burst_time = burst_obj.GetComponent<ParticleBehavior>().GetSecondsOfParticleEffect ();
-			return travel_time_in_seconds + burst_time; 
+			return travel_time_in_seconds; 
 		}
 		//if it does not travel
 		return GetComponent<ParticleSystem> ().duration;
