@@ -158,11 +158,12 @@ public class FightBehavior : MonoBehaviour {
 
 	public string damage (int amount, string attacker){
 		if (effects.ContainsKey ("guarded")) {
+			ParticleManager.doEffect ("guard", target);
 			return character_name + "'s guard protects them from " + attacker + "'s attack!";
 		}
 		health -= amount;
 		StopCoroutine ("damageFlash");
-		StartCoroutine ("damageFlash");
+		StartCoroutine (damageFlash(0));
 		if (health < 0) {
 			health = 0;
 		}
@@ -170,13 +171,35 @@ public class FightBehavior : MonoBehaviour {
 		if (health <= 0) {
 			managey.kill (this);
 			StopCoroutine ("damageFlash");
-			StartCoroutine ("deathFlash");
+			StartCoroutine (deathFlash(0));
 			return character_name + " has been defeated by " + attacker + "!";
 		}
 		return character_name + " takes " + amount + " damage from " + attacker;
 	}
 
-	IEnumerator damageFlash(){
+	public string damage (int amount, string attacker, float particle_delay){
+		if (effects.ContainsKey ("guarded")) {
+			ParticleManager.doEffect ("guard", target);
+			return character_name + "'s guard protects them from " + attacker + "'s attack!";
+		}
+		health -= amount;
+		StopCoroutine ("damageFlash");
+		StartCoroutine (damageFlash(particle_delay));
+		if (health < 0) {
+			health = 0;
+		}
+		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
+		if (health <= 0) {
+			managey.kill (this);
+			StopCoroutine ("damageFlash");
+			StartCoroutine (deathFlash(particle_delay));
+			return character_name + " has been defeated by " + attacker + "!";
+		}
+		return character_name + " takes " + amount + " damage from " + attacker;
+	}
+
+	IEnumerator damageFlash(float delay){
+		yield return new WaitForSeconds (delay);
 		SpriteRenderer rendy = GetComponent<SpriteRenderer> ();
 		rendy.color = Color.white;
 		float flash_rate = 0.2f;
@@ -199,7 +222,8 @@ public class FightBehavior : MonoBehaviour {
 		rendy.color = Color.white;
 	}
 
-	IEnumerator deathFlash(){
+	IEnumerator deathFlash(float delay){
+		yield return new WaitForSeconds (delay);
 		SpriteRenderer rendy = GetComponent<SpriteRenderer> ();
 		rendy.color = Color.red;
 		float fade_rate = 0.01f;
@@ -212,6 +236,7 @@ public class FightBehavior : MonoBehaviour {
 	}
 
 	public string heal (int amount){
+		ParticleManager.doEffect ("heal", this);
 		if (health + amount > max_health) {
 			amount = max_health - health;
 		}
@@ -266,6 +291,7 @@ public class FightBehavior : MonoBehaviour {
 		foreach (string key in keys) {
 
 			if (key == "poisoned") {
+				ParticleManager.doEffect ("poison", target);
 				result.Add (damage (10, "poison"));
 			}
 
@@ -290,13 +316,14 @@ public class FightBehavior : MonoBehaviour {
 
 		if (effects.ContainsKey ("berserk")) {
 			managey.newTarget (this, true);
+			ParticleManager.doEffect ("enrage", target);
 			result.Add (character_name + " goes berserk on " + target.character_name + "!");
-			result.Add (target.damage (strength + 1, character_name));
+			result.Add (target.damage (strength + 10, character_name));
 			return result;
 		} else if (effects.ContainsKey ("paralyzed") && Random.Range (1, 3) == 1) {
 			result.Add (character_name + " cannot bring themself to move due to their paralysis!");
 			return result;
-		} else if (effects.ContainsKey ("blinded") && Random.Range (1, 3) == 1) {
+		} else if (effects.ContainsKey ("blinded") && Random.Range (1, 4) == 1) {
 			result.Add (character_name + " attacked wildly, but missed the target!");
 			return result;
 		}
@@ -309,11 +336,12 @@ public class FightBehavior : MonoBehaviour {
 
 		case ("attacks"):
 			result.Add (character_name + " attacks " + target.character_name + "!");
-			result.Add (target.damage (strength, character_name));
+			result.Add (target.damage (strength, character_name, ParticleManager.doEffect ("generic hit", target)));
 			return result;
 
 
 		case ("guards"):
+			ParticleManager.doEffect ("guard", target);
 			result.Add (character_name + " guards " + target.character_name + "!");
 			result.Add (target.inflictStatus ("guarded", 1, character_name));
 			return result;
