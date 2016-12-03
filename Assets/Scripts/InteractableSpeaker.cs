@@ -86,8 +86,10 @@ public class InteractableSpeaker : Interactable {
 		text_storage = GameObject.FindObjectOfType<OverworldTextStorage> ();
 		if (dialogueID != "")
 			dialogueArray = text_storage.RetrieveDialogue (dialogueID);
-		if (info.talked_to.ContainsKey (name))
+		if (info.talked_to.ContainsKey (name)) {
 			dialogueIndex = info.talked_to [name];
+			do_sparkle = false;
+		}
     }
 
 	void Update(){
@@ -189,11 +191,13 @@ public class InteractableSpeaker : Interactable {
 		if (do_restore_idle)
 			idle = true;
 
+		do_sparkle = false;
+		if (interactable_particles != null)
+			Destroy (interactable_particles);
+
+
 		if (dialogueIndex == dialogueArray.Length) {
             dialogueIndex--;
-            do_sparkle = false;
-			if (interactable_particles != null)
-				Destroy (interactable_particles);
 		}
 
 		//finished obligatory conversation
@@ -202,8 +206,9 @@ public class InteractableSpeaker : Interactable {
 			GameObject.FindObjectOfType<ProgressLevel> ().updateOverworldProgress(new_progress_number);
 		}
 
-		if (give_item != "") {
-			info.addItemToInventory (give_item, item_quantity); 
+		if (give_item != "" && !info.talked_to.ContainsKey(name)) {
+			info.addItemToInventory (give_item, item_quantity);
+			info.talked_to.Add (name, dialogueIndex);
 		}
 
 		if (our_team.Length != 0 && enemy_team.Length != 0 

@@ -119,6 +119,7 @@ public class OverworldTextStorage : MonoBehaviour {
 			"Cody| We _ ARE??",
 			"Sam| Yes.",
 			"Cody| Well alright then!",
+			"Sam| Let's go train! I heard there's some wilderness off to our left.",
 			"|Cody joined your party."
 		});
 
