@@ -27,6 +27,7 @@ public class ClanThug1 : FightBehavior {
 		if (action < 20) {
 			result.Add (character_name + " kicks a cloud of dirt into " + target.character_name + "'s eyes!");
 			result.Add (target.inflictStatus ("blinded", Random.Range (1, 4), character_name));
+			ParticleManager.doEffect ("dirt", target);
 		} else if (action < 60) {
 			result.Add (character_name + " slashes at " + target.character_name + "!");
 			result.Add (target.damage (20, character_name, ParticleManager.doEffect ("generic hit", target)));
