@@ -54,7 +54,9 @@ public class OverworldTextStorage : MonoBehaviour {
 			"AMELIA|You'd just slow me down.",
 			"SAM|But it would be more fun together.",
 			"AMELIA|_Sorry, were you saying something?",
-			"AMELIA| Ah, nope, I'm here to play the game, not make friends."
+			"AMELIA| Ah, nope, I'm here to play the game, not make friends.$",
+			"AMELIA| Why don't you go distract that person over there who " +
+			"isn't me."
 		});
 
 		level1.Add("Marketplace Thug", new string[]{
@@ -74,7 +76,8 @@ public class OverworldTextStorage : MonoBehaviour {
 			"CHEST 1|It's gold!",
 			"SAM|Really??!",
 			"CHEST 1|Nope.",
-			"|You got the Potion."
+			"|You got the Potion.$",
+			"|Enjoy."
 		});
 
 		level1.Add ("Darkness Thug", new string[] {
@@ -137,7 +140,8 @@ public class OverworldTextStorage : MonoBehaviour {
 			"CHEST 1|Go on, guess.",
 			"SAM|GOLD?!?!?",
 			"CHEST 1|WRONG! It's your very own [disappointing item]!",
-			"|You got a used [disappointing item]."
+			"|You got a used [disappointing item].$",
+			"|Enjoy."
 		});
 
 		level1.Add ("Marketplace Nico", new string[] {
@@ -195,7 +199,8 @@ public class OverworldTextStorage : MonoBehaviour {
 			"CHEST 1|Your life will be forever changed...",
 			"SAM| gold ?",
 			"CHEST 1|...just not by this item.",
-			"|You got the [disappointing item]"
+			"|You got the [disappointing item]$",
+			"|Enjoy"
 		});
 
 		level1.Add ("Cave Entrance Nico", new string[] {
@@ -214,7 +219,9 @@ public class OverworldTextStorage : MonoBehaviour {
 			"Amelia| Background.",
 			"Sam| A different background than you have, yeah!",
 			"Nico| You'll miss me.",
-			"Cody| Eh.."
+			"Cody| Eh..$",
+			"Nico| You're missing out on all this awesome right here. " +
+			"What a shame. I feel bad for you."
 		});
 
 		level1.Add ("Enemy Camp Thug Leader", new string[] {

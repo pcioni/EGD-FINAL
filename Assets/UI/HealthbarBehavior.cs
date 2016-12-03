@@ -20,11 +20,12 @@ public class HealthbarBehavior : MonoBehaviour {
 	}
 
 	public void defaultHealth(int amount){
+		print ("default health set to " + amount);
 		max_health = amount;
 	}
 
-	public void SetHealth(float percentage){
-		transform.localScale = new Vector3 (percentage/max_health, 1, 1);
-		text.GetComponent<Text> ().text =  percentage.ToString();
+	public void SetHealth(float amount){
+		transform.localScale = new Vector3 (amount/max_health, 1, 1);
+		text.GetComponent<Text> ().text =  amount.ToString();
 	}
 }
