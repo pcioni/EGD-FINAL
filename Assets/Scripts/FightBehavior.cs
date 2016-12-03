@@ -291,7 +291,7 @@ public class FightBehavior : MonoBehaviour {
 		foreach (string key in keys) {
 
 			if (key == "poisoned") {
-				ParticleManager.doEffect ("poison", target);
+				ParticleManager.doEffect ("poison", this);
 				result.Add (damage (10, "poison"));
 			}
 
