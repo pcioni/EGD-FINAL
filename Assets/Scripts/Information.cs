@@ -11,6 +11,8 @@ public class Information : MonoBehaviour {
 	List<string> good_guys;
 	List<string> bad_guys;
 
+	int current_level = 1;
+
 	//Overworld Save Data
 	//Remember to wipe these when starting a new level
 	Vector3 mainCharacterPosition = Vector3.zero;
@@ -174,6 +176,14 @@ public class Information : MonoBehaviour {
 
 	public string GetOverworldName(){
 		return scene_name;
+	}
+
+	public void IncrementLevelNumber(){
+		current_level++;
+	}
+
+	public int GetLevelNumber(){
+		return current_level;
 	}
 		
 }

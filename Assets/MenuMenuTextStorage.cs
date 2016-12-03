@@ -14,7 +14,7 @@ public class MenuMenuTextStorage : MonoBehaviour {
 			//Title
 			"Mamorpaga",
 			//Quick Facts
-			"What a fantastic name. -Andrew, Reviewer Magazine\n\n10/10 -Kevin Kortright"
+		"The unexpected hit of 2006.\n★★★★★ - Game Review Daily"
 	};
 
 	string[] game2 = {	
@@ -33,11 +33,13 @@ public class MenuMenuTextStorage : MonoBehaviour {
 	string[] game3 = {
 			//Game 3
 			//Description
-			"Only manly people who like explosions need apply.",
+			"Reimagined for 2013, Mamorpaga Remastered is nothing like you've ever seen before. " +
+			"Get your guilds together, fair ladies and gallant gentleman, this is one quest you " +
+			"won't want to miss.",
 			//Title
-			"FPS Game",
+			"Mamorpaga Remastered",
 			//Quick Facts
-			"360-No Scoping N00bs is my go-to maneuver. -Reviewer Magazine"
+			"Like fine wine, it's only improved with age. -Reviewer Magazine"
 	};
  
 	string[] game4 = {

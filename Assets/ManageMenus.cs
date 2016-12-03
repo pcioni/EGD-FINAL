@@ -14,10 +14,10 @@ public class ManageMenus : MonoBehaviour {
 	public GameObject friendsList;
 
 	//GAMES
-	public int current_level;
+	int current_level;
 	public GameObject play_button;
 	string[] levelSceneNames = { "Level 1 Overworld.unity", "Level 2 Overworld.unity", "fps.unity", "survival.unity", "arena.unity", "mmo2.unity" };
-	string[] current_level_dates = { "June 28th, 2006", "February 7th, 2009", "May 14th, 2013", "The Future" };
+	string[] current_level_dates = { "June 28th, 2006", "Feb. 7th, 2009", "May 14th, 2013", "The Future" };
 	public string selectedLevel;
 	public Sprite[] logoSprites;
 
@@ -26,6 +26,9 @@ public class ManageMenus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//get the level from Information
+		current_level = GameObject.FindObjectOfType<Information>().GetLevelNumber();
+
 		//enable buttons based on how far we are
 		Button[] g= gamesList.GetComponentsInChildren<Button>();
 		for (int x = 0; x < g.Length; x++) {

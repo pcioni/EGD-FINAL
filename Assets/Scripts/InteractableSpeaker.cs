@@ -60,6 +60,9 @@ public class InteractableSpeaker : Interactable {
 	public string[] our_team;
 	public string[] enemy_team;
 
+	[Header("End Level")]
+	public bool endLevel = false;
+
 	[Header("Hotfix")]
 	//Used for a specific instance when a battle occurs before the first progress point
 	public GameObject enableAfterTalking = null;
@@ -213,6 +216,10 @@ public class InteractableSpeaker : Interactable {
 
 		if (enableAfterTalking != null)
 			enableAfterTalking.SetActive (true);
+
+		if (endLevel) {
+			GameObject.FindObjectOfType<FadeOutLevel> ().Fade ();
+		}
 
         yield return null;
     }
