@@ -12,10 +12,6 @@ public class HealthbarBehavior : MonoBehaviour {
 		text = (GameObject) Instantiate(text_prefab, Vector3.zero, Quaternion.identity);
 		text.transform.SetParent(GameObject.Find ("Floating Character Canvas").transform);
 		text.GetComponent<Text> ().text = max_health.ToString();
-	}
-	
-	// Update is called once per frame
-	void Update () {
 		text.transform.position = new Vector3(transform.position.x, transform.position.y+0.1f);
 	}
 

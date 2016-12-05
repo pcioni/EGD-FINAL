@@ -220,6 +220,8 @@ public class BattleManager : MonoBehaviour {
 			need_target = 'n';
 			if (action_selected > 0) {
 				if (!good_guys [picker].enoughMana (action_selected)) {
+					pending_messages.Add (good_guys [picker].character_name + " doesn't have enough mana for that ability!");
+					pending_choices.Add (good_guys [picker].listAbilities ());
 					action_selected = 0;
 					return;
 				}

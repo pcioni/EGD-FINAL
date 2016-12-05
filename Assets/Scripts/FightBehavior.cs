@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class FightBehavior : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class FightBehavior : MonoBehaviour {
 	protected List<string> abilities;
 	List<int> ability_costs;
 	GameObject myHealthBar;
+	GameObject myManaBar;
 	[HideInInspector]
 	public int action_number;
 	[HideInInspector]
@@ -33,6 +35,7 @@ public class FightBehavior : MonoBehaviour {
 		abilities = new List<string> ();
 		setAbilities ();
 		ability_costs = Abilities.calculateCosts (abilities);
+
 		//Health bar stuff
 		GameObject bar = (GameObject)Instantiate (Resources.Load("Healthbar"));
 		bar.transform.SetParent(GameObject.Find ("Floating Character Canvas").transform);
@@ -41,10 +44,22 @@ public class FightBehavior : MonoBehaviour {
 		//calculate the distance the healthbar sits as a function of how
 		//tall our character is
 		float half_height = GetComponent<SpriteRenderer>().bounds.extents.y;
-		float height_above = .1f * half_height + half_height;
+		float height_above = .3f * half_height + half_height;
 		myHealthBar.transform.position = new Vector3(transform.position.x,
 			transform.position.y + height_above, 0);
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
+
+		//Mana bar stuff
+		bar = (GameObject) Instantiate (Resources.Load("Healthbar"));
+		bar.transform.SetParent (GameObject.Find ("Floating Character Canvas").transform);
+		bar.transform.localScale = Vector3.one;
+		myManaBar = bar;
+		half_height = GetComponent<SpriteRenderer> ().bounds.extents.y;
+		height_above = 0.1f * half_height + half_height;
+		myManaBar.transform.position = new Vector3 (transform.position.x, transform.position.y + height_above, 0);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana);
+		myManaBar.GetComponent<Image> ().color = Color.blue;
+
 		setName();
 		ignore_death = false;
 	}
@@ -67,13 +82,15 @@ public class FightBehavior : MonoBehaviour {
 		max_health = info.max_health;
 		mana = info.mana;
 		max_mana = info.max_mana;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana);
 		strength = info.strength;
 	}
 
 	protected void setAIStats(int healthy){
 		max_health = health = healthy;
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		myManaBar.SetActive (false);
 	}
 
 	public void setAlignment(bool goodness){
@@ -268,16 +285,19 @@ public class FightBehavior : MonoBehaviour {
 
 	public List<string> useAbility(){
 		mana -= ability_costs [action_number - 1];
+		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
 		return Abilities.useAbility(abilities[action_number - 1], this, target);
 	}
 
 	public List<string> useAbility(string ability){
 		mana -= Abilities.calculateCosts (new List<string> { ability }) [0];
+		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
 		return Abilities.useAbility (ability, this, target);
 	}
 
 	public string revive(){
 		myHealthBar.SetActive (true);
+		myManaBar.SetActive (true);
 		return managey.revive (target);
 	}
 
