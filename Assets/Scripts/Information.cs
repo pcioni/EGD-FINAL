@@ -10,6 +10,7 @@ public class Information : MonoBehaviour {
 	List<Party_Member> party;
 	List<string> good_guys;
 	List<string> bad_guys;
+	List<string> intro_dialogue;
 
 	int current_level = 1;
 
@@ -186,5 +187,16 @@ public class Information : MonoBehaviour {
 	public int GetLevelNumber(){
 		return current_level;
 	}
+
+	public void setIntroDialogue(List<string> words){
+		intro_dialogue = words;
+	}
 		
+	public List<string> getIntroDialogue(){
+		return intro_dialogue;
+	}
+
+	public bool introDialogue(){
+		return intro_dialogue.Count > 0;
+	}
 }
