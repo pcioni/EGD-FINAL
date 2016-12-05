@@ -243,6 +243,9 @@ public class OverworldTextStorage : MonoBehaviour {
 			"Poof|You recieved a friend request from Cooldy456."
 		});
 
+
+
+
 		//LEVEL 2
 		level2.Add ("Amelia 1", new string[] {
 			"Amelia| We've got a lot of points to take if we're going to win this.",
@@ -252,8 +255,303 @@ public class OverworldTextStorage : MonoBehaviour {
 			"Amelia| Don't you have anything useful to be doing, nerd?"
 		});
 
-		//EPILOGUE
-		epilogue.Add ("epilogue", new string[] {
+        level2.Add("Treasure Chest 1", new string[] {
+            "Chest| Private you come here looking for a reward when you haven't even done anything??",
+            "Chest| Civilian life has made you soft and needy!",
+            "Chest| Am I expected to reward this behavior?",
+            "Chest| Am I expected to condone your whining and sniveling?",
+            "Chest| Do you want a participation trophy, private?",
+            "Chest| Will that make you happy?",
+            "|The chest actually does contain a Participation Trophy. You are led to believe that the chest was just antagonizing you to build character",
+        });
+
+        level2.Add("Nico 1", new string[] {
+            "Nico| I've got enough grenades in my pocket to cause quite a stir. I think I'm ready to go. How's your week going Sam?",
+            "Sam| Not too bad. Lots of homework from World History- I don't see who's supposed to care about that stuff.",
+            "Nico| I like World History- lots of great role models. Gandhi, Margaret Thatcher, Robert Oppenheimer, Maximilien Robespierre...",
+        });
+
+
+        level2.Add("Cody 1", new string[] {
+            "Cody| Did you talk to the girl from your history class today?",
+            "Sam| Chickened out... Not everyone can land a great relationship like you, dude.",
+            "Cody| You'll meet someone, I know it! And you haven't even talked to my girlfriend yet, how do you know you're going to like her?",
+            "Sam| If you like her, she must be great.",
+            "Amelia| Cody, is that girl here yet? She makes me regret more and more that we let her be the fifth soldier on the team.",
+            "Cody| You won't regret it - she fights like a wildcat when she's in battle. It's so cool...",
+            "Amelia| Do not get mushy when you are talking to me. I could care less about your feelings about this slow, silly girl of yours.",
+        });
+
+        level2.Add("Amanda 2", new string[] {
+            "Amanda| hey everybody, sorry i'm late!",
+            "Amelia| (Ew, does she only type in lowercase letters??)",
+            "Sam| It's good to meet you Amanda! Are you ready to win some territory and some glory??",
+            "Amanda| so ready!!!",
+            "Cody| That's my Mandy!",
+            "Amelia| (So gross! So gross!)",
+        });
+
+        level2.Add("Cody 2", new string[] {
+            "|Cody is too busy sending private messages to Amanda to talk to you."
+        });
+
+        level2.Add("Nico 2", new string[] {
+            "Nico| This is a good turn of events if you ask me!"
+        });
+
+        level2.Add("Amelia 2", new string[] {
+            "Amelia| I looked at her stats, I don't think she's competent enough for this team.",
+            "Sam| She's like twice my level in this game- she's only 300 EXP from unlocking some epic weapon.",
+            "Amelia| I don't think she's qualified...",
+            "Nico| Well did you notice her profile picture? She's got all the qualifications I need to see!",
+            "Amelia| You're a pig, Nico!",
+        });
+
+        level2.Add("Enemy Solider 3", new string[] {
+            "Amelia| Buzz off dude, this is our point now!",
+            "Sam|   (Hey, can't I handle this? I thought I was team leader!)",
+            "Amelia| (Fine, do it)",
+            "Sam| ..._ Oh forget it, let's fight.",
+        });
+
+        level2.Add("Amanda 4", new string[] {
+            "Amanda| well let's set up shop.",
+            "Cody| Yes, let's.",
+            "Nico| What do you mean, gorgeous?",
+            "Cody| She wants to guard this point. Seems like a good idea.",
+            "Nico| The gorgeous comment was not meant for you Cody.",
+            "Cody| Darn...",
+            "Amanda| Hey, you're both going to make me jealous.",
+            "Amelia| What a stupid idea, no!",
+            "Cody| But I am gorgeous!",
+            "Amelia| No, we have to capture the rest of the points, you idiots! Come on!",
+            "Sam| Guys! If we keep arguing here the other team is going to come back!",
+            "Nico| You mean that team right there?",
+            "|[Fight vs Enemy Squad. Cody only guards Amanda, Nico starts doing it too to be funny]",
+            "|[Second Conversation]",
+            "Amanda| see! if we hadn't been here we would have lost the point. glad we've all seen reason now.",
+            "Amelia| Reason to knock your teeth out. We would have captured the other points by now!",
+            "Cody| Amelia, you need to give Amanda a say.",
+            "Sam| Guys, everybody just needs to listen to each other's arguments and we can decide from there.",
+            "Nico| This seems like a socially critical moment. I'm going to go ahead and agree with Amanda for the sole reason that she's hot.",
+            "Amelia| YOU'RE ALL RIDICULOUS!!! I'll go capture Charlie BY MYSELF!",
+            "Sam| Agh, the Fellowship is splitting! What to do?!_ I'm coming with you Amelia!",
+        });
+
+        level2.Add("Treasure Chest 5", new string[] {
+            "Chest| Always with your hand out, aren't you boy?",
+            "Chest| Always looking for some reward. Back in my day, we didn't HAVE rewards. We had more WORK. And we were happy for it!",
+            "Chest| You're still here huh? What do you think I am, some sort of reward dispensing machine?",
+            "Chest| Well I am, but that doesn't justify anything!",
+            "|The chest contains a [decent item]. You are given the impression that the chest is only hard on you because it wants you to be strong enough to deal with life's challenges.",
+        });
+
+        level2.Add("Enemy Soldier 5", new string[] {
+            "Enemy Soldier Conversation|",
+            "Enemy Soldier| This is our land dude. The two of you don't have a chance against",
+            "|the three of us.",
+            "Amelia| Over your dead body, huh?",
+            "Enemy Soldier| I didn't say that, no..",
+            "Amelia| That's what I'm hearing!",
+        });
+
+        level2.Add("Amelia 6", new string[] {
+            "Amelia| Phew, I needed that.",
+            "Sam| Amelia that was brutal. I think I heard one of those guys crying. You couldn't have given them even a break in that one?",
+            "Amelia| Are you here to make friends or are you here to win?",
+            "Sam| This a team game. We need teamwork. If you're here to win, you need to work as a team as well.",
+            "Amelia| I get your point. You're right. There's no need to have everybody so mad at each other over a silly thing like where we ought to go. _#Thanks for being a good friend, Sam. You keep me steady when I'm losing my cool.",
+            "Sam| You're always cool.",
+            "Amelia| You too, nerd. _Hey I wonder what the rest of them have gotten up to?",
+        });
+
+        level2.Add("Amanda 7", new string[] {
+            "Amanda| They had a tank, what were we supposed to do?"
+        });
+
+        level2.Add("Amelia 7", new string[] {
+            "Amelia| I can't believe you guys! We HAD that rally point and you let it go!",
+            "Nico| To a tank!! Do you know what those things are named after? Sherman, the guy who burned down half of the American South because he wanted to see the ocean!",
+            "Sam| I'm pretty sure that's inaccurate...",
+            "Amelia| If we're going to win this, we've got to stick together and move FAST. Not like you guys have been doing.",
+            "Sam| Amelia, stop being critical. Amanda, are you ready to try Amelia's way?",
+            "Amanda| yeah I guess so.",
+            "Sam| Good. Is everyone okay with this?",
+            "Cody| Yeah!",
+            "Amelia| Let's do it!",
+            "Nico| You know I can't help but noticing..",
+            "Sam| Please don't notice anything.",
+            "Nico| That if you look at it a certain way..",
+            "Sam| Don't look at it. Just be blind. No looking.",
+            "Nico| Amanda's plan would have worked if Amy hadn't stormed off like she did.",
+            "Sam| Nico why???",
+            "Amelia| Amy? _AMY??",
+            "Sam| He's just trying to get you riled up. He's an agent of chaos, like Loki, or the old ladies who cross the road just to stop traffic.",
+            "Nico| I bet that kind of power gets addictive.",
+            "Cody| Tank outside!!!",
+        });
+        level2.Add("Amelia 8", new string[] {
+            "Cody| Amazing as usual Mandy!",
+            "Nico| She's okay, Cody. She's pretty okay.",
+            "Amelia| I'm leaving, Sam. And you're not coming with me.",
+            "Sam| Amelia, please don't leave.",
+            "Amelia| I'll capture the points myself and that will be that.",
+            "Sam| Wait --",
+        });
+        level2.Add("Amanda 8", new string[] {
+            "Amanda| why don't we split up and tackle two points at once. now that the tank is gone, we can totally take on anything they try to do.",
+            "Sam| I think that should work.",
+            "Amanda| great!! cody and i will take point charlie. see you in a jiffy!",
+        });
+        level2.Add("Treasure Chest 9", new string[] {
+            "Chest| Look who's back, sniveling like a little worm.",
+            "Sam| Worms don't snivel.",
+            "Chest| I gave you the best training I could, Private, but this insubordination, the fact that you have the nerve to come back here and ask me to bail you out once again...",
+            "Sam| Bail me out?? You're a treasure chest! You give items! That's what you do!",
+            "Chest| ...",
+            "Sam| You know what? Nico, put a grenade in this treasure chest and shut the lid.",
+            "Chest| That's just inhumane, Private. But that's the way war is. It'll harden you. Take away your humanity. Make you-",
+            "Sam| Shut it. _..._ Okay, let's see what's inside.",
+            "|You found a grenade!",
+            "Sam| Oh come on.",
+            "|And a [decent item]",
+        });
+
+        level2.Add("Nico 9", new string[] {
+            "Sam| Nico, why do you keep antagonizing Amelia like that. You know you upset her.",
+            "Nico| I did? ..._ I guess I did take it too far. But it was funny!",
+            "Sam| Do you really think that?",
+            "Nico| Not really. Not anymore.",
+            "Sam| Some mess we've got ourselves in now.",
+            "Nico| You know...",
+            "Nico| I really feel bad now.",
+            "Sam| Well, why'd you do it in the first place?",
+            "Nico| You're asking me to get introspective?",
+            "Sam| Yeah, whatever that word means, that's what I am going for, yeah.",
+            "Nico| Well, I feel like I've always been a-",
+            "Sam| Squad!",
+            "Nico| A squad, yes. A squad of 1, if you will. And it's worked out for a while, it did, but you can only get so far before you have to-",
+            "Sam| Turn around!",
+            "Nico| Exactly. Please don't tell anyone this. The thing I've been unwilling to confess until now is that",
+        });
+
+        level2.Add("Cody 10", new string[] {
+            "Sam| How'd it go over here?",
+            "Cody| The enemies were all dead when we got here. It's given us some quality time to stare lovingly at each other's avatars.",
+            "Cody| Hehehe. Liking you is Amanda-tory.",
+            "Nico| Okay yeah that's nauseating stop.",
+        });
+
+        level2.Add("Amelia 11", new string[] {
+            "Amelia| You were right Nico.",
+            "Nico| Aw yeah! General Sherman really did want to see the ocean!",
+            "Amelia| No, you were right that I should check out Amanda's profile picture.",
+            "Cody| Is there something wrong?",
+            "Amelia| Yup. See, I thought her profile picture looked a little familiar. Have you ever seen the commercial where the girl and the guy are at the beach and the guy gets stolen away by a mermaid? It's a Fried Right Potato Chip ad.",
+            "Nico| Ooh yeah, let me sing the ditty from it!",
+            "Amelia| No",
+            "Nico| Fried Right, Fried Right, eat too many and your clothes get tight!",
+            "Sam| That does not seem like a good advertising strategy.",
+            "Amelia| Amanda is not a girl. She's a guy. Pretending to be a girl.",
+            "Nico| Wait what",
+            "Amelia| Her profile picture bears a stunning resemblance to the mermaid from the potato chip ad.",
+            "Sam| But that doesn't mean it isn't her in the picture.",
+            "Amelia| HE, whoever he is, failed to crop the Fried Right logo out of the bottom right of the picture. There's still a little of it there.",
+            "|[The capital letters are no accident. Manuel is dropping the act without realizing it]",
+            "Amanda| HA! That's so wrong!",
+            "Cody| Wait. Some of this actually makes sense.",
+            "Amanda| You can't be serious",
+            "Cody| The fact that you never talk about your personal life, the fact that you never talk over the microphone, the fact that your battle cry is “Let us fight like men because we are all indeed men!”",
+            "Amanda| Wow, I forgot about that one.",
+            "Cody| You lied to me! You led me on for two months!",
+            "Amanda| No! It's not true!!",
+            "Sam|...why does it even matter?",
+            "Nico| Holy crap, the Potato Chip Mermaid really screwed Cody over.",
+        });
+
+        level2.Add("Treasure Chest 12", new string[] {
+            "Chest| You thought your threats were clever, did you Private? Did you? It's time you learned some respect. I am armed with a series of explosive devices that will go off when I am opened. Try me. Just try me!",
+            "Sam| Nah.",
+            "|You put the entire Treasure Chest in your inventory.",
+        });
+
+        level2.Add("Cody 12", new string[] {
+            "Sam| Are you alright?",
+            "Cody| just hda my hraet brokn nope.",
+            "Nico| He's been crying his eyes out since the Charlie incident. His keyboard is fritzing out from the mixture of tears and wet hands",
+            "Sam| Gosh...",
+            "Nico| See it's weird because his avatar is still smiling, even though I can expressly hear sobs coming from him over the microphone. Kinda creepy.",
+            "Sam| Not helpful.",
+            "Nico| It kills me to see him hurting like this. Much more effective than the plague.",
+        });
+
+        level2.Add("Amelia 12", new string[] {
+            "Amelia| Come on Cody, we don't have time for this! We have to take Rally Point Alpha before someone picks up one of our other points!",
+            "Sam| Seriously?! What are you, a robot? Heartless?",
+            "Amelia| What?",
+            "Sam| You're insensitive, and harsh. He's heartbroken!",
+            "Nico| I'm with Sam on this one. It may be a videogame, but Cody had real feelings here. And you have no respect for that.",
+            "Amelia| I...",
+            "Nico| We should chase Amanda down. If nothing else, we can give Cody a steaming plate of revenge for his troubles.",
+            "Sam| There's an apology in order here. Two actually. Amelia, you start.",
+            "Amelia| Cody.. I'm sorry. I'm sorry that your girlfriend was a catfish, I'm sorry that I wasn't more sensitive... I'm sorry that I put the game before you.",
+            "Cody| thank you",
+            "Amelia| Let's do this thing.",
+            "Cody| I can't face her. I can't. I'll just stay here.",
+            "Sam| We won't be far. Just come find us when you're ready.",
+        });
+
+        level2.Add("Amanda 13", new string[] {
+            "Amanda| You know, I feel like we've grown a lot today.",
+            "Sam| Why don't you cut the crap. You need to come back to base with us and apologize to Cody for what you did.",
+            "Amanda| Oh Samuel, I think you're mistaken if you think I need to do anything.",
+            "Amanda| I finally got that last bit of EXP. I bet you've never even seen a super weapon in this game.",
+            "Sam| What don't you understand! You are a lowdown, tricking snake!",
+            "Amanda| With a gun so big I just obliterated the entire other team with it. All of them, Sam-ilitude.",
+            "Sam| I'm going to wipe that smile right off your face.",
+        });
+
+        level2.Add("Amanda 14", new string[] {
+            "Amanda| You don't understand me! When you play as a guy, everybody treats you like you aren't there, like you don't matter. I play as a girl and then all of a sudden everybody's like, “Oh Mandy you're so pretty. Oh you're so special.” NO ONE EVER TREATS ME LIKE THAT!",
+            "Sam| What you did was wrong. There's no justifying it.",
+            "Amanda| Well why don't you try understanding me??",
+            "Nico| What's there to understand? You broke a guy's heart to get just a little more attention for yourself.",
+            "Amelia| I believe that a weapon can be taken away from a player if they are found guilty of abuse on a server. I can think of several things you've done today that could probably be called abuse.",
+            "Amanda| you wouldn't",
+            "Amelia| Apologize.",
+            "Amanda| ... you're really upset aren't you.",
+            "Cody| You better believe it.",
+            "Amanda| i shouldn't have done what i did. i'm sorry",
+            "Cody| No you're not. You don't mean a word of that. But it will do.",
+            "|Amanda logged off.",
+        });
+
+        level2.Add("Cody 15", new string[] {
+            "|Your team has captured the final control point. You win!",
+            "Sam| Well, glad that's over. You did good, Cody.",
+            "Cody| Thanks guys. Thank you all for being here for me.",
+            "Nico| No worries dude.",
+            "Nico| But I can't help but thinking...",
+            "Sam| Don't say it. No. Don't say anything.",
+            "Nico| How do we know Amy's a girl?",
+            "Amelia| You guys know me pretty well right?",
+            "Nico| Yeah, we've known you for quite a while now.",
+            "Amelia| Would you believe that this is me?",
+            "Amelia has sent you a web link| Grangertown Honor Roll- Amelia Ramirez makes Honor Roll again this year.",
+            "Nico| Yeah, I buy it. You're a real girl. Hey, I'm sorry for all the trouble I caused this time around.",
+            "Amelia| It wasn't just you. I didn't help anything.",
+            "Cody| You know what, I have a good feeling, guys. I feel like_ it's all going to be alright.",
+            "Sam| You better believe it dude.",
+            "Nico| So Amelia, since you're a girl, how's the unequal pay and longer bathroom lines treating you?",
+            "Sam| ...And we're done here.",
+        });
+
+
+
+
+
+        //EPILOGUE
+        epilogue.Add ("epilogue", new string[] {
 			//"EPILOGUE",
 			"Sam Walker finally found his passion for academics, attending a " +
 			"prestigious New York college to study Computer Science.",
