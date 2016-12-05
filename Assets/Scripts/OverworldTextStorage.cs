@@ -243,6 +243,15 @@ public class OverworldTextStorage : MonoBehaviour {
 			"Poof|You recieved a friend request from Cooldy456."
 		});
 
+		//LEVEL 2
+		level2.Add ("Amelia 1", new string[] {
+			"Amelia| We've got a lot of points to take if we're going to win this.",
+			"Sam| Well hello to you too. How was your week?",
+			"Amelia| Points Alpha, Beta, and Charlie have to be taken and held until the end of the round for our team to win. I am not in the mood to lose to any team that calls themselves the Leisurely Chillers.",
+			"Sam| Well, maybe they'll have a very relaxed capture style.",
+			"Amelia| Don't you have anything useful to be doing, nerd?"
+		});
+
 		//EPILOGUE
 		epilogue.Add ("epilogue", new string[] {
 			//"EPILOGUE",
