@@ -268,6 +268,13 @@ public class BattleManager : MonoBehaviour {
 			need_target = 'n';
 			if (action_selected > 0) {
 				if (item_list_amounts [action_selected] < 1) {
+					pending_messages.Add ("You don't have anymore of that item!");
+					List<string> current_items = new List<string> ();
+					current_items.Add(item_list[0]);
+					for (int x = 1; x < item_list.Count; x++) {
+						current_items.Add (item_list [x] + " - " + item_list_amounts [x]);
+					}
+					pending_choices.Add (current_items);
 					action_selected = 0;
 					return;
 				}
