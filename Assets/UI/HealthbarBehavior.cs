@@ -16,7 +16,7 @@ public class HealthbarBehavior : MonoBehaviour {
 	}
 
 	public void defaultHealth(int amount){
-		print ("default health set to " + amount);
+		//print ("default health set to " + amount);
 		max_health = amount;
 	}
 

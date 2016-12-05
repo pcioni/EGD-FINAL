@@ -178,7 +178,7 @@ public class InteractableSpeaker : Interactable {
             yield return StartCoroutine(WaitForKeyDown(KeyCode.Space));
 
             if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
-                Debug.Log(string.Format("Text Interrupted: dialogueIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
+                //Debug.Log(string.Format("Text Interrupted: dialogueIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
                 break;
             }
         }

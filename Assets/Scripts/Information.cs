@@ -47,6 +47,7 @@ public class Information : MonoBehaviour {
 		inventory ["The Kevin-Beater Bat"] = 99;
 		inventory ["The Orange Overlord"] = 270;
 		inventory ["Life Bottle"] = 5;
+		inventory ["Incense"] = 13;
 	}
 
 	void defaultParty(){
@@ -123,7 +124,7 @@ public class Information : MonoBehaviour {
 		foreach (Camera c in GameObject.FindObjectsOfType<Camera>()) {
 			if (c.enabled) {
 				current_section = c.transform.parent.gameObject.name;
-				print ("first scene will be " + current_section);
+				//print ("first scene will be " + current_section);
 			}
 		}
 		/*

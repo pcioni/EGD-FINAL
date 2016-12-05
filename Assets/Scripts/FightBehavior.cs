@@ -90,6 +90,7 @@ public class FightBehavior : MonoBehaviour {
 	protected void setAIStats(int healthy){
 		max_health = health = healthy;
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		mana = max_mana = 9999;
 		myManaBar.SetActive (false);
 	}
 
@@ -267,6 +268,7 @@ public class FightBehavior : MonoBehaviour {
 			amount = max_mana - mana;
 		}
 		mana += amount;
+		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
 		return character_name + " regains " + amount + " mana!";
 	}
 
