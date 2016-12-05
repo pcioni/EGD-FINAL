@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class InteractableSpeaker : Interactable {
 
@@ -59,6 +60,7 @@ public class InteractableSpeaker : Interactable {
 	[Tooltip("Leave Battle fields empty to skip these actions")]
 	public string[] our_team;
 	public string[] enemy_team;
+	public List<string> intro_dialogue;
 
 	[Header("End Level")]
 	public bool endLevel = false;
@@ -178,7 +180,7 @@ public class InteractableSpeaker : Interactable {
             yield return StartCoroutine(WaitForKeyDown(KeyCode.Space));
 
             if (stringParser.ContainsFlag(dialogue, flags.INTERRUPT)) {
-                Debug.Log(string.Format("Text Interrupted: dialogueIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
+                //Debug.Log(string.Format("Text Interrupted: dialogueIndex = {0}, currentDialogue = {1}", dialogueIndex, dialogue));
                 break;
             }
         }
@@ -216,6 +218,7 @@ public class InteractableSpeaker : Interactable {
 			info.OverworldSave ();
 			info.talked_to.Add (name, dialogueIndex);
 			info.setBattlers (our_team, enemy_team);
+			info.setIntroDialogue(intro_dialogue);
 			SceneManager.LoadScene ("BattleSystem");
 		}
 

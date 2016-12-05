@@ -41,7 +41,6 @@ public class BattleManager : MonoBehaviour {
 		defeated_enemies = new List<FightBehavior> ();
 		item_list = new List<string> { "Pick an item to use!" };
 		item_list_amounts = new List<int>{ 0 };
-		StartBattle ();
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
@@ -54,6 +53,7 @@ public class BattleManager : MonoBehaviour {
 		inventory = GetComponent<ItemBehavior> ();
 		SpriteRenderer backgroundo = GameObject.FindObjectOfType<FitBackgroundToCamera> ().gameObject.GetComponent<SpriteRenderer> ();
 		backgroundo.sprite = Resources.Load<Sprite> (info.current_section);
+		StartBattle ();
 	}
 
 	public List<FightBehavior> getGoodGuys(){
@@ -113,11 +113,17 @@ public class BattleManager : MonoBehaviour {
 					picker--;
 					pending_choices.Add (good_guys [picker].listActions ());
 				}
-			} else if (state.Split (' ') [0] == "select") {
+			} else if (state.Split (' ') [0] == "select" || text_controller.waitForSpace() || !message_finished) {
 				awaiting_input = false;
 				state = "pick actions";
 				continuer = false;
 				pending_choices.Add (good_guys [picker].listActions ());
+				if (text_controller.waitForSpace ()) {
+					pending_choices.RemoveAt (0);
+				}
+				if (!message_finished) {
+					message_finished = true;
+				}
 			}
 		}
 
@@ -220,6 +226,8 @@ public class BattleManager : MonoBehaviour {
 			need_target = 'n';
 			if (action_selected > 0) {
 				if (!good_guys [picker].enoughMana (action_selected)) {
+					pending_messages.Add (good_guys [picker].character_name + " doesn't have enough mana for that ability!");
+					pending_choices.Add (good_guys [picker].listAbilities ());
 					action_selected = 0;
 					return;
 				}
@@ -260,6 +268,13 @@ public class BattleManager : MonoBehaviour {
 			need_target = 'n';
 			if (action_selected > 0) {
 				if (item_list_amounts [action_selected] < 1) {
+					pending_messages.Add ("You don't have anymore of that item!");
+					List<string> current_items = new List<string> ();
+					current_items.Add(item_list[0]);
+					for (int x = 1; x < item_list.Count; x++) {
+						current_items.Add (item_list [x] + " - " + item_list_amounts [x]);
+					}
+					pending_choices.Add (current_items);
 					action_selected = 0;
 					return;
 				}
@@ -435,6 +450,10 @@ public class BattleManager : MonoBehaviour {
 		item_list.AddRange( info.getItemNames () );
 		item_list_amounts.AddRange( info.getItemAmounts () );
 		turn_number = 1;
+
+		if (info.introDialogue ()) {
+			pending_messages.AddRange (info.getIntroDialogue ());
+		}
 
 	}
 

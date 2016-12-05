@@ -10,6 +10,7 @@ public class Information : MonoBehaviour {
 	List<Party_Member> party;
 	List<string> good_guys;
 	List<string> bad_guys;
+	List<string> intro_dialogue;
 
 	int current_level = 1;
 
@@ -44,9 +45,10 @@ public class Information : MonoBehaviour {
 		inventory ["Potion"] = 3;
 		inventory ["Panacea Bottle"] = 4;
 		inventory ["Magic Lens"] = 5;
-		inventory ["The Kevin-Beater Bat"] = 99;
+		inventory ["The Kevin-Beater Bat"] = 5;
 		inventory ["The Orange Overlord"] = 270;
 		inventory ["Life Bottle"] = 5;
+		inventory ["Incense"] = 13;
 	}
 
 	void defaultParty(){
@@ -123,7 +125,7 @@ public class Information : MonoBehaviour {
 		foreach (Camera c in GameObject.FindObjectsOfType<Camera>()) {
 			if (c.enabled) {
 				current_section = c.transform.parent.gameObject.name;
-				print ("first scene will be " + current_section);
+				//print ("first scene will be " + current_section);
 			}
 		}
 		/*
@@ -185,5 +187,16 @@ public class Information : MonoBehaviour {
 	public int GetLevelNumber(){
 		return current_level;
 	}
+
+	public void setIntroDialogue(List<string> words){
+		intro_dialogue = words;
+	}
 		
+	public List<string> getIntroDialogue(){
+		return intro_dialogue;
+	}
+
+	public bool introDialogue(){
+		return intro_dialogue.Count > 0;
+	}
 }

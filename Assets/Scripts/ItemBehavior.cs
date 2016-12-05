@@ -25,6 +25,9 @@ public class ItemBehavior : MonoBehaviour {
 		case("Life Bottle"):
 			FindObjectOfType<Information> ().useItem ("Life Bottle");
 			return user.revive ();
+		case("Incense"):
+			FindObjectOfType<Information> ().useItem ("Incense");
+			return target.restoreMana (10);
 		default:
 			return user.character_name + " uses a " + itemName + " on " + target.character_name + "!";
 		}
@@ -53,6 +56,8 @@ public class ItemBehavior : MonoBehaviour {
 			return 'e';
 		case("Life Bottle"):
 			return 'd';
+		case ("Incense"):
+			return 'a';
 		default:
 			return 'n';
 
