@@ -90,6 +90,10 @@ public class FightBehavior : MonoBehaviour {
 		strength = info.strength;
 	}
 
+	public virtual void attackAnimation(){
+		return;
+	}
+
 	protected void setAIStats(int healthy){
 		max_health = health = healthy;
 		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
@@ -349,12 +353,14 @@ public class FightBehavior : MonoBehaviour {
 			ParticleManager.doEffect ("enrage", this);
 			result.Add (character_name + " goes berserk on " + target.character_name + "!");
 			result.Add (target.damage (strength + 10, character_name));
+			attackAnimation ();
 			return result;
 		} else if (effects.ContainsKey ("paralyzed") && Random.Range (1, 3) == 1) {
 			result.Add (character_name + " cannot bring themself to move due to their paralysis!");
 			return result;
 		} else if (effects.ContainsKey ("blinded") && Random.Range (1, 4) == 1) {
 			result.Add (character_name + " attacked wildly, but missed the target!");
+			attackAnimation ();
 			return result;
 		}
 
@@ -367,6 +373,7 @@ public class FightBehavior : MonoBehaviour {
 		case ("attacks"):
 			result.Add (character_name + " attacks " + target.character_name + "!");
 			result.Add (target.damage (strength, character_name, ParticleManager.doEffect ("generic hit", target)));
+			attackAnimation ();
 			return result;
 
 
@@ -379,10 +386,12 @@ public class FightBehavior : MonoBehaviour {
 		case ("item"):
 			result.Add (character_name + " uses a " + managey.getItemName (action_number) + "!");
 			result.Add (managey.useItem (action_number, this, target));
+			attackAnimation ();
 			return result;
 
 		case("ability"):
 			result.AddRange (useAbility ());
+			attackAnimation ();
 			return result;
 
 		default:
@@ -390,6 +399,7 @@ public class FightBehavior : MonoBehaviour {
 		}
 
 	}
+
 
 	public virtual List<string> AIAction(){
 		List<string> result = new List<string> ();
