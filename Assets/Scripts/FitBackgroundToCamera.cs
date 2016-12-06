@@ -18,11 +18,6 @@ public class FitBackgroundToCamera : MonoBehaviour {
 			Align (GameObject.FindObjectOfType<Camera>().transform);
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	public void Align(Transform t){
 		if (already_aligned) return;
