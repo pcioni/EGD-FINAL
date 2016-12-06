@@ -111,16 +111,19 @@ public class BattleManager : MonoBehaviour {
 						item_list_amounts [good_guys [picker - 1].action_number]++;
 					}
 					picker--;
+					if (pending_choices.Count > 0) {
+						pending_choices.RemoveAt (0);
+					}
 					pending_choices.Add (good_guys [picker].listActions ());
 				}
 			} else if (state.Split (' ') [0] == "select" || text_controller.waitForSpace() || !message_finished) {
 				awaiting_input = false;
 				state = "pick actions";
 				continuer = false;
-				pending_choices.Add (good_guys [picker].listActions ());
-				if (text_controller.waitForSpace ()) {
+				if (pending_choices.Count > 0) {
 					pending_choices.RemoveAt (0);
 				}
+				pending_choices.Add (good_guys [picker].listActions ());
 				if (!message_finished) {
 					message_finished = true;
 				}
@@ -278,6 +281,17 @@ public class BattleManager : MonoBehaviour {
 					action_selected = 0;
 					return;
 				}
+				if (item_list [action_selected] == "Life Bottle" && dead.Count == 0) {
+					pending_messages.Add ("None of your allies are dead, though!");
+					List<string> current_items = new List<string> ();
+					current_items.Add(item_list[0]);
+					for (int x = 1; x < item_list.Count; x++) {
+						current_items.Add (item_list [x] + " - " + item_list_amounts [x]);
+					}
+					pending_choices.Add (current_items);
+					action_selected = 0;
+					return;
+				}
 				pending_messages.Add (good_guys [picker].setAction ("item", action_selected));
 				item_list_amounts [action_selected]--;
 				if (need_target == 'e') {
@@ -360,7 +374,7 @@ public class BattleManager : MonoBehaviour {
 				picker++;
 			} 
 			if (picker < participants.Count) {
-				while (!participants [picker].gameObject.activeSelf) {
+				while (!participants [picker].gameObject.activeSelf || participants[picker].getHealth() < 1) {
 					picker++;
 					if (picker >= participants.Count) {
 						return;
@@ -384,7 +398,7 @@ public class BattleManager : MonoBehaviour {
 				picker++;
 			}
 			if (picker < participants.Count) {
-				while (!participants [picker].gameObject.activeSelf) {
+				while (!participants [picker].gameObject.activeSelf || participants[picker].getHealth() < 1) {
 					picker++;
 					if (picker >= participants.Count) {
 						return;
@@ -498,8 +512,9 @@ public class BattleManager : MonoBehaviour {
 			}
 			return result;
 		} else {
-			for (int x = 0; x < defeated_enemies.Count; x++) {
-				result.Add (revive (defeated_enemies [x]));
+			int people = defeated_enemies.Count;
+			for (int x = 0; x < people; x++) {
+				result.Add (revive (defeated_enemies [0]));
 			}
 			return result;
 		}

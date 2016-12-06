@@ -25,7 +25,7 @@ public class ParticleBehavior : MonoBehaviour {
 		start_time = Time.time;
 		if (moveTo_start != null && moveTo_finish != null) {
 			transform.position = moveTo_start.position;
-			print ("Starting at " + moveTo_start.name);
+			//print ("Starting at " + moveTo_start.name);
 
 		} 
 		else if (current_path_node != null) {

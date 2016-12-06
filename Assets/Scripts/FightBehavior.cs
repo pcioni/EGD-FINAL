@@ -47,7 +47,7 @@ public class FightBehavior : MonoBehaviour {
 		float height_above = .3f * half_height + half_height;
 		myHealthBar.transform.position = new Vector3(transform.position.x,
 			transform.position.y + height_above, 0);
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health, max_health);
 
 		//Mana bar stuff
 		bar = (GameObject) Instantiate (Resources.Load("Healthbar"));
@@ -57,7 +57,7 @@ public class FightBehavior : MonoBehaviour {
 		half_height = GetComponent<SpriteRenderer> ().bounds.extents.y;
 		height_above = 0.1f * half_height + half_height;
 		myManaBar.transform.position = new Vector3 (transform.position.x, transform.position.y + height_above, 0);
-		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana, max_mana);
 		myManaBar.GetComponent<Image> ().color = Color.blue;
 
 		setName();
@@ -82,14 +82,14 @@ public class FightBehavior : MonoBehaviour {
 		max_health = info.max_health;
 		mana = info.mana;
 		max_mana = info.max_mana;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
-		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health, max_health);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (mana, max_mana);
 		strength = info.strength;
 	}
 
 	protected void setAIStats(int healthy){
 		max_health = health = healthy;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health, max_health);
 		mana = max_mana = 9999;
 		myManaBar.SetActive (false);
 	}
@@ -287,13 +287,17 @@ public class FightBehavior : MonoBehaviour {
 
 	public List<string> useAbility(){
 		mana -= ability_costs [action_number - 1];
-		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
+		if (good_guy) {
+			myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
+		}
 		return Abilities.useAbility(abilities[action_number - 1], this, target);
 	}
 
 	public List<string> useAbility(string ability){
 		mana -= Abilities.calculateCosts (new List<string> { ability }) [0];
-		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
+		if (good_guy) {
+			myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
+		}
 		return Abilities.useAbility (ability, this, target);
 	}
 

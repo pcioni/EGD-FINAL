@@ -28,7 +28,7 @@ public class Slime : FightBehavior {
 			ParticleManager.doEffect ("goo", target);
 		} else {
 			result.Add (character_name + " takes some time to recompose its matter.");
-			result.Add (heal (1));
+			result.Add (heal (20));
 		}
 		return result;
 	}

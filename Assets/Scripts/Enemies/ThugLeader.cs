@@ -9,7 +9,7 @@ public class ThugLeader : FightBehavior {
 	public override void setName ()
 	{
 		character_name = "Thug Leader";
-		setAIStats (100);
+		setAIStats (200);
 		reinforcement_counter = 0;
 	}
 
@@ -33,10 +33,11 @@ public class ThugLeader : FightBehavior {
 			return result;
 		}
 
+		managey.newTarget (this, good_guy);
 
 		int action = Random.Range (0, 100);
 		if (action < 20) {
-			result.AddRange (Abilities.useAbility("Poison", this, target));
+			result.AddRange (Abilities.useAbility ("Poison", this, target));
 		} else if (action < 60) {
 			result.Add (character_name + " swings violently at " + target.character_name + "!");
 			result.Add (target.damage (15, character_name, ParticleManager.doEffect ("generic hit", target)));
@@ -47,10 +48,13 @@ public class ThugLeader : FightBehavior {
 				managey.newTarget (this, false);
 				result.Add (target.damage (5, character_name, ParticleManager.doEffect ("thug attack", this, target)));
 			}
-		} else {
+		} else if (health < 30) {
 			managey.newTargetWeakest (this, true);
 			result.Add (character_name + " scarfs down food at an alarming rate!");
 			result.Add (heal (20));
+		} else {
+			result.Add (character_name + " swings violently at " + target.character_name + "!");
+			result.Add (target.damage (15, character_name, ParticleManager.doEffect ("generic hit", target)));
 		}
 		return result;
 	}
