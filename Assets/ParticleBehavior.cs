@@ -7,7 +7,6 @@ public class ParticleBehavior : MonoBehaviour {
 	//travel time
 	float travel_time_in_seconds = 1f;
 	private float start_time;
-	private float destination_time;
 	//[Header("Options")]
 	public bool destroyOnFinish;
 	public bool spin;
@@ -24,7 +23,6 @@ public class ParticleBehavior : MonoBehaviour {
 	void Start () {
 		ps = GetComponent<ParticleSystem>();
 		start_time = Time.time;
-		destination_time = Time.time + travel_time_in_seconds;
 		if (moveTo_start != null && moveTo_finish != null) {
 			transform.position = moveTo_start.position;
 			print ("Starting at " + moveTo_start.name);
