@@ -338,7 +338,7 @@ public class FightBehavior : MonoBehaviour {
 
 		if (effects.ContainsKey ("berserk")) {
 			managey.newTarget (this, true);
-			ParticleManager.doEffect ("enrage", target);
+			ParticleManager.doEffect ("enrage", this);
 			result.Add (character_name + " goes berserk on " + target.character_name + "!");
 			result.Add (target.damage (strength + 10, character_name));
 			return result;
