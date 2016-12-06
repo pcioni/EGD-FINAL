@@ -44,7 +44,7 @@ public class FightBehavior : MonoBehaviour {
 		float height_above = .1f * half_height + half_height;
 		myHealthBar.transform.position = new Vector3(transform.position.x,
 			transform.position.y + height_above, 0);
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
 		setName();
 		ignore_death = false;
 	}
