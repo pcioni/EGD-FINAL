@@ -197,6 +197,9 @@ public class Information : MonoBehaviour {
 	}
 
 	public bool introDialogue(){
-		return intro_dialogue.Count > 0;
+		if (intro_dialogue != null) {
+			return intro_dialogue.Count > 0;
+		}
+		return false;
 	}
 }
