@@ -47,7 +47,7 @@ public class FightBehavior : MonoBehaviour {
 		float height_above = .3f * half_height + half_height;
 		myHealthBar.transform.position = new Vector3(transform.position.x,
 			transform.position.y + height_above, 0);
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health, max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
 
 		//Mana bar stuff
 		bar = (GameObject) Instantiate (Resources.Load("Healthbar"));
@@ -57,10 +57,11 @@ public class FightBehavior : MonoBehaviour {
 		half_height = GetComponent<SpriteRenderer> ().bounds.extents.y;
 		height_above = 0.1f * half_height + half_height;
 		myManaBar.transform.position = new Vector3 (transform.position.x, transform.position.y + height_above, 0);
-		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana, max_mana);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana);
 		myManaBar.GetComponent<Image> ().color = Color.blue;
 
 		setName();
+
 		ignore_death = false;
 	}
 
@@ -82,14 +83,17 @@ public class FightBehavior : MonoBehaviour {
 		max_health = info.max_health;
 		mana = info.mana;
 		max_mana = info.max_mana;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health, max_health);
-		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (mana, max_mana);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (mana);
+		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
 		strength = info.strength;
 	}
 
 	protected void setAIStats(int healthy){
 		max_health = health = healthy;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health, max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
 		mana = max_mana = 9999;
 		myManaBar.SetActive (false);
 	}
