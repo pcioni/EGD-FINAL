@@ -30,6 +30,10 @@ public class Information : MonoBehaviour {
 
 	public string song;
 
+	void Awake(){
+		talked_to = new Dictionary<string, int> ();
+	}
+
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad (gameObject);
@@ -42,7 +46,7 @@ public class Information : MonoBehaviour {
 		good_guys = new List<string> ();
 		bad_guys = new List<string> ();
 
-		talked_to = new Dictionary<string, int> ();
+
 
 
 	}
@@ -63,7 +67,7 @@ public class Information : MonoBehaviour {
 		party.Add (new Party_Member ("Cody", 100, 10, 10));
 		party.Add (new Party_Member ("Nico", 40, 10, 18));
 		party.Add (new Party_Member ("Amanda", 50, 10, 16));
-		party.Add (new Party_Member ("Bully", 90, 10, 13));
+		party.Add (new Party_Member ("Damien", 90, 10, 13));
 	}
 
 	public Party_Member getPartyMember(string name){
@@ -254,7 +258,7 @@ public class Information : MonoBehaviour {
 			audio_source.clip = (AudioClip)Resources.Load ("Boss");
 			audio_source.Play ();
 		} else if (song == "Dragon") {
-			audio_source.clip = (AudioClip)Resources.Load ("Dragon");
+			audio_source.clip = (AudioClip)Resources.Load ("DragonSong");
 			audio_source.Play ();
 		} else if (song == "Level 2") {
 			audio_source.clip = (AudioClip)Resources.Load ("Level 2");
