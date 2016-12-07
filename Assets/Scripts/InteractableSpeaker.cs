@@ -62,6 +62,7 @@ public class InteractableSpeaker : Interactable {
 	public string[] our_team;
 	public string[] enemy_team;
 	public List<string> intro_dialogue;
+	public List<string> exit_dialogue;
 	public List<int> in_battle_action_turns;
 	public List<string> in_battle_action_strings;
 	Dictionary <int, string> in_battle_actions;
@@ -249,6 +250,7 @@ public class InteractableSpeaker : Interactable {
 			info.talked_to.Add (name, dialogueIndex);
 			info.setBattlers (our_team, enemy_team);
 			info.setIntroDialogue(intro_dialogue);
+			info.setExitDialogue (exit_dialogue);
 			info.setBattleEvents (in_battle_actions);
 			SceneManager.LoadScene ("BattleSystem");
 		}
