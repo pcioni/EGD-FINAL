@@ -492,6 +492,14 @@ public class BattleManager : MonoBehaviour {
 			pending_messages.AddRange (info.getIntroDialogue ());
 		}
 
+		if (info.battleEvents ()) {
+			foreach (int turn in info.getBattleEvents().Keys) {
+				if (turn == 0) {
+					performAction (info.getBattleEvents ()[turn]);
+				}
+			}
+		}
+
 	}
 
 	public void newCharacterArrives(string namey, bool good_guy){
@@ -637,6 +645,35 @@ public class BattleManager : MonoBehaviour {
 				}
 			}
 			return;
+
+		case("Cody Arrives"):
+			pending_messages.Add ("...");
+			pending_messages.Add ("I want to help.");
+			newCharacterArrives ("Cody", true);
+			return;
+		
+		case("Cody AFK"):
+			foreach (FightBehavior person in good_guys) {
+				pending_messages.Add ("There is a crashing noise and distant yelling through someone's microphone.");
+				pending_messages.Add ("There is a sigh, and the sound of someone removing their headset...");
+				if (person.character_name == "Cody") {
+					person.inflictStatus ("afk", 999, "");
+					return;
+				}
+			}
+			return;
+
+		case("Cody Not AFK"):
+			foreach (FightBehavior person in good_guys) {
+				if (person.character_name == "Cody") {
+					pending_messages.Add ("Noises are heard through Cody's headset.");
+					pending_messages.Add ("Hey guys...");
+					person.removeNegativeEffects ();
+					return;
+				}
+			}
+			return;
+
 		default:
 			return;
 		}

@@ -300,6 +300,8 @@ public class FightBehavior : MonoBehaviour {
 		effects.Remove ("paralyzed");
 		effects.Remove ("blinded");
 		effects.Remove ("burned");
+		effects.Remove ("silenced");
+		effects.Remove ("afk");
 		return character_name + " has been cleansed of all negative effects!";
 	}
 
@@ -374,6 +376,10 @@ public class FightBehavior : MonoBehaviour {
 					return result;
 				}
 			}
+		}
+		if (effects.ContainsKey ("afk")) {
+			result.Add (character_name + " doesn't move...");
+			return result;
 		}
 
 		if (target != null && target.health <= 0 && !ignore_death) {
