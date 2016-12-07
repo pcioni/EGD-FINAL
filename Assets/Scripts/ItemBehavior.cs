@@ -26,7 +26,7 @@ public class ItemBehavior : MonoBehaviour {
 			return result;
 		case("Flash Powder"):
 			FindObjectOfType<Information> ().useItem ("Flash Powder");
-			result.Add(target.inflictStatus ("paralyzed", 5, user.character_name));
+			result.Add(target.inflictStatus ("paralyzed", 3, user.character_name));
 			return result;
 		case("Life Bottle"):
 			FindObjectOfType<Information> ().useItem ("Life Bottle");
