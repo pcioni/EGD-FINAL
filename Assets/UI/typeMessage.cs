@@ -15,6 +15,7 @@ public class typeMessage : MonoBehaviour {
 	float original_letter_seconds;
 	Text text_component;
 	public bool skip = false;
+	public bool shift_skip = false;
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +45,7 @@ public class typeMessage : MonoBehaviour {
 			if (next_char == '#')
 				next_char = '\n';
 			if (next_char == '_') {
-				yield return new WaitForSeconds (pause_seconds);
+				if (!shift_skip) yield return new WaitForSeconds (pause_seconds);
 				count++;
 				continue;
 			}
@@ -58,10 +59,11 @@ public class typeMessage : MonoBehaviour {
 				continue;
 			}
 			text_component.text += next_char;
-			yield return new WaitForSeconds (letter_seconds);
+			if (!shift_skip) yield return new WaitForSeconds (letter_seconds);
 			count++;
 		}
 		finished_writing = true;
+		shift_skip = false;
 		if (FindObjectOfType<BattleManager> ())
 			FindObjectOfType<BattleManager> ().message_finished = true;
 	}
