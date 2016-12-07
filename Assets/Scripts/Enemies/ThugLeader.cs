@@ -42,8 +42,8 @@ public class ThugLeader : FightBehavior {
 			result.Add (character_name + " swings violently at " + target.character_name + "!");
 			result.Add (target.damage (15, character_name, ParticleManager.doEffect ("generic hit", target)));
 		} else if (action < 90) {
-			result.Add (character_name + " throws multiple knives at " + target.character_name + "!");
-			int number = Random.Range (1, 6);
+			result.Add (character_name + " throws a flurry of knives!");
+			int number = Random.Range (2, 6);
 			for (int x = 0; x < number; x++) {
 				managey.newTarget (this, false);
 				result.Add (target.damage (5, character_name, ParticleManager.doEffect ("thug attack", this, target)));

@@ -458,7 +458,7 @@ public class BattleManager : MonoBehaviour {
 		List<PositionCharactersInBattle> tempy = new List<PositionCharactersInBattle> ();
 		tempy.AddRange (FindObjectsOfType<PositionCharactersInBattle> ());
 		foreach (PositionCharactersInBattle item in tempy) {
-			item.ArrangeCharacters (good_guys, bad_guys);
+			item.ArrangeCharacters (good_guys, bad_guys, true);
 		}
 	
 		item_list.AddRange( info.getItemNames () );
@@ -469,6 +469,22 @@ public class BattleManager : MonoBehaviour {
 			pending_messages.AddRange (info.getIntroDialogue ());
 		}
 
+	}
+
+	public void newCharacterArrives(string namey, bool good_guy){
+		FightBehavior temp = ((GameObject)Instantiate (Resources.Load (namey), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior> ();
+		temp.setAlignment (good_guy);
+		participants.Add (temp);
+		if (good_guy) {
+			good_guys.Add (temp);
+		} else {
+			bad_guys.Add (temp);
+		}
+		List<PositionCharactersInBattle> tempy = new List<PositionCharactersInBattle> ();
+		tempy.AddRange (FindObjectsOfType<PositionCharactersInBattle> ());
+		foreach (PositionCharactersInBattle item in tempy) {
+			item.ArrangeCharacters (good_guys, bad_guys, false);
+		}
 	}
 
 	public void kill(FightBehavior which){
@@ -519,6 +535,20 @@ public class BattleManager : MonoBehaviour {
 			return result;
 		}
 
+	}
+
+	public List<string> applyStatusToAll(string status, FightBehavior user){
+		List<string> result = new List<string> ();
+		if (user.getAlignment ()) {
+			for (int x = 0; x < bad_guys.Count; x++) {
+				result.Add (bad_guys [x].inflictStatus (status, Random.Range (1, 3), user.character_name));
+			}
+		} else {
+			for (int x = 0; x < good_guys.Count; x++) {
+				result.Add (good_guys [x].inflictStatus (status, Random.Range (1, 3), user.character_name));
+			}
+		}
+		return result;
 	}
 			
 
