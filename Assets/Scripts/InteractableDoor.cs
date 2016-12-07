@@ -57,9 +57,7 @@ public class InteractableDoor : Interactable {
     private void Update()
     {
         if (isTriggered && Input.GetKeyDown(KeyCode.Space))
-        {
             Teleport();
-        }
     }
 
     //set player transform to target transform.
@@ -73,7 +71,9 @@ public class InteractableDoor : Interactable {
 			//print ("enabling " + destCamera);
 			destCamera.enabled = true;
 		}
-		foreach(GameObject b in backgrounds){
+        else 
+            destCamera = targetDest.transform.parent.GetComponentInChildren<Camera>();
+        foreach (GameObject b in backgrounds){
 			b.GetComponent<FitBackgroundToCamera> ().
 			Align (destCamera.gameObject.transform);
 		}
