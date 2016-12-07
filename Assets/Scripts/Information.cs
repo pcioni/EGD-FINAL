@@ -58,6 +58,7 @@ public class Information : MonoBehaviour {
 		party.Add (new Party_Member ("Cody", 100, 10, 10));
 		party.Add (new Party_Member ("Nico", 40, 10, 18));
 		party.Add (new Party_Member ("Amanda", 50, 10, 16));
+		party.Add (new Party_Member ("Bully", 90, 10, 13));
 	}
 
 	public Party_Member getPartyMember(string name){
