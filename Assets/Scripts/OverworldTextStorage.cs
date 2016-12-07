@@ -559,7 +559,7 @@ public class OverworldTextStorage : MonoBehaviour {
 
         level3.Add("Amelia 1", new string[] {
             "Amelia| Alright ladies and gentlemen, we have three hours until the entrance to Fortere Castle closes for the day. One shot. Do you all want to do a little training before we storm?",
-            "Mico| That would be nice- I haven't played this game at all since 6th grade.",
+            "Nico| That would be nice- I haven't played this game at all since 6th grade.",
             "Amelia| Alright, meet me back here when you're ready to proceed.",
             "Sam| How's the college search going?",
             "Amelia| How did you know that's what I was thinking about? It's been hard to narrow down. I don't want to talk about it- this is my break.",
@@ -593,23 +593,22 @@ public class OverworldTextStorage : MonoBehaviour {
 
         level3.Add("Thug 2", new string[] {
             "Sam| Hey! Are you here to raid the castle too? We could always use more people in our party if you'd like to come along.",
-            "Thug| Wow, that sounds nice! Hey wait a minute, it's YOU!",
+            "Thug 1| Wow, that sounds nice! Hey wait a minute, it's YOU!",
             "Nico| It's ME?",
-            "Thug| You're the @#$& who used to troll me all the time in this game!",
+            "Thug 1| You're the @*%& who used to troll me all the time in this game!",
             "Nico| I've been spotted, gotta go!",
             "[A short pause and then Nico disappears in puff of smoke]"
         });
 
         level3.Add("Thug 3", new string[] {
-            "Thug| That guy was always trying to sell me snake oil and invisibility cloaks.",
+            "Thug 1| That guy was always trying to sell me snake oil and invisibility cloaks.",
             "Sam| Those aren't even items in this game",
-            "Thug| You're telling me! If you guys are friends with him, then you're enemies of mine",
-            "Amelia| Did Nico just bail AND get us in a fight? That mask-wearing little weasel.",
-            "|[Fight vs Thugs]",
+            "Thug 1| You're telling me! If you guys are friends with him, then you're enemies of mine",
+            "Amelia| Did Nico just bail AND get us in a fight? That mask-wearing little weasel."
         });
 
         level3.Add("Thug 4", new string[] {
-            "Thug| I still don't want to join your quest."
+            "Thug 1| I still don't want to join your quest."
         });
 
         level3.Add("Amelia 4", new string[] {
