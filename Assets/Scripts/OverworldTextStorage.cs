@@ -620,11 +620,11 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sign| Those wishing to pass this way must complete the trials- the army of slimes must be slain, and a dragon scale must be offered to the gatekeeper.",
             "Sam| But who is the gatekeeper?",
             "Sign| I am the gatekeeper.",
-            "Sam| Well, there's my answer.",
+            "Sam| Well, okay then.",
             "Amelia| We have to sacrifice a scale to the sign?? This is a stupid fetch quest!",
             "Sam| I hate fetch quests.",
             "Cody| It could be fun...",
-            "Amelia| Fine. I'll look around here for the gold, you guys go track down those slimes.",
+            "Amelia| Fine. I'll look around here for the scale, you guys go track down those slimes.",
             "Sam| They used to hide out in the wilderness. I don't know if they still do.",
             "Cody| Let's go!",
         });
