@@ -265,7 +265,8 @@ public class OverworldTextStorage : MonoBehaviour {
             "Chest| Am I expected to condone your whining and sniveling?",
             "Chest| Do you want a participation trophy, private?",
             "Chest| Will that make you happy?",
-            "|The chest actually does contain a Participation Trophy. You are led to believe that the chest was just antagonizing you to build character",
+            "|The chest actually does contain a Participation Trophy. You are led to believe that the chest was just antagonizing you to build character.$",
+			"|You are led to believe that the chest was just antagonizing you to build character."
         });
 
         level2.Add("Nico 1", new string[] {
@@ -282,7 +283,8 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sam| If you like her, she must be great.",
             "Amelia| Cody, is that girl here yet? She makes me regret more and more that we let her be the fifth soldier on the team.",
             "Cody| You won't regret it - she fights like a wildcat when she's in battle. It's so cool...",
-            "Amelia| Do not get mushy when you are talking to me. I could care less about your feelings about this slow, silly girl of yours.",
+            "Amelia| Do not get mushy when you are talking to me. I could care less about your feelings about this slow, silly girl of yours.$",
+			"Cody|Boy oh boy, she's almost here."
         });
 
         level2.Add("Amanda 2", new string[] {
@@ -336,7 +338,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sam| Guys, everybody just needs to listen to each other's arguments and we can decide from there.",
             "Nico| This seems like a socially critical moment. I'm going to go ahead and agree with Amanda for the sole reason that she's hot.",
             "Amelia| YOU'RE ALL RIDICULOUS!!! I'll go capture Charlie BY MYSELF!",
-            "Sam| Agh, the Fellowship is splitting! What to do?!_ I'm coming with you Amelia!",
+            "Sam| Agh, the Fellowship is splitting! What to do?!_ I'm coming with you Amelia!"
         });
 
         level2.Add("Treasure Chest 5", new string[] {
@@ -344,7 +346,8 @@ public class OverworldTextStorage : MonoBehaviour {
             "Chest| Always looking for some reward. Back in my day, we didn't HAVE rewards. We had more WORK. And we were happy for it!",
             "Chest| You're still here huh? What do you think I am, some sort of reward dispensing machine?",
             "Chest| Well I am, but that doesn't justify anything!",
-            "|The chest contains a [decent item]. You are given the impression that the chest is only hard on you because it wants you to be strong enough to deal with life's challenges.",
+            "|The chest contains a [decent item]. You are given the impression that the chest is only hard on you because it wants you to be strong enough to deal with life's challenges.$",
+			"You are given the impression that the chest is only hard on you because it wants you to be strong enough to deal with life's challenges."
         });
 
         level2.Add("Enemy Soldier 5", new string[] { 
@@ -395,11 +398,12 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| I'm leaving, Sam. And you're not coming with me.",
             "Sam| Amelia, please don't leave.",
             "Amelia| I'll capture the points myself and that will be that.",
-            "Sam| Wait --",
+            "Sam| Wait --$",
+			"Sam| Just stay here, we'll figure it out."
         });
         level2.Add("Amanda 8", new string[] {
             "Amanda| why don't we split up and tackle two points at once. now that the tank is gone, we can totally take on anything they try to do.",
-            "Sam| I think that should work.",
+            "Sam| Yeah, yeah, I think that should work, but what about Am-",
             "Amanda| great!! cody and i will take point charlie. see you in a jiffy!",
         });
         level2.Add("Treasure Chest 9", new string[] {
@@ -413,7 +417,8 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sam| Shut it. _..._ Okay, let's see what's inside.",
             "|You found a grenade!",
             "Sam| Oh come on.",
-            "|And a [decent item]",
+            "|And a [decent item]$",
+			"|You think you see a glint of pride in the chest's locking mechanism."
         });
 
         level2.Add("Nico 9", new string[] {
@@ -431,7 +436,8 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sam| Squad!",
             "Nico| A squad, yes. A squad of 1, if you will. And it's worked out for a while, it did, but you can only get so far before you have to-",
             "Sam| Turn around!",
-            "Nico| Exactly. Please don't tell anyone this. The thing I've been unwilling to confess until now is that",
+            "Nico| Exactly. Please don't tell anyone this. The thing I've been unwilling to confess until now is that$",
+			"Nico| Well that was divertive."
         });
 
         level2.Add("Cody 10", new string[] {
@@ -463,7 +469,6 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amanda| Wow, I forgot about that one.",
             "Cody| You lied to me! You led me on for two months!",
             "Amanda| No! It's not true!!",
-            "Sam|...why does it even matter?",
             "Nico| Holy crap, the Potato Chip Mermaid really screwed Cody over.",
         });
 
@@ -496,7 +501,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Cody| thank you",
             "Amelia| Let's do this thing.",
             "Cody| I can't face her. I can't. I'll just stay here.",
-            "Sam| We won't be far. Just come find us when you're ready.",
+            "Sam| We won't be far. Just come find us when you're ready."
         });
 
         level2.Add("Amanda 13", new string[] {
@@ -535,10 +540,10 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| You guys know me pretty well right?",
             "Nico| Yeah, we've known you for quite a while now.",
             "Amelia| Would you believe that this is me?",
-            "Amelia has sent you a web link| Grangertown Honor Roll- Amelia Ramirez makes Honor Roll again this year.",
+            "|Amelia has sent you a web link: Grangertown Honor Roll- Amelia Ramirez makes Honor Roll again this year.",
             "Nico| Yeah, I buy it. You're a real girl. Hey, I'm sorry for all the trouble I caused this time around.",
             "Amelia| It wasn't just you. I didn't help anything.",
-            "Cody| You know what, I have a good feeling, guys. I feel like_ it's all going to be alright.",
+            "Cody| You know what, I have a good feeling, guys. I feel like it's all going to be alright.",
             "Sam| You better believe it dude.",
             "Nico| So Amelia, since you're a girl, how's the unequal pay and longer bathroom lines treating you?",
             "Sam| ...And we're done here.",
