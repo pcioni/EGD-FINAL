@@ -12,7 +12,7 @@ public class Information : MonoBehaviour {
 	List<string> bad_guys;
 	List<string> intro_dialogue;
 
-	int current_level = 1;
+	int current_level = 3;
 
 	//Overworld Save Data
 	//Remember to wipe these when starting a new level
