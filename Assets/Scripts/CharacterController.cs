@@ -58,7 +58,7 @@ public class CharacterController : MonoBehaviour {
     //puts the player on the ground. Useful after teleporting, vertical movement, etc.
     public void ClampToGround()
     {
-        //calculates raycast from the edge of the player. RAYCASTS ARE SET TO IGNORE TRIGGER COLLIDERS
+        //calculates raycast from the edge of the player. RAYCASTS ARE SET TO IGNORE TRIGGER COLLIDERS 
         Vector2 self = new Vector2(transform.position.x, transform.position.y - boxCollider.bounds.size.y);
         RaycastHit2D hit = Physics2D.Raycast(self, -Vector2.up);
         if (hit.collider != null)

@@ -26,12 +26,8 @@ public class StringParser {
             {'@', 0},
             {'#', 0},
             {'_', 0},
-            {'~', 0},
             {'%', 0},
             {'$', 0},
-			{'*', 0},
-			{'>', 0},
-			{'!', 0}
         };
 
 	private void resetFlagMap() {
@@ -39,12 +35,8 @@ public class StringParser {
 			{'@', 0},
 			{'#', 0},
 			{'_', 0},
-			{'~', 0},
 			{'%', 0},
 			{'$', 0},
-			{'*', 0},
-			{'>', 0},
-			{'!', 0}
 		};
 	}
 
@@ -76,16 +68,12 @@ public class StringParser {
 		string[] splitString = s.Split('|');
 
 		string choicesString = null;
-		foreach (string segment in splitString) {
-			if (segment[0] == '@')
-				choicesString = segment;
-		}
+	    foreach (string segment in splitString) {
+	        if (segment[0] == '@')
+	            choicesString = segment;
+	    }
 
-		for (int i = 0; i < choicesString.Length; i++) {
-
-		}
-
-		return choices;
+	    return choices;
 
 	}
 
