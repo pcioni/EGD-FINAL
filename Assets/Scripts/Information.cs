@@ -18,7 +18,7 @@ public class Information : MonoBehaviour {
 	//Remember to wipe these when starting a new level
 	Vector3 mainCharacterPosition = Vector3.zero;
 	public int progress_number = 0;
-	string scene_name = "";
+	public string scene_name = "";
 	public string current_section = "";
 	public string disable_battle = "";
 	public int dialogue_index = -1;

@@ -540,7 +540,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| You guys know me pretty well right?",
             "Nico| Yeah, we've known you for quite a while now.",
             "Amelia| Would you believe that this is me?",
-            "|Amelia has sent you a web link: Grangertown Honor Roll- Amelia Ramirez makes Honor Roll again this year.",
+            "Poof|Amelia has sent you a web link: Grangertown Honor Roll- Amelia Ramirez makes Honor Roll again this year.",
             "Nico| Yeah, I buy it. You're a real girl. Hey, I'm sorry for all the trouble I caused this time around.",
             "Amelia| It wasn't just you. I didn't help anything.",
             "Cody| You know what, I have a good feeling, guys. I feel like it's all going to be alright.",

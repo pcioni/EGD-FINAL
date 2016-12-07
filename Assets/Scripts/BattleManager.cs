@@ -29,6 +29,7 @@ public class BattleManager : MonoBehaviour {
 	Information info;
 	int action_selected;
 	int turn_number;
+	bool defeat_message;
 
 	// Use this for initialization
 	void Start () {
@@ -44,6 +45,7 @@ public class BattleManager : MonoBehaviour {
 		awaiting_input = false;
 		victory = false;
 		defeat = false;
+		defeat_message = false;
 		continuer = false;
 		need_target = 'n';
 		pending_actions = new List<FightBehavior> ();
@@ -162,7 +164,15 @@ public class BattleManager : MonoBehaviour {
 		}
 
 		if (defeat) {
-			pending_messages.Add ("You have been defeated... Game Over!");
+			if (!defeat_message) {
+				pending_messages.Add ("Game Over...");
+				defeat_message = true;
+				return;
+			}
+			if (info.progress_number > 1) {
+				info.progress_number--;
+			}
+			SceneManager.LoadScene (info.scene_name);
 			return;
 		}
 
