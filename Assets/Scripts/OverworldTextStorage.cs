@@ -665,7 +665,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Cody| Nice of you to apologize.",
             "Amelia| We accept.",
             "Sam| So how have you been? You don't look any different from way back in the day!",
-            "Thug Leader| Amazing how game sprites will do that for you |)#I've been alright. I haven't played this game in a super long time, but news of the castle brought me back.",
+            "Thug Leader| Amazing how game sprites will do that for you #I've been alright. I haven't played this game in a super long time, but news of the castle brought me back.",
             "Sam| Us too.",
             "Cody| Say.. would you like to join our guild? We could always use an extra set of hands.",
             "Thug Leader| Wow, yeah, I'd love to! Thank you guys.. I don't think I would have done this if I was in your place.",
