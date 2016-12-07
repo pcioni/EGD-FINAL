@@ -475,6 +475,11 @@ public class BattleManager : MonoBehaviour {
 			participants.Add (temp);
 		}
 		for (int x = 0; x < bad.Count; x++) {
+			if (bad [x] == "AmandaEnemy" || bad [x] == "King" || bad [x] == "Thug Leader") {
+				info.song = "Boss";
+			} else if (bad [x] == "Dragon") {
+				info.song = "Dragon";
+			}
 			FightBehavior temp = ((GameObject)Instantiate (Resources.Load (bad [x]), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior>();
 			temp.setAlignment (false);
 			bad_guys.Add (temp);
@@ -502,6 +507,8 @@ public class BattleManager : MonoBehaviour {
 				}
 			}
 		}
+
+		info.startSong ();
 
 	}
 

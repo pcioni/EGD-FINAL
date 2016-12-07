@@ -28,6 +28,8 @@ public class Information : MonoBehaviour {
 	//the string is someone not to fight again,
 	//the int is which dialogue index you left off on
 
+	public string song;
+
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad (gameObject);
