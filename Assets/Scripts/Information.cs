@@ -48,7 +48,7 @@ public class Information : MonoBehaviour {
 		inventory ["Panacea Bottle"] = 4;
 		inventory ["Magic Lens"] = 100;
 		inventory ["Blast Powder"] = 2;
-		inventory ["The Orange Overlord"] = 270;
+		inventory ["Flash Powder"] = 2;
 		inventory ["Life Bottle"] = 1;
 		inventory ["Incense"] = 3;
 	}
