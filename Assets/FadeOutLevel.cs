@@ -44,7 +44,8 @@ public class FadeOutLevel : MonoBehaviour {
 		//keep to max levels
 		if (info.GetLevelNumber () == 4) {
 			info.current_level = 3;
-			SceneManager.LoadScene ("Epilogue");
+			if (SceneManager.GetActiveScene ().name != "Epilogue") SceneManager.LoadScene ("Epilogue");
+			else SceneManager.LoadScene ("Main Menu");
 		} else
 			SceneManager.LoadScene ("Main Menu");
 	}

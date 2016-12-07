@@ -88,7 +88,7 @@ public class InteractableSpeaker : Interactable {
 		foreach (GameObject obj in contingencies) {
 			int their_num = obj.GetComponent<InteractableSpeaker> ().new_progress_number;
 			if (their_num != new_progress_number) {
-				print ("OBJECTION! New progress numbers in contingencies array must all match. " + their_num + " != " + new_progress_number);
+				print ("OBJECTION! New progress numbers in contingencies array must all match. " + obj.name + ":" + their_num + " != " + name + ":" + new_progress_number);
 			}
 		}
 		info = GameObject.FindObjectOfType<Information> ();
@@ -98,7 +98,7 @@ public class InteractableSpeaker : Interactable {
 		textController.back.SetActive (false);
 		if (text_storage.level_number != 1) {
 			dialogueID = name;
-			print ("set dialogueID to name");
+			//print ("set dialogueID to name");
 		} 
 		//print (text_storage.level_number + " is equivalent to " + 1);
 		if (dialogueID != "") {

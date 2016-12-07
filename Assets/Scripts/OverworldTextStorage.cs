@@ -732,7 +732,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| Oh geez, we were here too long!",
             "Thug Leader| You guys go - I'll fight the dragon.",
             "Amelia| What???",
-            "Thug Leader| You've all been so good to me, and I want to give back to you. I'll probably be eaten and you'll very likely never see me again, but I will rest easy knowing that I did this for my friends.)",
+            "Thug Leader| You've all been so good to me, and I want to give back to you. I'll probably be eaten and you'll very likely never see me again, but I will rest easy knowing that I did this for my friends. :)",
             "Sam| Wow.",
             "Cody| Okay, I'm getting a little teary-eyed over that one.",
             "|Damien Scarborough left your team.$",
@@ -740,7 +740,8 @@ public class OverworldTextStorage : MonoBehaviour {
         });
 
         level3.Add("Sign 14", new string[] {
-            "|You’ve done well. Receive my congratulations."
+            "|You’ve done well. Receive my congratulations.",
+			"|You may now pass through here."
         });
 
         level3.Add("Guard 15", new string[] {
@@ -858,8 +859,7 @@ public class OverworldTextStorage : MonoBehaviour {
         });
 
         level3.Add("Amelia 25", new string[] {
-            "Amelia| Sam.. I'm really lucky I met you. Thanks for keeping this team together all",
-            "|these years.",
+            "Amelia| Sam.. I'm really lucky I met you. Thanks for keeping this team together all these years.",
             "Sam| Yeah.... You know.... I -",
             "Poof|Amelia has logged off",
         });
@@ -868,10 +868,10 @@ public class OverworldTextStorage : MonoBehaviour {
             "Cody| Saying goodbye is hard.",
             "Sam| This isn't goodbye forever. If nothing else, you and I will stay in touch.",
             "Cody| But what about the future.",
-            "Sam| What about the future? The future is this great big thing that hasn't",
-            "|happened yet. And that means you can change it. All we can do is believe that there's good in the world and do our best to keep making it better.",
+            "Sam| What about the future? The future is this great big thing that hasn't happened yet.",
+			"Sam|And that means you can change it. #All we can do is believe that there's good in the world and do our best to keep making it better.",
             "Cody| When did you get so wise?",
-            "Sam| I've learned to pay attention to the world around me. |)",
+			"Sam| I've learned to pay attention to the world around me. :) ",
             "Cody| Goodbye Sam.",
             "Sam| Goodbye Cody.",
             "Poof|Cody has logged off",
