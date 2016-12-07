@@ -18,11 +18,11 @@ public class PositionCharactersInBattle : MonoBehaviour {
 		
 	}
 
-	public void ArrangeCharacters(List<FightBehavior> heroes, List<FightBehavior> enemies){
+	public void ArrangeCharacters(List<FightBehavior> heroes, List<FightBehavior> enemies, bool first_time){
 		bool rotate_em = false;
 		if (name.Contains ("Hero")) {
 			characters = heroes;
-			rotate_em = true;
+			rotate_em = first_time;
 		} 
 		else if (name.Contains ("Enemy")) {
 			characters = enemies;
