@@ -19,6 +19,11 @@ public static class ParticleManager {
 
 	}
 
+	public static void doEffect(string effect, Transform location){
+		GameObject temp = (GameObject)GameObject.Instantiate (Resources.Load ("Particles/" + effect));
+		temp.transform.position = location.position;
+	}
+
 	/// <summary>
 	/// Fires the particle effect from user to target, returns the total time the effect runs, 
 	/// including its travel time.

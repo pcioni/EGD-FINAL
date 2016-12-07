@@ -73,6 +73,7 @@ public class InteractableSpeaker : Interactable {
 	[Header("Hotfix")]
 	//Used for a specific instance when a battle occurs before the first progress point
 	public GameObject enableAfterTalking = null;
+	public GameObject disableAfterTalking = null;
 
 
 
@@ -255,8 +256,15 @@ public class InteractableSpeaker : Interactable {
 			SceneManager.LoadScene ("BattleSystem");
 		}
 
-		if (enableAfterTalking != null)
+		if (enableAfterTalking != null) {
+			ParticleManager.doEffect ("poof", enableAfterTalking.transform);
 			enableAfterTalking.SetActive (true);
+		}
+
+		if (disableAfterTalking != null) {
+			ParticleManager.doEffect ("poof", disableAfterTalking.transform);
+			disableAfterTalking.SetActive (false);
+		}
 
 		if (endLevel) {
 			GameObject.FindObjectOfType<FadeOutLevel> ().Fade ();
