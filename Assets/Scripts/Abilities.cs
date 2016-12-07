@@ -84,6 +84,7 @@ public static class Abilities {
 
 	public static List<string> useAbility(string ability, FightBehavior user, BattleManager managey){
 		List<string> result = new List<string> ();
+		List<FightBehavior> targets;
 
 		switch (ability) {
 
@@ -97,7 +98,6 @@ public static class Abilities {
 			return result;
 
 		case("Air Strike"):
-			List<FightBehavior> targets;
 			if (user.getAlignment ()) {
 				targets = managey.getBadGuys ();
 			} else {
@@ -111,6 +111,23 @@ public static class Abilities {
 		case("Tremor"):
 			result.Add (user.character_name + " creates a powerful shockwave in the ground beneath everyone!");
 			result.AddRange (managey.applyStatusToAll ("paralyzed", user));
+			return result;
+
+		case("Singe"):
+			result.Add (user.character_name + " scorches the entire field in red-hot flames!");
+			result.AddRange (managey.applyStatusToAll ("burned", user));
+			return result;
+
+		case("Eruption"):
+			result.Add (user.character_name + " begins to melt the ground beneath everyone!");
+			if (user.getAlignment ()) {
+				targets = managey.getBadGuys ();
+			} else {
+				targets = managey.getGoodGuys ();
+			}
+			for (int x = 0; x < targets.Count; x++) {
+				result.Add (targets [x].damage (20, user.character_name, ParticleManager.doEffect("fireball", user, targets[x])));
+			}
 			return result;
 
 		default:
@@ -137,7 +154,10 @@ public static class Abilities {
 
 		case("Fireball"):
 			result.Add (user.character_name + " launches a fireball at " + target.character_name + "!");
-			result.Add (target.damage (20, user.character_name, ParticleManager.doEffect("fireball", user, target)));
+			result.Add (target.damage (20, user.character_name, ParticleManager.doEffect ("fireball", user, target)));
+			if (Random.Range (0, 10) == 0) {
+				result.Add (target.inflictStatus ("burned", Random.Range (2, 4), user.character_name));
+			}
 			return result;
 
 		case("Lightning"):

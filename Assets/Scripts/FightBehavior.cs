@@ -284,6 +284,7 @@ public class FightBehavior : MonoBehaviour {
 		effects.Remove ("poisoned");
 		effects.Remove ("paralyzed");
 		effects.Remove ("blinded");
+		effects.Remove ("burned");
 		return character_name + " has been cleansed of all negative effects!";
 	}
 
@@ -327,6 +328,9 @@ public class FightBehavior : MonoBehaviour {
 			if (key == "poisoned") {
 				ParticleManager.doEffect ("poison", this);
 				result.Add (damage (10, "poison"));
+			}
+			if (key == "burned") {
+				result.Add (damage (Random.Range(8,16), "burning", ParticleManager.doEffect ("fireball explosion", this)));
 			}
 
 			effects[key] = effects[key] - 1;
