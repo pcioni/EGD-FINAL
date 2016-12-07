@@ -29,7 +29,6 @@ public class Information : MonoBehaviour {
 	//the int is which dialogue index you left off on
 
 	public string song;
-	AudioSource audio_source;
 
 	// Use this for initialization
 	void Start () {
@@ -45,7 +44,7 @@ public class Information : MonoBehaviour {
 
 		talked_to = new Dictionary<string, int> ();
 
-		audio_source = GameObject.FindObjectOfType<AudioSource> ();
+
 	}
 
 	void defaultInventory(){
@@ -250,10 +249,17 @@ public class Information : MonoBehaviour {
 	}
 
 	public void startSong(){
-		if (song == "Boss")
-			audio_source.clip = Resources.Load ("Boss");
-		else if (song == "Dragon")
-			audio_source.clip = Resources.Load ("Dragon");
-		audio_source.Play ();
+		AudioSource audio_source = GameObject.FindObjectOfType<AudioSource> ();
+		if (song == "Boss") {
+			audio_source.clip = (AudioClip)Resources.Load ("Boss");
+			audio_source.Play ();
+		} else if (song == "Dragon") {
+			audio_source.clip = (AudioClip)Resources.Load ("Dragon");
+			audio_source.Play ();
+		} else if (song == "Level 2") {
+			audio_source.clip = (AudioClip)Resources.Load ("Level 2");
+			audio_source.Play ();
+		}
+		
 	}
 }
