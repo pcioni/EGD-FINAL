@@ -51,6 +51,7 @@ public class Information : MonoBehaviour {
 		inventory ["Flash Powder"] = 2;
 		inventory ["Life Bottle"] = 1;
 		inventory ["Incense"] = 3;
+		inventory ["Treasure Chest"] = 1;
 	}
 
 	void defaultParty(){

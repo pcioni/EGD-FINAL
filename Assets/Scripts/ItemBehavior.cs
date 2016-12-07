@@ -38,14 +38,14 @@ public class ItemBehavior : MonoBehaviour {
 			return result;
 		case("Treasure Chest"):
 			FindObjectOfType<Information> ().useItem ("Treasure Chest");
-			result.Add(target.damage (50, user.character_name, ParticleManager.doEffect ("treasure chest", target)));
+			result.Add(target.damage (50, user.character_name, ParticleManager.doEffect ("treasure chest", user, target)));
 			return result;
 		case("Participation Trophy"):
 			result.Add ("You proudly raise your trophy in the air for all to see.");
 			result.Add ("Nothing happens except for you briefly feeling good for yourself.");
 			return result;
 		case("Grenade"):
-			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("grenade", target)));
+			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("grenade", user, target)));
 			return result;
 		case("Dragon Scale"):
 			result.Add (target.inflictStatus ("burn protected", 999, "the dragon scale!"));
