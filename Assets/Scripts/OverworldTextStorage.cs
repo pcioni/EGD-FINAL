@@ -744,9 +744,9 @@ public class OverworldTextStorage : MonoBehaviour {
         });
 
         level3.Add("Guard 15", new string[] {
-            "Guard| stop right there",
+            "Manuel| stop right there",
             "Sam| Wait that's a player, not an NPC. Why are you trying to stop us?",
-            "Guard| because the dark king is going to be MINE",
+            "Manuel| because the dark king is going to be MINE",
             "Cody| Wait a minute, I know who you are- Amanda!",
             "Manuel| oh cody! i didn't realize it was you! how have you been???",
             "Cody| Fine.",
