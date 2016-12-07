@@ -468,6 +468,9 @@ public class BattleManager : MonoBehaviour {
 	void StartBattle(){
 		List<string> good = info.getAllies ();
 		List<string> bad = info.getEnemies ();
+		if (info.current_level == 2) {
+			info.song = "Level 2";
+		}
 		for (int x = 0; x < good.Count; x++) {
 			FightBehavior temp = ((GameObject)Instantiate (Resources.Load (good [x]), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior>();
 			temp.setAlignment (true);
