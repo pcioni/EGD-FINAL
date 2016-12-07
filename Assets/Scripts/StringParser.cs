@@ -10,8 +10,6 @@ public enum flags {
     INTERRUPT = '$',
     LINEBREAK = '#',
     PAUSE = '_',
-    CHOICE = '@',
-    CHOICEINDEX = '%',
     CLEARANDPRINT = '~'
 }
 
@@ -60,21 +58,6 @@ public class StringParser {
 		result[0] = split[0];
 		result[1] = split[1];
 		return result;
-	}
-
-	//pass this function the original string.
-	public List<string> getChoices(string s) {
-		List<string> choices = new List<string>();
-		string[] splitString = s.Split('|');
-
-		string choicesString = null;
-	    foreach (string segment in splitString) {
-	        if (segment[0] == '@')
-	            choicesString = segment;
-	    }
-
-	    return choices;
-
 	}
 
     //Checks if the given char (arg provided as a flags.enum) present.
