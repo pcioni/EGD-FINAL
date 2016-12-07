@@ -94,7 +94,7 @@ public static class Abilities {
 
 		case("Smoke Bomb"):
 			result.Add (user.character_name + " sets off a smoke bomb at everyone's feet!");
-			result.AddRange (managey.applyStatusToAll ("blinded", user));
+			result.AddRange (managey.applyStatusToAll ("blinded", user, Random.Range(1, 3)));
 			return result;
 
 		case("Air Strike"):
@@ -110,12 +110,12 @@ public static class Abilities {
 
 		case("Tremor"):
 			result.Add (user.character_name + " creates a powerful shockwave in the ground beneath everyone!");
-			result.AddRange (managey.applyStatusToAll ("paralyzed", user));
+			result.AddRange (managey.applyStatusToAll ("paralyzed", user, Random.Range(1, 4)));
 			return result;
 
 		case("Singe"):
 			result.Add (user.character_name + " scorches the entire field in red-hot flames!");
-			result.AddRange (managey.applyStatusToAll ("burned", user));
+			result.AddRange (managey.applyStatusToAll ("burned", user, Random.Range(1, 3)));
 			return result;
 
 		case("Eruption"):
@@ -128,6 +128,12 @@ public static class Abilities {
 			for (int x = 0; x < targets.Count; x++) {
 				result.Add (targets [x].damage (20, user.character_name, ParticleManager.doEffect("fireball", user, targets[x])));
 			}
+			return result;
+
+		case("Hush"):
+			result.Add (user.character_name + " summons a cloud of obscurity over the battlefield!");
+			result.Add ("Abilities are restricted next turn!");
+			result.AddRange (managey.applyStatusToAll ("silence", user, 2));
 			return result;
 
 		default:

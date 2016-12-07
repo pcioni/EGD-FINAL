@@ -190,6 +190,12 @@ public class BattleManager : MonoBehaviour {
 					}
 					pending_choices.Add (result);
 				} else if (action_selected == 2) {
+					if (good_guys [picker].silenced ()) {
+						action_selected = 0;
+						pending_messages.Add ("For some reason, " + good_guys [picker].character_name + " is unable to remember their abilities");
+						pending_choices.Add (good_guys [picker].listActions ());
+						return;
+					}
 					state = "select ability";
 					pending_choices.Add (good_guys [picker].listAbilities ());
 				} else if (action_selected == 3) {
@@ -485,6 +491,11 @@ public class BattleManager : MonoBehaviour {
 		foreach (PositionCharactersInBattle item in tempy) {
 			item.ArrangeCharacters (good_guys, bad_guys, false);
 		}
+		foreach (FightBehavior participant in participants) {
+			foreach (HealthbarBehavior bar in participant.GetComponents<HealthbarBehavior>()) {
+				bar.updatePosition ();
+			}
+		}
 	}
 
 	public void kill(FightBehavior which){
@@ -537,15 +548,15 @@ public class BattleManager : MonoBehaviour {
 
 	}
 
-	public List<string> applyStatusToAll(string status, FightBehavior user){
+	public List<string> applyStatusToAll(string status, FightBehavior user, int duration){
 		List<string> result = new List<string> ();
 		if (user.getAlignment ()) {
 			for (int x = 0; x < bad_guys.Count; x++) {
-				result.Add (bad_guys [x].inflictStatus (status, Random.Range (1, 3), user.character_name));
+				result.Add (bad_guys [x].inflictStatus (status, duration, user.character_name));
 			}
 		} else {
 			for (int x = 0; x < good_guys.Count; x++) {
-				result.Add (good_guys [x].inflictStatus (status, Random.Range (1, 3), user.character_name));
+				result.Add (good_guys [x].inflictStatus (status, duration, user.character_name));
 			}
 		}
 		return result;

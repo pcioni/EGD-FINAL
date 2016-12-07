@@ -22,13 +22,13 @@ public class Slime : FightBehavior {
 		managey.newTarget (this, good_guy);
 
 		int action = Random.Range (0, 100);
-		if (action < 50) {
-			result.Add (character_name + " painfully wraps around " + target.character_name + "'s leg!");
-			result.Add (target.damage (10, character_name));
-			ParticleManager.doEffect ("goo", target);
-		} else {
+		if (action < 50 && health != max_health) {
 			result.Add (character_name + " takes some time to recompose its matter.");
 			result.Add (heal (20));
+
+		} else {
+			result.Add (character_name + " painfully wraps around " + target.character_name + "'s leg!");
+			result.Add (target.damage (10, character_name, ParticleManager.doEffect ("goo", target)));
 		}
 		return result;
 	}
