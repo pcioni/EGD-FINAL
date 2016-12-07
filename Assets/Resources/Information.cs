@@ -94,7 +94,9 @@ public class Information : MonoBehaviour {
 	}
 
 	public void useItem(string item_name){
-		inventory [item_name]--;
+		if (inventory.ContainsKey(item_name)){
+			inventory [item_name]--;
+		}
 	}
 
 	public List<string> getItemNames(){
