@@ -310,6 +310,9 @@ public class FightBehavior : MonoBehaviour {
 	}
 
 	public string inflictStatus (string status, int duration, string inflictor){
+		if (effects.ContainsKey ("burn protected") && status == "burned") {
+			return character_name + " was protected from their burn by the dragon scale!";
+		}
 		effects.Remove (status);
 		effects.Add (status, duration);
 		return character_name + " was " + status + " by " + inflictor + "!";

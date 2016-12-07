@@ -20,12 +20,12 @@ public class ItemBehavior : MonoBehaviour {
 			FindObjectOfType<Information> ().useItem ("Magic Lens");
 			result.Add (target.examine ());
 			return result;
-		case ("The Kevin-Beater Bat"):
+		case ("Blast Powder"):
 			FindObjectOfType<Information> ().useItem ("The Kevin-Beater Bat");
-			result.Add(target.damage (50, user.character_name));
+			result.Add(target.damage (Random.Range(25, 40), user.character_name));
 			return result;
-		case("The Orange Overlord"):
-			FindObjectOfType<Information> ().useItem ("The Orange Overlord");
+		case("Flash Powder"):
+			FindObjectOfType<Information> ().useItem ("Flash Powder");
 			result.Add(target.inflictStatus ("paralyzed", 5, user.character_name));
 			return result;
 		case("Life Bottle"):
@@ -47,6 +47,9 @@ public class ItemBehavior : MonoBehaviour {
 		case("Grenade"):
 			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("grenade", target)));
 			return result;
+		case("Dragon Scale"):
+			result.Add (target.inflictStatus ("burn protected", 999, "the dragon scale!"));
+			return result;
 		default:
 			result.Add (user.character_name + " uses a " + itemName + " on " + target.character_name + "!");
 			result.Add ("...");
@@ -55,11 +58,26 @@ public class ItemBehavior : MonoBehaviour {
 		}
 	}
 
-	public string useItem(string itemName, FightBehavior user, bool allies){
+	public List<string> useItem(string itemName, FightBehavior user, bool allies){
+		List<string> result = new List<string> ();
+		List<FightBehavior> targets;
 		if (allies) {
-			return user.character_name + " uses a " + itemName + " on all of their allies!";
+			targets = FindObjectOfType<BattleManager> ().getGoodGuys ();
 		} else {
-			return user.character_name + " uses a " + itemName + " on the entire enemy team!";
+			targets = FindObjectOfType<BattleManager> ().getBadGuys ();
+		}
+		switch (itemName) {
+
+		case("Gold"):
+			result.Add ("The gold vaporizes in a fantastical and magical fashion, sparkling gold dust over the entire team.");
+			foreach (FightBehavior person in targets) {
+				result.Add (person.heal (40));
+			}
+			return result;
+		default:
+			result.Add ("...");
+			result.Add ("It does nothing!");
+			return result;
 		}
 	}
 
@@ -72,9 +90,9 @@ public class ItemBehavior : MonoBehaviour {
 			return 'a';
 		case("Magic Lens"):
 			return 'e';
-		case("The Kevin-Beater Bat"):
+		case("Blast Powder"):
 			return 'e';
-		case("The Orange Overlord"):
+		case("Flash Powder"):
 			return 'e';
 		case("Life Bottle"):
 			return 'd';
@@ -84,6 +102,8 @@ public class ItemBehavior : MonoBehaviour {
 			return 'e';
 		case("Grenade"):
 			return 'e';
+		case("Dragon Scale"):
+			return 'a';
 		default:
 			return 'n';
 
