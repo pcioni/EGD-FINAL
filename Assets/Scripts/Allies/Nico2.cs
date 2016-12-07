@@ -26,7 +26,7 @@ public class Nico2 : FightBehavior {
 
 	public override void setAbilities()
 	{
-		abilities.AddRange(new List<string> {"Poison", "Poison", "Poison", "Beat Rush"});
+		abilities.AddRange(new List<string> {"Poison", "Beat Rush", "Paralyze"});
 	}
 
 	IEnumerator animate(){

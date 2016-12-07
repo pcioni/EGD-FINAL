@@ -41,6 +41,18 @@ public static class Abilities {
 				result.Add (2);
 				continue;
 
+			case("Air Strike"):
+				result.Add (4);
+				continue;
+
+			case("Frag"):
+				result.Add (2);
+				continue;
+
+			case("Knife Frenzy"):
+				result.Add (4);
+				continue;
+
 			default:
 				result.Add (0);
 				continue;
@@ -74,6 +86,9 @@ public static class Abilities {
 			return 'e';
 
 		case("Paralyze"):
+			return 'e';
+
+		case("Frag"):
 			return 'e';
 
 		default:
@@ -136,6 +151,20 @@ public static class Abilities {
 			result.AddRange (managey.applyStatusToAll ("silence", user, 2));
 			return result;
 
+		case("Knife Frenzy"):
+			result.Add (user.character_name + " unleashes a flurry of knives upon the enemy!");
+			if (user.getAlignment ()) {
+				targets = managey.getBadGuys ();
+			} else {
+				targets = managey.getGoodGuys ();
+			}
+			int attack_number = Random.Range (2, 6);
+			for (int x = 0; x < attack_number; x++) {
+				int target_number = Random.Range (0, targets.Count);
+				result.Add (targets [target_number].damage (15, user.character_name, ParticleManager.doEffect("thug attack", user, targets[target_number])));
+			}
+			return result;
+
 		default:
 			result.Add (user.character_name + " tried to use a non-existent ability!");
 			return result;
@@ -190,6 +219,11 @@ public static class Abilities {
 		case("Paralyze"):
 			result.Add (user.character_name + " casts a paralyzing spell on " + target.character_name + "!");
 			result.Add (target.inflictStatus ("paralyzed", Random.Range(2,5), user.character_name));
+			return result;
+
+		case("Frag"):
+			result.Add (user.character_name + " lobs a grenade at " + target.character_name + "!");
+			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("grenade", user, target)));
 			return result;
 
 		default:

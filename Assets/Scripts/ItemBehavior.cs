@@ -50,6 +50,9 @@ public class ItemBehavior : MonoBehaviour {
 		case("Dragon Scale"):
 			result.Add (target.inflictStatus ("burn protected", 999, "the dragon scale!"));
 			return result;
+		case("Apple Pie"):
+			result.Add (target.heal (100));
+			return result;
 		default:
 			result.Add (user.character_name + " uses a " + itemName + " on " + target.character_name + "!");
 			result.Add ("...");
@@ -103,6 +106,8 @@ public class ItemBehavior : MonoBehaviour {
 		case("Grenade"):
 			return 'e';
 		case("Dragon Scale"):
+			return 'a';
+		case("Apple Pie"):
 			return 'a';
 		default:
 			return 'n';

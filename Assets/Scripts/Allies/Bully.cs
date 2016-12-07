@@ -26,7 +26,7 @@ public class Bully : FightBehavior {
 
 	public override void setAbilities()
 	{
-		abilities.AddRange(new List<string> {"Fireball", "Lightning", "Icicle", "Heal"});
+		abilities.AddRange(new List<string> {"Fireball", "Beat Rush", "Poison", "Knife Frenzy"});
 	}
 
 	IEnumerator animate(){

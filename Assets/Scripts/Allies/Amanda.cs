@@ -26,7 +26,7 @@ public class Amanda : FightBehavior {
 
 	public override void setAbilities()
 	{
-		abilities.AddRange(new List<string> {"Fireball", "Lightning", "Icicle", "Heal"});
+		abilities.AddRange(new List<string> {"Heal", "Frag", "Air Strike"});
 	}
 
 	IEnumerator animate(){
