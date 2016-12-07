@@ -854,14 +854,14 @@ public class OverworldTextStorage : MonoBehaviour {
             "Nico| Well, whatever happens, it's been a true privilege to be a part of this with you guys for 6 years.",
             "Sam| Couldn't have asked for better.",
             "Nico| So I thank you.",
-            "| Nico logs off"
+            "Poof|Nico has logged off"
         });
 
         level3.Add("Amelia 25", new string[] {
             "Amelia| Sam.. I'm really lucky I met you. Thanks for keeping this team together all",
             "|these years.",
             "Sam| Yeah.... You know.... I -",
-            "|[Amelia logs off]",
+            "Poof|Amelia has logged off",
         });
 
         level3.Add("Cody 26", new string[] {
@@ -874,8 +874,12 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sam| I've learned to pay attention to the world around me. |)",
             "Cody| Goodbye Sam.",
             "Sam| Goodbye Cody.",
-            "|[Cody logs off]",
+            "Poof|Cody has logged off",
         });
+
+		level3.Add("None 27", new string[] {
+			"Poof|Sam has logged off"
+		});
 
 
 

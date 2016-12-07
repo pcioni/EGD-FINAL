@@ -14,7 +14,7 @@ public class Information : MonoBehaviour {
 	List<string> exit_dialogue;
 	Dictionary<int, string> in_battle_events;
 
-	int current_level = 3;
+	public int current_level = 3;
 
 	//Overworld Save Data
 	//Remember to wipe these when starting a new level

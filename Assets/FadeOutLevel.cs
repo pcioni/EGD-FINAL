@@ -39,7 +39,13 @@ public class FadeOutLevel : MonoBehaviour {
 			audioo.volume = 1 - fade_foreground.color.a;
 			yield return null;
 		}
+		info.progress_number = 0;
 		info.IncrementLevelNumber ();
-		SceneManager.LoadScene ("Main Menu");
+		//keep to max levels
+		if (info.GetLevelNumber () == 4) {
+			info.current_level = 3;
+			SceneManager.LoadScene ("Epilogue");
+		} else
+			SceneManager.LoadScene ("Main Menu");
 	}
 }
