@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Cody : FightBehavior {
+public class Nico2 : FightBehavior {
 
 	public Sprite idle1;
 	public Sprite idle2;
@@ -13,7 +13,7 @@ public class Cody : FightBehavior {
 
 	public override void setName ()
 	{
-		character_name = "Cody";
+		character_name = "Nico";
 		setStats ();
 		rendy = GetComponent<SpriteRenderer> ();
 		StartCoroutine (animate ());
@@ -21,12 +21,12 @@ public class Cody : FightBehavior {
 
 	public override string examine ()
 	{
-		return "Cody, a struggling youth that wants to prove himself useful to his friends.";
+		return "Nico, an eccentric prankster that the gang just can't quite seem to shake.";
 	}
 
 	public override void setAbilities()
 	{
-		abilities.AddRange(new List<string> {"Fireball", "Poison", "Icicle", "Paralyze"});
+		abilities.AddRange(new List<string> {"Poison", "Poison", "Poison", "Beat Rush"});
 	}
 
 	IEnumerator animate(){

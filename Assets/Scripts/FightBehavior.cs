@@ -47,7 +47,7 @@ public class FightBehavior : MonoBehaviour {
 		float height_above = .3f * half_height + half_height;
 		myHealthBar.transform.position = new Vector3(transform.position.x,
 			transform.position.y + height_above, 0);
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health, max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
 
 		//Mana bar stuff
 		bar = (GameObject) Instantiate (Resources.Load("Healthbar"));
@@ -57,10 +57,11 @@ public class FightBehavior : MonoBehaviour {
 		half_height = GetComponent<SpriteRenderer> ().bounds.extents.y;
 		height_above = 0.1f * half_height + half_height;
 		myManaBar.transform.position = new Vector3 (transform.position.x, transform.position.y + height_above, 0);
-		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana, max_mana);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_mana);
 		myManaBar.GetComponent<Image> ().color = Color.blue;
 
 		setName();
+
 		ignore_death = false;
 	}
 
@@ -82,14 +83,21 @@ public class FightBehavior : MonoBehaviour {
 		max_health = info.max_health;
 		mana = info.mana;
 		max_mana = info.max_mana;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health, max_health);
-		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (mana, max_mana);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
+		myManaBar.GetComponent<HealthbarBehavior> ().defaultHealth (mana);
+		myManaBar.GetComponent<HealthbarBehavior> ().SetHealth (mana);
 		strength = info.strength;
+	}
+
+	public virtual void attackAnimation(){
+		return;
 	}
 
 	protected void setAIStats(int healthy){
 		max_health = health = healthy;
-		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health, max_health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().defaultHealth (health);
+		myHealthBar.GetComponent<HealthbarBehavior> ().SetHealth (health);
 		mana = max_mana = 9999;
 		myManaBar.SetActive (false);
 	}
@@ -345,12 +353,14 @@ public class FightBehavior : MonoBehaviour {
 			ParticleManager.doEffect ("enrage", this);
 			result.Add (character_name + " goes berserk on " + target.character_name + "!");
 			result.Add (target.damage (strength + 10, character_name));
+			attackAnimation ();
 			return result;
 		} else if (effects.ContainsKey ("paralyzed") && Random.Range (1, 3) == 1) {
 			result.Add (character_name + " cannot bring themself to move due to their paralysis!");
 			return result;
 		} else if (effects.ContainsKey ("blinded") && Random.Range (1, 4) == 1) {
 			result.Add (character_name + " attacked wildly, but missed the target!");
+			attackAnimation ();
 			return result;
 		}
 
@@ -363,6 +373,7 @@ public class FightBehavior : MonoBehaviour {
 		case ("attacks"):
 			result.Add (character_name + " attacks " + target.character_name + "!");
 			result.Add (target.damage (strength, character_name, ParticleManager.doEffect ("generic hit", target)));
+			attackAnimation ();
 			return result;
 
 
@@ -375,10 +386,12 @@ public class FightBehavior : MonoBehaviour {
 		case ("item"):
 			result.Add (character_name + " uses a " + managey.getItemName (action_number) + "!");
 			result.Add (managey.useItem (action_number, this, target));
+			attackAnimation ();
 			return result;
 
 		case("ability"):
 			result.AddRange (useAbility ());
+			attackAnimation ();
 			return result;
 
 		default:
@@ -386,6 +399,7 @@ public class FightBehavior : MonoBehaviour {
 		}
 
 	}
+
 
 	public virtual List<string> AIAction(){
 		List<string> result = new List<string> ();

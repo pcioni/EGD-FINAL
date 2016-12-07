@@ -26,11 +26,11 @@ public class Turret : FightBehavior {
 		if (action < 25 && health < 30) {
 			result.Add (character_name + " begins some internal repairs!");
 			result.Add (heal(25));
-			ParticleManager.doEffect ("claw", target);
+			ParticleManager.doEffect ("heal", target);
 		} else if (action < 75) {
 			result.Add (character_name + " fires a barrage of shots at " + target.character_name + "!");
 			result.Add (target.damage (25, character_name));
-			ParticleManager.doEffect ("machine gun", target);
+			ParticleManager.doEffect ("machine gun hit", target);
 		} else {
 			result.Add (character_name + " fires a miniature rocket at " + target.character_name + "!");
 			result.Add (target.damage (30, character_name));

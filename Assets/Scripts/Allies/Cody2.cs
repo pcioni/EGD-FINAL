@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Cody : FightBehavior {
+public class Cody2 : FightBehavior {
 
 	public Sprite idle1;
 	public Sprite idle2;
