@@ -139,6 +139,14 @@ public class FightBehavior : MonoBehaviour {
 		return true;
 	}
 
+	public bool silenced(){
+		return effects.ContainsKey ("silenced");
+	}
+
+	public bool reflecting(){
+		return effects.ContainsKey ("reinforced");
+	}
+
 	public string setAction(string action){
 		target = null;
 		turn_action = action;
@@ -186,6 +194,13 @@ public class FightBehavior : MonoBehaviour {
 		if (effects.ContainsKey ("guarded")) {
 			ParticleManager.doEffect ("guard", target);
 			return character_name + "'s guard protects them from " + attacker + "'s attack!";
+		}
+		if (effects.ContainsKey ("reinforced")) {
+			managey.newTarget (this, good_guy);
+			if (!target.reflecting()){
+				target.damage (amount, character_name);
+				return character_name + " redirects " + amount + " damage onto " + target.character_name;
+			}
 		}
 		health -= amount;
 		StopCoroutine ("damageFlash");
