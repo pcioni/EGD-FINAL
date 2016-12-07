@@ -90,6 +90,23 @@ public static class Abilities {
 		case("Revive Team"):
 			result.AddRange (managey.reviveTeam (user.getAlignment()));
 			return result;
+
+		case("Smoke Bomb"):
+			result.AddRange (managey.applyStatusToAll ("blinded", user));
+			return result;
+
+		case("Air Strike"):
+			List<FightBehavior> targets;
+			if (user.getAlignment ()) {
+				targets = managey.getBadGuys ();
+			} else {
+				targets = managey.getGoodGuys ();
+			}
+			for (int x = 0; x < targets.Count; x++) {
+				result.Add (targets [x].damage (20, user.character_name, ParticleManager.doEffect("fireball explosion", targets[x])));
+			}
+			return result;
+
 		default:
 			result.Add (user.character_name + " tried to use a non-existent ability!");
 			return result;
@@ -128,7 +145,7 @@ public static class Abilities {
 			return result;
 
 		case("Berserk"):
-			ParticleManager.doEffect ("enrage", target);
+			ParticleManager.doEffect ("enrage", user);
 			result.Add (user.character_name + " has gone berserk!");
 			user.inflictStatus ("berserk", Random.Range (2, 5), user.character_name);
 			return result;

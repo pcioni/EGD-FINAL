@@ -86,7 +86,7 @@ public class ParticleBehavior : MonoBehaviour {
 				//if (percentage_across > .5f)
 					//percentage_across *= -1;
 				float sine = Mathf.Sin((percentage_across*180)*Mathf.Deg2Rad);
-				print (percentage_across);
+				//print (percentage_across);
 				transform.position = new Vector3 (transform.position.x,
 					moveTo_finish.position.y + sine,
 					transform.position.z);
