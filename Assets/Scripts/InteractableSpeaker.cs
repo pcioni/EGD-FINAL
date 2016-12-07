@@ -74,6 +74,7 @@ public class InteractableSpeaker : Interactable {
 	//Used for a specific instance when a battle occurs before the first progress point
 	public GameObject enableAfterTalking = null;
 	public GameObject disableAfterTalking = null;
+	public string hotfix_particles = "";
 
 
 
@@ -257,12 +258,14 @@ public class InteractableSpeaker : Interactable {
 		}
 
 		if (enableAfterTalking != null) {
-			ParticleManager.doEffect ("poof", enableAfterTalking.transform);
+			if (hotfix_particles != "")
+				ParticleManager.doEffect (hotfix_particles, enableAfterTalking.transform);
 			enableAfterTalking.SetActive (true);
 		}
 
 		if (disableAfterTalking != null) {
-			ParticleManager.doEffect ("poof", disableAfterTalking.transform);
+			if (hotfix_particles != "")
+				ParticleManager.doEffect (hotfix_particles, disableAfterTalking.transform);
 			disableAfterTalking.SetActive (false);
 		}
 
