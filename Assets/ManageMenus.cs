@@ -16,7 +16,7 @@ public class ManageMenus : MonoBehaviour {
 	//GAMES
 	int current_level;
 	public GameObject play_button;
-	string[] levelSceneNames = { "Level 1 Overworld.unity", "Level 2 Overworld.unity", "fps.unity", "survival.unity", "arena.unity", "mmo2.unity" };
+	string[] levelSceneNames = { "Level 1 Overworld.unity", "Level 2 Overworld.unity", "Level 3 Overworld.unity", "survival.unity", "arena.unity", "mmo2.unity" };
 	string[] current_level_dates = { "June 28th, 2006", "Feb. 7th, 2009", "May 14th, 2013", "The Future" };
 	public string selectedLevel;
 	public Sprite[] logoSprites;
@@ -153,7 +153,7 @@ public class ManageMenus : MonoBehaviour {
 	}
 
 	public void OpenLevelScene(){
-		SceneManager.LoadScene ("Level 1 Overworld");
+		SceneManager.LoadScene ("Level "+ selectedLevel.Split(' ')[1] +" Overworld");
 	}
 
 	void UpdateTime(){

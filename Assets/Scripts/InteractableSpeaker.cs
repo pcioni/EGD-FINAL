@@ -101,8 +101,6 @@ public class InteractableSpeaker : Interactable {
 		//print (text_storage.level_number + " is equivalent to " + 1);
 		if (dialogueID != "") {
 			dialogueArray = text_storage.RetrieveDialogue (dialogueID);
-		/*foreach (string s in dialogueArray)
-			print (s);*/
 		}
 		
 		if (info.talked_to.ContainsKey (name)) {
