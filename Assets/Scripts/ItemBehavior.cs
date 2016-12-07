@@ -26,7 +26,7 @@ public class ItemBehavior : MonoBehaviour {
 			return result;
 		case("Flash Powder"):
 			FindObjectOfType<Information> ().useItem ("Flash Powder");
-			result.Add(target.inflictStatus ("paralyzed", 5, user.character_name));
+			result.Add(target.inflictStatus ("paralyzed", 3, user.character_name));
 			return result;
 		case("Life Bottle"):
 			FindObjectOfType<Information> ().useItem ("Life Bottle");
@@ -38,7 +38,7 @@ public class ItemBehavior : MonoBehaviour {
 			return result;
 		case("Treasure Chest"):
 			FindObjectOfType<Information> ().useItem ("Treasure Chest");
-			result.Add(target.damage (50, user.character_name, ParticleManager.doEffect ("grenade", target)));
+			result.Add(target.damage (50, user.character_name, ParticleManager.doEffect ("treasure chest", target)));
 			return result;
 		case("Participation Trophy"):
 			result.Add ("You proudly raise your trophy in the air for all to see.");
@@ -49,6 +49,9 @@ public class ItemBehavior : MonoBehaviour {
 			return result;
 		case("Dragon Scale"):
 			result.Add (target.inflictStatus ("burn protected", 999, "the dragon scale!"));
+			return result;
+		case("Apple Pie"):
+			result.Add (target.heal (100));
 			return result;
 		default:
 			result.Add (user.character_name + " uses a " + itemName + " on " + target.character_name + "!");
@@ -103,6 +106,8 @@ public class ItemBehavior : MonoBehaviour {
 		case("Grenade"):
 			return 'e';
 		case("Dragon Scale"):
+			return 'a';
+		case("Apple Pie"):
 			return 'a';
 		default:
 			return 'n';

@@ -26,7 +26,7 @@ public class Cody : FightBehavior {
 
 	public override void setAbilities()
 	{
-		abilities.AddRange(new List<string> {"Fireball", "Poison", "Icicle", "Paralyze"});
+		abilities.AddRange(new List<string> {"Paralyze", "Poison"});
 	}
 
 	IEnumerator animate(){
