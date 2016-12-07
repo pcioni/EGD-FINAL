@@ -597,7 +597,6 @@ public class OverworldTextStorage : MonoBehaviour {
             "Nico| It's ME?",
             "Thug 1| You're the @*%& who used to troll me all the time in this game!",
             "Nico| I've been spotted, gotta go!",
-            "[A short pause and then Nico disappears in puff of smoke]"
         });
 
         level3.Add("Thug 3", new string[] {
