@@ -441,6 +441,9 @@ public class BattleManager : MonoBehaviour {
 
 		case ("check win"):
 			if (victory) {
+				if (info.exitDialogue ()) {
+					pending_messages.AddRange (info.getExitDialogue ());
+				}
 				pending_messages.Add ("Congratulations, you have won!");
 				foreach (FightBehavior participant in participants) {
 					participant.sendInfoUpdate ();
@@ -508,6 +511,7 @@ public class BattleManager : MonoBehaviour {
 		participants.Add (temp);
 		if (good_guy) {
 			good_guys.Add (temp);
+			temp.transform.Rotate (new Vector3 (0f, 180f, 0f));
 		} else {
 			bad_guys.Add (temp);
 		}

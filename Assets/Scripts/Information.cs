@@ -11,6 +11,7 @@ public class Information : MonoBehaviour {
 	List<string> good_guys;
 	List<string> bad_guys;
 	List<string> intro_dialogue;
+	List<string> exit_dialogue;
 	Dictionary<int, string> in_battle_events;
 
 	int current_level = 3;
@@ -209,6 +210,21 @@ public class Information : MonoBehaviour {
 	public bool introDialogue(){
 		if (intro_dialogue != null) {
 			return intro_dialogue.Count > 0;
+		}
+		return false;
+	}
+
+	public void setExitDialogue(List<string> words){
+		exit_dialogue = words;
+	}
+
+	public List<string> getExitDialogue(){
+		return exit_dialogue;
+	}
+
+	public bool exitDialogue(){
+		if (exit_dialogue != null) {
+			return exit_dialogue.Count > 0;
 		}
 		return false;
 	}

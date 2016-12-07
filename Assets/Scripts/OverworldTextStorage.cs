@@ -445,6 +445,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Cody| The enemies were all dead when we got here. It's given us some quality time to stare lovingly at each other's avatars.",
             "Cody| Hehehe. Liking you is Amanda-tory.",
             "Nico| Okay yeah that's nauseating stop.",
+			"Nico| _Wait, why is Amelia running towards us with a rocket launcher?"
         });
 
         level2.Add("Amelia 11", new string[] {
