@@ -30,6 +30,7 @@ public class InteractableSpeaker : Interactable {
 	public TextControl textController;
 	protected StringParser stringParser;
 	OverworldTextStorage text_storage;
+	typeMessage message_typist;
 
 	[Header("Behavior")]
 	public bool idle;
@@ -86,12 +87,21 @@ public class InteractableSpeaker : Interactable {
 		}
 		info = GameObject.FindObjectOfType<Information> ();
 		text_storage = GameObject.FindObjectOfType<OverworldTextStorage> ();
+		textController.back.SetActive (true);
+		message_typist = GameObject.Find("UI Long Text").GetComponent<typeMessage>();
+		textController.back.SetActive (false);
+		if (text_storage.level_number != 1) {
+			dialogueID = name;
+			print ("set dialogueID to name");
+		} else
+			print (text_storage.level_number + " is equivalent to " + 1);
 		if (dialogueID != "")
 			dialogueArray = text_storage.RetrieveDialogue (dialogueID);
 		if (info.talked_to.ContainsKey (name)) {
 			dialogueIndex = info.talked_to [name];
 			do_sparkle = false;
 		}
+			
     }
 
 	void Update(){
@@ -101,6 +111,12 @@ public class InteractableSpeaker : Interactable {
             isSpeaking = true;
             StartCoroutine("SpeakDialogue");
         }
+
+		if (Input.GetKeyDown (KeyCode.LeftShift) || Input.GetKeyDown (KeyCode.RightShift)) {
+			if (!message_typist.finished_writing) {
+				message_typist.shift_skip = true;
+			}
+		}
     }
 
     //ensures the interactable has all the required components
@@ -173,6 +189,9 @@ public class InteractableSpeaker : Interactable {
     
             //Debug.Log("writing dialogue: " + dialogue);
             textController.write(dialogue);
+			//LEVEL 2 FACES!!!
+			//if (text_storage.level_number == 2)
+				//speaker = speaker + "2";
 			textController.displayFace (speaker);
 
             //the wait call prevents multiple lines of dialogue being read in one frame

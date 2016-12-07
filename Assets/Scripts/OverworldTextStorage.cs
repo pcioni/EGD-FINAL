@@ -41,7 +41,10 @@ public class OverworldTextStorage : MonoBehaviour {
 		//LEVEL 1
 		level1.Add("Sign", new string[]{
 			"SIGN|Welcome to Mamorpaga!",
-			"SIGN|Press Spacebar to read signs."
+			"SIGN|Press Spacebar to read signs.",
+			"SIGN|Press Shift to skip the typing animation on messages that are " +
+			"just so long that you don't have the patience to sit there and wait " +
+			"and wait and wait and wait and wait and WAIT and wait."
 		});
 
 		level1.Add("Marketplace Amelia", new string[]{
@@ -307,11 +310,11 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| You're a pig, Nico!",
         });
 
-        level2.Add("Enemy Solider 3", new string[] {
+        level2.Add("Enemy Soldier 3", new string[] {
             "Amelia| Buzz off dude, this is our point now!",
             "Sam|   (Hey, can't I handle this? I thought I was team leader!)",
             "Amelia| (Fine, do it)",
-            "Sam| ..._ Oh forget it, let's fight.",
+            "Sam| ..._ Oh forget it, let's fight."
         });
 
         level2.Add("Amanda 4", new string[] {
@@ -321,12 +324,12 @@ public class OverworldTextStorage : MonoBehaviour {
             "Cody| She wants to guard this point. Seems like a good idea.",
             "Nico| The gorgeous comment was not meant for you Cody.",
             "Cody| Darn...",
-            "Amanda| Hey, you're both going to make me jealous.",
+            "Amanda| hey, you're both going to make me jealous.",
             "Amelia| What a stupid idea, no!",
             "Cody| But I am gorgeous!",
             "Amelia| No, we have to capture the rest of the points, you idiots! Come on!",
             "Sam| Guys! If we keep arguing here the other team is going to come back!",
-            "Nico| You mean that team right there?",
+            "Nico| You mean that team right there?$",
             "Amanda| see! if we hadn't been here we would have lost the point. glad we've all seen reason now.",
             "Amelia| Reason to knock your teeth out. We would have captured the other points by now!",
             "Cody| Amelia, you need to give Amanda a say.",
@@ -344,10 +347,8 @@ public class OverworldTextStorage : MonoBehaviour {
             "|The chest contains a [decent item]. You are given the impression that the chest is only hard on you because it wants you to be strong enough to deal with life's challenges.",
         });
 
-        level2.Add("Enemy Soldier 5", new string[] {
-            "Enemy Soldier Conversation|",
-            "Enemy Soldier| This is our land dude. The two of you don't have a chance against",
-            "|the three of us.",
+        level2.Add("Enemy Soldier 5", new string[] { 
+            "Enemy Soldier| This is our land dude. The two of you don't have a chance against the three of us.",
             "Amelia| Over your dead body, huh?",
             "Enemy Soldier| I didn't say that, no..",
             "Amelia| That's what I'm hearing!",
@@ -355,7 +356,7 @@ public class OverworldTextStorage : MonoBehaviour {
 
         level2.Add("Amelia 6", new string[] {
             "Amelia| Phew, I needed that.",
-            "Sam| Amelia that was brutal. I think I heard one of those guys crying. You couldn't have given them even a break in that one?",
+            "Sam| Amelia that was brutal. I think I heard one of those guys crying. You couldn't have given them even a little break in that one?",
             "Amelia| Are you here to make friends or are you here to win?",
 			"Sam| I'm here with my friends. They're my team. And right now we need teamwork. If you're here to win, you need to work as a team as well.",
             "Amelia| I get your point. You're right. There's no need to have everybody so mad at each other over a silly thing like where we ought to go. _#Thanks for being a good friend, Sam. You keep me steady when I'm losing my cool.",
@@ -455,7 +456,6 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| Her profile picture bears a stunning resemblance to the mermaid from the potato chip ad.",
             "Sam| But that doesn't mean it isn't her in the picture.",
             "Amelia| HE, whoever he is, failed to crop the Fried Right logo out of the bottom right of the picture. There's still a little of it there.",
-            "|[The capital letters are no accident. Manuel is dropping the act without realizing it]",
             "Amanda| HA! That's so wrong!",
             "Cody| Wait. Some of this actually makes sense.",
             "Amanda| You can't be serious",
