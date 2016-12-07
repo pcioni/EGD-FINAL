@@ -17,6 +17,11 @@ public class HealthbarBehavior : MonoBehaviour {
 		text.transform.position = new Vector3(transform.position.x, transform.position.y+0.1f);
 	}
 
+	public void updatePosition(){
+		float current_y = transform.position.y;
+		text.transform.position = new Vector3(transform.position.x, current_y);
+	}
+
 	public void defaultHealth(int max){
 		//print ("default health set to " + amount);
 		max_health = max;
