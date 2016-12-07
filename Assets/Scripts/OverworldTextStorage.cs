@@ -748,10 +748,11 @@ public class OverworldTextStorage : MonoBehaviour {
             "Sam| Wait that's a player, not an NPC. Why are you trying to stop us?",
             "Guard| because the dark king is going to be MINE",
             "Cody| Wait a minute, I know who you are- Amanda!",
-            "Guard| oh cody! i didn't realize it was you! how have you been???",
+            "Manuel| oh cody! i didn't realize it was you! how have you been???",
             "Cody| Fine.",
             "Sam| Out of the way, Amanda.",
-            "Guard| Actually, it's Manuel. I am indeed a dude.",
+            "Manuel| Actually, it's Manuel. I am indeed a dude.",
+			"Nico| Is that everyone's favorite little mermaid?",
         });
 
         level3.Add("Nico 16", new string[] {
@@ -759,13 +760,11 @@ public class OverworldTextStorage : MonoBehaviour {
         });
 
         level3.Add("Guard 16", new string[] {
-            "Nico| Is that everyone's favorite little mermaid?",
-            "Guard| nico hi! i didn't see you there! i'm actually playing as a guy this time - the",
-            "|whole catfish thing was just a silly little phase when i was young and looking for attention",
+            "Manuel| nico hi! i didn't see you there! i'm actually playing as a guy this time - the whole catfish thing was just a silly little phase when i was young and looking for attention",
             "Nico| It's actually kind of cute that she thinks we think she's a guy.",
-            "Guard| %@--^ it Nico I am a guy!",
+            "Manuel| %@--^ it Nico I am a guy!",
             "Nico| Delicate little flower, isn't she?",
-            "Guard| That's it, time to die.   ",
+            "Manuel| That's it, time to die.   ",
             "|Nico joined your team.",
         });
 
@@ -827,9 +826,7 @@ public class OverworldTextStorage : MonoBehaviour {
         });
 
         level3.Add("Dark King 23", new string[] {
-            "Dark King| Ah, you've come to challenge the Dark King. For ages, mortals have",
-            "|tried to defeat me, but they could not stand against my awesome power. In the",
-            "|early days of my reign, I was -",
+            "Dark King| Ah, you've come to challenge the Dark King. For ages, mortals have tried to defeat me, but they could not stand against my awesome power. In the early days of my reign, I was -",
             "Nico| Who wrote this crap?? It's terrible!",
             "Sam| The writing in games these days has gone so far downhill.",
             "Amelia| Some writers don't even check there spelling.",
