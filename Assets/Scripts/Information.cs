@@ -111,6 +111,13 @@ public class Information : MonoBehaviour {
 		//printInventory ();
 	}
 
+	public void restoreParty(){
+		for (int x = 0; x < party.Count; x++) {
+			party [x].health = party [x].max_health;
+			party [x].mana = party [x].max_mana;
+		}
+	}
+
 	void printInventory(){
 		foreach (string key in inventory.Keys) {
 			print (key + ": " + inventory [key]);

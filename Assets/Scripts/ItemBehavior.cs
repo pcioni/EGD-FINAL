@@ -28,6 +28,9 @@ public class ItemBehavior : MonoBehaviour {
 		case("Incense"):
 			FindObjectOfType<Information> ().useItem ("Incense");
 			return target.restoreMana (10);
+		case("Treasure Chest"):
+			FindObjectOfType<Information> ().useItem ("Treasure Chest");
+			return target.damage (50, user.character_name, ParticleManager.doEffect ("grenade", target));
 		default:
 			return user.character_name + " uses a " + itemName + " on " + target.character_name + "!";
 		}
@@ -58,6 +61,8 @@ public class ItemBehavior : MonoBehaviour {
 			return 'd';
 		case ("Incense"):
 			return 'a';
+		case ("Treasure Chest"):
+			return 'e';
 		default:
 			return 'n';
 
