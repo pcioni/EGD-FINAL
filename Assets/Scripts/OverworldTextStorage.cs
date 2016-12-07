@@ -416,8 +416,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Chest| That's just inhumane, Private. But that's the way war is. It'll harden you. Take away your humanity. Make you-",
             "Sam| Shut it. _..._ Okay, let's see what's inside.",
             "|You found a grenade!",
-            "Sam| Oh come on.",
-            "|And a [decent item]$",
+            "Sam| Oh come on...",
 			"|You think you see a glint of pride in the chest's locking mechanism."
         });
 

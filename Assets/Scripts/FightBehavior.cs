@@ -301,8 +301,12 @@ public class FightBehavior : MonoBehaviour {
 		effects.Remove ("blinded");
 		effects.Remove ("burned");
 		effects.Remove ("silenced");
-		effects.Remove ("afk");
 		return character_name + " has been cleansed of all negative effects!";
+	}
+
+	public string noLongerAFK(){
+		effects.Remove ("afk");
+		return character_name + " has begun moving again!";
 	}
 
 	public string inflictStatus (string status, int duration, string inflictor){
@@ -425,7 +429,7 @@ public class FightBehavior : MonoBehaviour {
 
 		case ("item"):
 			result.Add (character_name + " uses a " + managey.getItemName (action_number) + "!");
-			result.Add (managey.useItem (action_number, this, target));
+			result.AddRange (managey.useItem (action_number, this, target));
 			attackAnimation ();
 			return result;
 

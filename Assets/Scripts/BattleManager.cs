@@ -74,7 +74,7 @@ public class BattleManager : MonoBehaviour {
 		return inventory.needsTargeting (item_list[which]);
 	}
 
-	public string useItem(int which, FightBehavior user, FightBehavior target){
+	public List<string> useItem(int which, FightBehavior user, FightBehavior target){
 		return inventory.useItem(item_list[which], user, target);
 	}
 
@@ -672,7 +672,7 @@ public class BattleManager : MonoBehaviour {
 				if (person.character_name == "Cody") {
 					pending_messages.Add ("Noises are heard through Cody's headset.");
 					pending_messages.Add ("Hey guys...");
-					person.removeNegativeEffects ();
+					pending_messages.Add(person.noLongerAFK ());
 					return;
 				}
 			}

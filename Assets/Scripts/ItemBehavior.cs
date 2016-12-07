@@ -5,34 +5,53 @@ using System.Collections.Generic;
 public class ItemBehavior : MonoBehaviour {
 
 
-	public string useItem(string itemName, FightBehavior user, FightBehavior target){
+	public List<string> useItem(string itemName, FightBehavior user, FightBehavior target){
+		List<string> result = new List<string> ();
 		switch (itemName) {
 		case ("Potion"): 
 			FindObjectOfType<Information> ().useItem ("Potion");
-			return target.heal (30);
+			result.Add (target.heal (30));
+			return result;
 		case ("Panacea Bottle"): 
 			FindObjectOfType<Information> ().useItem ("Panacea Bottle");
-			return target.removeNegativeEffects ();
+			result.Add (target.removeNegativeEffects ());
+			return result;
 		case ("Magic Lens"):
 			FindObjectOfType<Information> ().useItem ("Magic Lens");
-			return target.examine ();
+			result.Add (target.examine ());
+			return result;
 		case ("The Kevin-Beater Bat"):
 			FindObjectOfType<Information> ().useItem ("The Kevin-Beater Bat");
-			return target.damage (50, user.character_name);
+			result.Add(target.damage (50, user.character_name));
+			return result;
 		case("The Orange Overlord"):
 			FindObjectOfType<Information> ().useItem ("The Orange Overlord");
-			return target.inflictStatus ("paralyzed", 5, user.character_name);
+			result.Add(target.inflictStatus ("paralyzed", 5, user.character_name));
+			return result;
 		case("Life Bottle"):
 			FindObjectOfType<Information> ().useItem ("Life Bottle");
-			return user.revive ();
+			result.Add(user.revive ());
+			return result;
 		case("Incense"):
 			FindObjectOfType<Information> ().useItem ("Incense");
-			return target.restoreMana (10);
+			result.Add(target.restoreMana (10));
+			return result;
 		case("Treasure Chest"):
 			FindObjectOfType<Information> ().useItem ("Treasure Chest");
-			return target.damage (50, user.character_name, ParticleManager.doEffect ("grenade", target));
+			result.Add(target.damage (50, user.character_name, ParticleManager.doEffect ("grenade", target)));
+			return result;
+		case("Participation Trophy"):
+			result.Add ("You proudly raise your trophy in the air for all to see.");
+			result.Add ("Nothing happens except for you briefly feeling good for yourself.");
+			return result;
+		case("Grenade"):
+			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("grenade", target)));
+			return result;
 		default:
-			return user.character_name + " uses a " + itemName + " on " + target.character_name + "!";
+			result.Add (user.character_name + " uses a " + itemName + " on " + target.character_name + "!");
+			result.Add ("...");
+			result.Add ("It does nothing!");
+			return result;
 		}
 	}
 
@@ -62,6 +81,8 @@ public class ItemBehavior : MonoBehaviour {
 		case ("Incense"):
 			return 'a';
 		case ("Treasure Chest"):
+			return 'e';
+		case("Grenade"):
 			return 'e';
 		default:
 			return 'n';
