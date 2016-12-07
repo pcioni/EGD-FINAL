@@ -258,17 +258,11 @@ public class InteractableSpeaker : Interactable {
 
 	bool contingenciesAllow(){
 		foreach (GameObject obj in contingencies) {
-			if (!obj.GetComponent<InteractableSpeaker> ().allowing_progress) {
+			if (!obj.GetComponent<InteractableSpeaker> ().allowing_progress)
 				return false;
-			}
 		}
 		return true;
 	}
-
-    protected virtual void PostDialogueAction()
-    {
-
-    }
 
     protected override BoxCollider2D addBoxCollider2D()
     {
@@ -290,20 +284,16 @@ public class InteractableSpeaker : Interactable {
 
 	void FacePlayer(){
 		if (main_character.transform.position.x < transform.position.x ) {
-			if (sprite_starts_left) {
+			if (sprite_starts_left) 
 				transform.eulerAngles = Vector3.zero;
-			} 
-			else {
+			else 
 				transform.eulerAngles = new Vector3 (0, 180, 0);
-			}
 		}
 		else if (main_character.transform.position.x > transform.position.x ) {
-			if (!sprite_starts_left) {
+			if (!sprite_starts_left) 
 				transform.eulerAngles = Vector3.zero;
-			} 
-			else {
+			else
 				transform.eulerAngles = new Vector3(0,180,0);
-			}
 		}
 
 	}

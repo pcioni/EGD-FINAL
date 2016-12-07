@@ -33,8 +33,8 @@ public class AmandaEnemy : FightBehavior {
 			backup_called = true;
 		} else if (action < 25) {
 			result.Add (character_name + " fires a rocket at " + target.character_name + "!");
-			result.Add (target.damage (20, character_name));
-			ParticleManager.doEffect ("fireball explosion", target);
+			result.Add (target.damage (20, character_name, ParticleManager.doEffect ("fireball explosion", target)));
+
 		} else if (action < 50) {
 			result.Add (character_name + " takes aim with his/her(?) sidearm and fires repeatedly!");
 			int number = Random.Range (2, 6);
