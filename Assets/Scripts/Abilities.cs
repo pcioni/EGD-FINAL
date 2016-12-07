@@ -92,6 +92,7 @@ public static class Abilities {
 			return result;
 
 		case("Smoke Bomb"):
+			result.Add (user.character_name + " sets off a smoke bomb at everyone's feet!");
 			result.AddRange (managey.applyStatusToAll ("blinded", user));
 			return result;
 
@@ -105,6 +106,11 @@ public static class Abilities {
 			for (int x = 0; x < targets.Count; x++) {
 				result.Add (targets [x].damage (20, user.character_name, ParticleManager.doEffect("fireball explosion", targets[x])));
 			}
+			return result;
+
+		case("Tremor"):
+			result.Add (user.character_name + " creates a powerful shockwave in the ground beneath everyone!");
+			result.AddRange (managey.applyStatusToAll ("paralyzed", user));
 			return result;
 
 		default:
