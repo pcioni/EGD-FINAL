@@ -190,8 +190,8 @@ public class InteractableSpeaker : Interactable {
             //Debug.Log("writing dialogue: " + dialogue);
             textController.write(dialogue);
 			//LEVEL 2 FACES!!!
-			//if (text_storage.level_number == 2)
-				//speaker = speaker + "2";
+			if (text_storage.level_number == 2)
+				speaker = speaker + "2";
 			textController.displayFace (speaker);
 
             //the wait call prevents multiple lines of dialogue being read in one frame
