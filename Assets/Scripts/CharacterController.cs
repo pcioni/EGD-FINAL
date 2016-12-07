@@ -19,7 +19,7 @@ public class CharacterController : MonoBehaviour {
 
     }
 
-	void Start(){
+	void Start(){ 
 		info = GameObject.FindObjectOfType<Information> ();
 		if (info.progress_number != 0) {
 			//we must be starting from a save point
