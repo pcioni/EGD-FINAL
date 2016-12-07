@@ -58,7 +58,7 @@ public class PositionCharactersInBattle : MonoBehaviour {
 			float percentage = (x + 1) / (characters.Count + 1.0f);
 			characters [x].transform.position = Vector2.Lerp (left, right, percentage); 
 			if (arrangement == Arrangment.Diagonal)
-				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = characters.Count - x;
+				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = characters.Count + x;
 			else
 				characters [x].GetComponent<SpriteRenderer> ().sortingOrder = x;
 		}
