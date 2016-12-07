@@ -62,6 +62,9 @@ public class InteractableSpeaker : Interactable {
 	public string[] our_team;
 	public string[] enemy_team;
 	public List<string> intro_dialogue;
+	public List<int> in_battle_action_turns;
+	public List<string> in_battle_action_strings;
+	Dictionary <int, string> in_battle_actions;
 
 	[Header("End Level")]
 	public bool endLevel = false;
@@ -100,6 +103,12 @@ public class InteractableSpeaker : Interactable {
 		if (info.talked_to.ContainsKey (name)) {
 			dialogueIndex = info.talked_to [name];
 			do_sparkle = false;
+		}
+		in_battle_actions = new Dictionary<int, string> ();
+		if (in_battle_action_strings.Count == in_battle_action_turns.Count) {
+			for (int x = 0; x < in_battle_action_turns.Count; x++) {
+				in_battle_actions [in_battle_action_turns [x]] = in_battle_action_strings [x];
+			}
 		}
 			
     }
@@ -238,6 +247,7 @@ public class InteractableSpeaker : Interactable {
 			info.talked_to.Add (name, dialogueIndex);
 			info.setBattlers (our_team, enemy_team);
 			info.setIntroDialogue(intro_dialogue);
+			info.setBattleEvents (in_battle_actions);
 			SceneManager.LoadScene ("BattleSystem");
 		}
 

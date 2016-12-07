@@ -11,6 +11,7 @@ public class Information : MonoBehaviour {
 	List<string> good_guys;
 	List<string> bad_guys;
 	List<string> intro_dialogue;
+	Dictionary<int, string> in_battle_events;
 
 	int current_level = 3;
 
@@ -56,6 +57,7 @@ public class Information : MonoBehaviour {
 		party.Add (new Party_Member ("Amelia", 60, 10, 15));
 		party.Add (new Party_Member ("Cody", 100, 10, 10));
 		party.Add (new Party_Member ("Nico", 40, 10, 18));
+		party.Add (new Party_Member ("Amanda", 50, 10, 16));
 	}
 
 	public Party_Member getPartyMember(string name){
@@ -206,6 +208,21 @@ public class Information : MonoBehaviour {
 	public bool introDialogue(){
 		if (intro_dialogue != null) {
 			return intro_dialogue.Count > 0;
+		}
+		return false;
+	}
+
+	public void setBattleEvents(Dictionary<int, string> events){
+		in_battle_events = events;
+	}
+
+	public Dictionary<int, string> getBattleEvents(){
+		return in_battle_events;
+	}
+
+	public bool battleEvents(){
+		if (in_battle_events != null) {
+			return in_battle_events.Count > 0;
 		}
 		return false;
 	}
