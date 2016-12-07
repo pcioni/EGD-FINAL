@@ -236,6 +236,19 @@ public class InteractableSpeaker : Interactable {
 		}
 
 		//finished obligatory conversation
+
+		if (enableAfterTalking != null) {
+			if (hotfix_particles != "")
+				ParticleManager.doEffect (hotfix_particles, enableAfterTalking.transform);
+			enableAfterTalking.SetActive (true);
+		}
+
+		if (disableAfterTalking != null) {
+			if (hotfix_particles != "")
+				ParticleManager.doEffect (hotfix_particles, disableAfterTalking.transform);
+			disableAfterTalking.SetActive (false);
+		}
+
 		allowing_progress = true;
 		if (new_progress_number != -1 && contingenciesAllow()) {
 			GameObject.FindObjectOfType<ProgressLevel> ().updateOverworldProgress(new_progress_number);
@@ -255,18 +268,6 @@ public class InteractableSpeaker : Interactable {
 			info.setExitDialogue (exit_dialogue);
 			info.setBattleEvents (in_battle_actions);
 			SceneManager.LoadScene ("BattleSystem");
-		}
-
-		if (enableAfterTalking != null) {
-			if (hotfix_particles != "")
-				ParticleManager.doEffect (hotfix_particles, enableAfterTalking.transform);
-			enableAfterTalking.SetActive (true);
-		}
-
-		if (disableAfterTalking != null) {
-			if (hotfix_particles != "")
-				ParticleManager.doEffect (hotfix_particles, disableAfterTalking.transform);
-			disableAfterTalking.SetActive (false);
 		}
 
 		if (endLevel) {

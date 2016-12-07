@@ -645,7 +645,7 @@ public class OverworldTextStorage : MonoBehaviour {
         });
 
         level3.Add("Sign 8", new string[] {
-            "Sign| You have done well in vanquishing the slimes. There have been far too many of late, for reasons that definitely have nothing to do with the Dark King who lives in the castle behind me.",
+            "Sign| You have done well in vanquishing the slimes. There have been far too many of late, servants of the nefarious Dark King who lives in the castle behind me.",
             "Sam| You know, if you're so concerned about the Slime problem, you could just let us go vanquish the Dark King and get rid of the source of the problem, rather than making us go on stupid fetch quests.",
             "Sign| I'm a sign, I can't hear your rationalizations.$",
             "Sign| You must next bring me a dragon's scale.",
@@ -678,7 +678,7 @@ public class OverworldTextStorage : MonoBehaviour {
             "Amelia| Come on Nico, it's not like he's got a villain name. His name is Damien...",
             "Thug Leader| ...Scarborough.",
             "Nico| SEE!!",
-            "Thug| Hey I hear that little snake over here!",
+            "Thug 1| Hey I hear that little snake over here!",
             "Nico| Gottagobye",
             "Amelia| Maybe with an extra two sets of eyes you guys can find the scale this time. Damien and I will come back to the market with you guys.",
             "|Damien Scarborough joined your team.",
