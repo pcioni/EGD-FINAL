@@ -361,6 +361,21 @@ public class FightBehavior : MonoBehaviour {
 
 		List<string> result = new List<string> ();
 
+		if (effects.ContainsKey ("enamored")) {
+			foreach (FightBehavior person in managey.getGoodGuys()) {
+				if (person.character_name == "Amanda") {
+					if (character_name == "Cody") {
+						result.Add (character_name + " gives Amanda a goofy smile and protects her from attacks.");
+					} else {
+						result.Add (character_name + " decides to make things worse and guards Amanda as well.");
+					}
+					ParticleManager.doEffect ("guard", person);
+					result.Add (person.inflictStatus ("guarded", 2, character_name));
+					return result;
+				}
+			}
+		}
+
 		if (target != null && target.health <= 0 && !ignore_death) {
 			managey.newTarget (this, good_guy);
 		}

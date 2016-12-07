@@ -429,6 +429,13 @@ public class BattleManager : MonoBehaviour {
 				if (!victory) {
 					pending_messages.Add ("The turn has ended. Press space to continue.");
 				}
+				if (info.battleEvents ()) {
+					foreach (int turn in info.getBattleEvents().Keys) {
+						if (turn == turn_number) {
+							performAction (info.getBattleEvents ()[turn]);
+						}
+					}
+				}
 			}
 			return;
 
@@ -610,5 +617,28 @@ public class BattleManager : MonoBehaviour {
 
 	public int getTurnNumber(){
 		return turn_number;
+	}
+
+	public void performAction(string action){
+		switch (action) {
+		case ("Cody Enamored"):
+			foreach (FightBehavior person in good_guys) {
+				if (person.character_name == "Cody") {
+					person.inflictStatus ("enamored", 999, "");
+					return;
+				}
+			}
+			return;
+		case ("Nico Enamored"):
+			foreach (FightBehavior person in good_guys) {
+				if (person.character_name == "Nico") {
+					person.inflictStatus ("enamored", 999, "");
+					return;
+				}
+			}
+			return;
+		default:
+			return;
+		}
 	}
 }
