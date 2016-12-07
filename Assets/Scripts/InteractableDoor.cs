@@ -66,7 +66,8 @@ public class InteractableDoor : Interactable {
     private void Teleport()
     {
         //Debug.Log("Teleporting player...");
-        player.transform.position = targetDest.position;
+        Vector2 correctedHeight = new Vector2(targetDest.position.x, targetDest.position.y + boxCollider.bounds.size.y);
+        player.transform.position = correctedHeight;
 		if (destCamera != null) {
 			myCamera.enabled = false;
 			//print ("enabling " + destCamera);
