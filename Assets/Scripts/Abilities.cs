@@ -226,6 +226,12 @@ public static class Abilities {
 			result.Add (target.damage (30, user.character_name, ParticleManager.doEffect ("grenade", user, target)));
 			return result;
 
+		case("Knife Frenzy"):
+			return useAbility (ability, user, GameObject.FindObjectOfType<BattleManager>());
+
+		case("Air Strike"):
+			return useAbility (ability, user, GameObject.FindObjectOfType<BattleManager>());
+
 		default:
 			result.Add (user.character_name + " tried to use a non-existent ability!");
 			return result;

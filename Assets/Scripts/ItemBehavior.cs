@@ -21,7 +21,7 @@ public class ItemBehavior : MonoBehaviour {
 			result.Add (target.examine ());
 			return result;
 		case ("Blast Powder"):
-			FindObjectOfType<Information> ().useItem ("The Kevin-Beater Bat");
+			FindObjectOfType<Information> ().useItem ("Blast Powder");
 			result.Add(target.damage (Random.Range(25, 40), user.character_name));
 			return result;
 		case("Flash Powder"):

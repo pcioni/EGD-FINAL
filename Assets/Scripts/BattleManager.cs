@@ -482,6 +482,8 @@ public class BattleManager : MonoBehaviour {
 				info.song = "Boss";
 			} else if (bad [x] == "Dragon") {
 				info.song = "Dragon";
+			} else if (bad [x] == "Tank") {
+				info.song = "Level 2";
 			}
 			FightBehavior temp = ((GameObject)Instantiate (Resources.Load (bad [x]), Vector3.zero, Quaternion.identity)).GetComponent<FightBehavior>();
 			temp.setAlignment (false);
