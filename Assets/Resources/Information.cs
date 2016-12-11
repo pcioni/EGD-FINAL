@@ -45,10 +45,12 @@ public class Information : MonoBehaviour {
 
 		good_guys = new List<string> ();
 		bad_guys = new List<string> ();
+	}
 
-
-
-
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.P)) {
+			restoreParty ();
+		}
 	}
 
 	void defaultInventory(){
@@ -58,7 +60,7 @@ public class Information : MonoBehaviour {
 		inventory ["Blast Powder"] = 2;
 		inventory ["Flash Powder"] = 2;
 		inventory ["Life Bottle"] = 1;
-		inventory ["Incense"] = 3;
+		inventory ["Incense"] = 4;
 	}
 
 	void defaultParty(){
